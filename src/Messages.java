@@ -8,14 +8,14 @@ public class Messages {
 
     static Stack<String> messages = new Stack<String>();
 
-    public static boolean Add(String message){
+    public static int Add(String message,String senderID, String receiverID){
         messages.push(message);
 
         return ! message.isEmpty();
 
     }
 
-    public static boolean Exists(String message){
+    public static boolean Exists(String message,String receiverID){
         return messages.contains(message);
 
     }
@@ -28,7 +28,7 @@ public class Messages {
         messages.clear();
     }
 
-    public static boolean Delete(){
+    public static int Delete(String messageID){
         messages.pop();
         return true;
     }

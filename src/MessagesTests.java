@@ -13,33 +13,37 @@ public class MessagesTests extends TestCase {
     */
     @Test
     public void testSendingEmptyMessage() throws Exception {
-        assertFalse(Messages.Add(""));
+        //assertFalse(Messages.Add("","",""));
+        assertEquals(0,Messages.Add("","","") );
     }
 
     @Test
     public void testSendingMessage() throws Exception {
-        assertTrue(Messages.Add("Hello"));
+        assertture(Messages.Add("Hello", "1234", "5678") > 0);
+
     }
 
     @Test
     public void testSendExactMessage() throws Exception {
-        assertTrue(Messages.Add("Hello"));
-        assertTrue(Messages.Exists("Hello"));
+        assertTrue(Messages.Add("Hello","1234","5678")>0);
+        assertTrue(Messages.Exists("Hello","5678"));
     }
 
-
+/*
     @Test
     public void testEnsureLatestIsRemovedOnDelete() throws Exception {
-        Messages.Add("A");
+        Messages.Add("A",);
         Messages.Add("B");
         Messages.Add("C");
         assertFalse(Messages.IsEmpty());
         assertFalse(Messages.Exists("C"));
     }
-
+*/
     @Test
     public void testDelete() throws Exception {
-        assertTrue(Messages.Delete());
+        MessageID = Messages.Add("Hello","1234","5678");
+        assertEquals(Messages.Delete("1234", MessageID), MessageID);
+        assertEquals(Messages.Delete("1234", MessageID), 0);
     }
 
 //    @Test
