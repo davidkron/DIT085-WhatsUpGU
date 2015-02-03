@@ -11,6 +11,14 @@ public class Messages {
         return 0;
     }
 
+    public static int replace(int messageId,String message){
+        return 0;
+    }
+
+    public static int delete(int messageId){
+        return 0;
+    }
+
     public static boolean exists(int id){
         return true;
     }
