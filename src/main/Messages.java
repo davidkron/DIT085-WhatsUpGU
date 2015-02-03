@@ -11,6 +11,14 @@ public class Messages {
         return 0;
     }
 
+    public static String fetch(String reciever){
+        return "<Item>" +
+                    "<Id>1</Id>" +
+                    "<Message>Hello</Message>" +
+                    "<Sender>0767731855</Sender>" +
+                "</Item>";
+    }
+
     public static int replace(int messageId,String message){
         return 0;
     }
