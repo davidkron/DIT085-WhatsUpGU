@@ -1,8 +1,5 @@
-package tests.units;
-
 import junit.framework.TestCase;
 import org.junit.Test;
-import main.Messages;
 
 public class AddingMessage extends TestCase
 {
@@ -30,7 +27,8 @@ public class AddingMessage extends TestCase
     @Test
     public void testMessageIsAdded() throws Exception {
         int id = Messages.add("Test", "0767731855", "0767731855");
-        assertTrue(Messages.exists(id));
+        assertTrue(Messages.get(id) != null);
+        assertEquals(Messages.get(id).text,"Test");
     }
 
     @Test
@@ -41,4 +39,13 @@ public class AddingMessage extends TestCase
         assertTrue(id2 > 0);
         assertTrue(id != id2);
     }
+
+    @Test
+    public void testNotFetching() throws Exception {
+        int id = Messages.add("TestID", "0767731855", "0767731855");
+        assertFalse(Messages.get(id).isfetching);
+    }
+
+
+
 }

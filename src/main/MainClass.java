@@ -1,5 +1,3 @@
-package main;
-
 /**
  * Created by david on 1/23/15.
  */
