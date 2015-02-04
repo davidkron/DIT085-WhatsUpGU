@@ -1,8 +1,9 @@
+import junit.framework.TestCase;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class DeletingMessage {
+public class DeletingMessage extends TestCase {
 
     //Zero or less is returned when the specified ID does not exist.
     @Test

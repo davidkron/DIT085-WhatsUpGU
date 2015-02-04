@@ -1,3 +1,4 @@
+import junit.framework.TestCase;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -10,7 +11,7 @@ import java.io.StringReader;
 
 import static org.junit.Assert.*;
 
-public class FetchingMessages {
+public class FetchingMessages extends TestCase {
 
     //The xml string does not contain any message nodes when no message with the specified receipent ID exist.
     @Test
@@ -25,6 +26,20 @@ public class FetchingMessages {
         NodeList nodeList = doc.getDocumentElement().getChildNodes();
         assertTrue(nodeList.getLength() == 0);// THE XML STRING DOES NOT CONTAIN ANY MESSAGES
     }
+
+    /*//The xml string does not contain any message nodes when no message with the specified receipent ID exist.
+    @Test
+    public void testFetchingMessageNotFetched() throws Exception {
+        String xmlreturn = Messages.fetch("0767731855");
+
+        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        InputSource is = new InputSource();
+        is.setCharacterStream(new StringReader(xmlreturn));
+        Document doc = db.parse(is);// THE XML STRING IS VALID
+
+        NodeList nodeList = doc.getDocumentElement().getChildNodes();
+        assertTrue(nodeList.getLength() == 0);// THE XML STRING DOES NOT CONTAIN ANY MESSAGES
+    }*/
 
     @Test
     public void testSetToFetchingStatus() throws Exception {
