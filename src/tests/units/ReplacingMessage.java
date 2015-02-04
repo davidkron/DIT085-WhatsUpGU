@@ -9,6 +9,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 
+
+
 import static org.junit.Assert.*;
 
 public class ReplacingMessage {
@@ -47,22 +49,5 @@ public class ReplacingMessage {
         String inputString = "Hello";
         assertTrue(Messages.replace(id, inputString) >= 0);
         assertEquals(Messages.get(id).text, inputString);
-
-        /*String xmlreturn = Messages.fetch(reciever);
-
-        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        InputSource is = new InputSource();
-        is.setCharacterStream(new StringReader(xmlreturn));
-
-        Document doc = db.parse(is);
-
-        NodeList nodeList = doc.getDocumentElement().getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node currentNode = nodeList.item(i);
-            if(currentNode.getNodeName().equals("Message")){
-                assertEquals(currentNode.getFirstChild().getNodeValue(), inputString);
-            }
-        }*/
-
     }
 }
