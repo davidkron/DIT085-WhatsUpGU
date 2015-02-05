@@ -1,31 +1,49 @@
+package tests.units;
+
 import junit.framework.TestCase;
+import main.Message;
+import main.Messages;
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 
-public class DeletingMessage extends TestCase {
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static junit.framework.TestCase.*;
+
+@RunWith(org.junit.runners.JUnit4.class)
+public class DeletingMessage{
+
+    Messages messages;
+
+    @Before
+    public void init(){
+        messages = new Messages();
+    }
 
     //Zero or less is returned when the specified ID does not exist.
     @Test
     public void testDeleteUnexistingMessage() throws Exception {
-        assertNull(Messages.get(0));
-        assertTrue(Messages.delete(0) <= 0);
+        assertNull(messages.get(0));
+        assertTrue(messages.delete(0) <= 0);
     }
 
     //The message does not exist after removal.
     @Test
     public void testMessageIsRemoved() throws Exception {
-        int id = Messages.add("Hello","0767731855","0767731855");
-        assertNotNull(Messages.get(id));
-        assertFalse(Messages.get(id).isfetching);
-        Messages.delete(id);
-        assertNull(Messages.get(id));
+        int id = messages.add("Hello","0767731855","0767731855");
+        assertNotNull(messages.get(id));
+        assertFalse(messages.get(id).isfetching);
+        messages.delete(id);
+        assertNull(messages.get(id));
     }
 
     //The specified ID is returned on deletion.
     @Test
     public void testMessageIdReturned(){
-        int id = Messages.add("Hello","0767731855","0767731855");
-        assertTrue(Messages.delete(id) == id);
+        int id = messages.add("Hello","0767731855","0767731855");
+        assertTrue(messages.delete(id) == id);
     }
 }

@@ -1,10 +1,12 @@
+package main;
+
 import java.util.HashMap;
 
 public class Messages {
-    private static HashMap<String, HashMap<Integer, Message>> messages  = new HashMap<String, HashMap<Integer, Message>>();
-    private static Integer previousMessageId = 0;
+    private HashMap<String, HashMap<Integer, Message>> messages  = new HashMap<String, HashMap<Integer, Message>>();
+    private Integer previousMessageId = 0;
 
-    public static Message get(int index) {
+    public Message get(int index) {
         Message message = null;
 
         for (HashMap<Integer, Message> messagesMap : messages.values()) {
@@ -15,7 +17,7 @@ public class Messages {
         return message;
     }
 
-    public static int add(String message, String senderId, String recieverId){
+    public int add(String message, String senderId, String recieverId){
         if (isEmpty(message)) return 0;
         if (! isValidPhoneNumber(senderId)) return 0;
         if (! isValidPhoneNumber(recieverId)) return 0;
@@ -31,7 +33,7 @@ public class Messages {
         return previousMessageId;
     }
 
-    public static String fetch(String recieverId){
+    public String fetch(String recieverId){
         HashMap<Integer, Message> messagesMap = messages.get(recieverId);
         if (messagesMap == null) return "<null></null>";
 
@@ -42,7 +44,7 @@ public class Messages {
                 "</Item>";
     }
 
-    public static int replace(int messageId, String message){
+    public int replace(int messageId, String message){
         if (isEmpty(message)) return 0;
 
         Message value = null;
@@ -57,7 +59,7 @@ public class Messages {
         return messageId;
     }
 
-    public static int delete(int messageId) {
+    public int delete(int messageId) {
         Message previousValue = null;
 
         for (HashMap<Integer, Message> messagesMap : messages.values()) {
@@ -75,7 +77,7 @@ public class Messages {
      * @param message string to be checked.
      * @return true if empty, otherwise false.
      */
-    private static boolean isEmpty(String message) {
+    private boolean isEmpty(String message) {
         return message.length() < 1;
     }
 
@@ -86,7 +88,7 @@ public class Messages {
      * @param number string to be checked.
      * @return true if valid, otherwise false.
      */
-    private static boolean isValidPhoneNumber(String number) {
+    private boolean isValidPhoneNumber(String number) {
         return number.length() == 10 && number.matches("(\\d+)");
     }
 }

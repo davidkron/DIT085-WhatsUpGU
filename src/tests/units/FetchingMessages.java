@@ -1,4 +1,8 @@
+package tests.units;
+
 import junit.framework.TestCase;
+import main.Messages;
+import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -13,7 +17,22 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 
-public class FetchingMessages extends TestCase {
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static junit.framework.TestCase.*;
+
+@RunWith(org.junit.runners.JUnit4.class)
+public class FetchingMessages{
+
+    Messages messages;
+
+    @Before
+    public void init(){
+        messages = new Messages();
+    }
+
 
     NodeList parseXMLString(String string) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -25,9 +44,9 @@ public class FetchingMessages extends TestCase {
     //The xml string does not contain any message nodes when no message with the specified receipent ID exist.
     @Test
     public void testFetchMessageNotExists() throws Exception {
-        String xmlreturn = Messages.fetch("0767731855");
+        String xmlreturn = messages.fetch("0767731855");
         NodeList nodeList = parseXMLString(xmlreturn);;
-        assertTrue(nodeList.getLength() == 0);// THE XML STRING DOES NOT CONTAIN ANY MESSAGES
+        assertTrue(nodeList.getLength() == 0);// THE XML STRING DOES NOT CONTAIN ANY messages
     }
 
     //The xml string does not contain any message nodes when all messages with specified recipient id are set to fetching status.
@@ -38,17 +57,17 @@ public class FetchingMessages extends TestCase {
         int messageIds[] = new int[10];
 
         for(int i = 0; i <10; i++){
-            int id = Messages.add("TestID", senderId, "0767731855");
-            assertFalse(Messages.get(id).isfetching);
+            int id = messages.add("TestID", senderId, "0767731855");
+            assertFalse(messages.get(id).isfetching);
             messageIds[i] = id;
         }
 
         // FETCH TWICE
-        Messages.fetch("0767731855");
-        String xmlreturn = Messages.fetch("0767731855");
+        messages.fetch("0767731855");
+        String xmlreturn = messages.fetch("0767731855");
 
         NodeList nodeList = parseXMLString(xmlreturn);// THE XML STRING IS VALID
-        assertTrue(nodeList.getLength() == 0);// THE XML STRING DOES NOT CONTAIN ANY MESSAGES
+        assertTrue(nodeList.getLength() == 0);// THE XML STRING DOES NOT CONTAIN ANY messages
     }
 
     @Test
@@ -59,15 +78,15 @@ public class FetchingMessages extends TestCase {
         int messageIds[] = new int[10];
 
         for(int i = 0; i <10; i++){
-            int id = Messages.add("TestID", senderId, "0767731855");
-            assertFalse(Messages.get(id).isfetching);
+            int id = messages.add("TestID", senderId, "0767731855");
+            assertFalse(messages.get(id).isfetching);
             messageIds[i] = id;
         }
 
-        Messages.fetch(senderId);
+        messages.fetch(senderId);
 
         for(int i = 0; i <10; i++){
-            assertTrue(Messages.get(messageIds[i]).isfetching);
+            assertTrue(messages.get(messageIds[i]).isfetching);
         }
     }
 
@@ -80,14 +99,14 @@ public class FetchingMessages extends TestCase {
         int messageIds[] = new int[10];
 
         for(int i = 0; i <10; i++){
-            int id = Messages.add(message, senderId, "0767731855");
-            assertFalse(Messages.get(id).isfetching);
+            int id = messages.add(message, senderId, "0767731855");
+            assertFalse(messages.get(id).isfetching);
             messageIds[i] = id;
         }
 
-        String xmlreturn = Messages.fetch("0767731855");
+        String xmlreturn = messages.fetch("0767731855");
         NodeList nodeList = parseXMLString(xmlreturn);// THE XML STRING IS VALID
-        assertTrue(nodeList.getLength() == 0);// THE XML STRING DOES NOT CONTAIN ANY MESSAGES
+        assertTrue(nodeList.getLength() == 0);// THE XML STRING DOES NOT CONTAIN ANY messages
         for(int i = 0; i < nodeList.getLength(); i++){
             assertTrue(nodeList.item(i).getNodeType() == Node.ELEMENT_NODE);
             if(nodeList.item(i).getNodeName().equals("Message")){
