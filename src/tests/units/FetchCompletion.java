@@ -1,15 +1,11 @@
 package tests.units;
 
-import junit.framework.TestCase;
 import main.Messages;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
-
-import static junit.framework.TestCase.*;
 
 @RunWith(org.junit.runners.JUnit4.class)
 public class FetchCompletion {
@@ -23,13 +19,13 @@ public class FetchCompletion {
 
     @Test
     public void testWithoutFetchFirst() throws Exception {
-        assertTrue(messages.fetchcomplete("0767731855") <= 0);
+        assertTrue(messages.fetchComplete("0767731855") <= 0);
     }
 
     @Test
     public void testWithFetchFirst() throws Exception {
         messages.fetch("0767731855");
-        assertTrue(messages.fetchcomplete("0767731855") > 0);
+        assertTrue(messages.fetchComplete("0767731855") > 0);
     }
 
     @Test
@@ -37,7 +33,7 @@ public class FetchCompletion {
         int id = messages.add("Test", "0767731855", "0767731855");
         assertTrue(messages.get(id) != null);
         messages.fetch("0767731855");
-        assertTrue(messages.fetchcomplete("0767731855") > 0);
+        assertTrue(messages.fetchComplete("0767731855") > 0);
         assertTrue(messages.get(id) == null);
     }
 
@@ -48,7 +44,7 @@ public class FetchCompletion {
         int id = messages.add("Test",senderId , recieverId);
         assertTrue(messages.get(id) != null);
         messages.fetch(recieverId);
-        assertTrue(messages.fetchcomplete(recieverId) > 0);
+        assertTrue(messages.fetchComplete(recieverId) > 0);
         assertTrue(messages.getSeen(senderId).contains(id));
     }
 }

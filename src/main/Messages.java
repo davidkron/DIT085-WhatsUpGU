@@ -61,7 +61,7 @@ public class Messages {
         return messageId;
     }
 
-    public int fetchcomplete(String recieverId){
+    public int fetchComplete(String recieverId){
         return -1;
     }
 
