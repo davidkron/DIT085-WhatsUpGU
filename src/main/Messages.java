@@ -1,6 +1,8 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Messages {
     private HashMap<String, HashMap<Integer, Message>> messages  = new HashMap<String, HashMap<Integer, Message>>();
@@ -57,6 +59,14 @@ public class Messages {
         if (value == null) return 0;
 
         return messageId;
+    }
+
+    public int fetchcomplete(String recieverId){
+        return -1;
+    }
+
+    public List<Integer> getSeen(String senderId){
+        return new ArrayList<Integer>();
     }
 
     public int delete(int messageId) {

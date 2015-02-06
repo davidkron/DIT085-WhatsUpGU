@@ -16,6 +16,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -111,6 +114,56 @@ public class FetchingMessages{
             assertTrue(nodeList.item(i).getNodeType() == Node.ELEMENT_NODE);
             if(nodeList.item(i).getNodeName().equals("Message")){
                 assertEquals(nodeList.item(i).getFirstChild().getNodeValue(),message);
+            }
+        }
+    }
+
+    //The xml string contains message nodes when at least one unfetched message with the specified ID exists.
+    @Test
+    public void testContainsRightSender() throws Exception {
+        String senderId = "0767731855";
+        String message = "Hello";
+
+        int messageIds[] = new int[10];
+
+        for(int i = 0; i <10; i++){
+            int id = messages.add(message, senderId, "0767731855");
+            assertFalse(messages.get(id).isfetching);
+            messageIds[i] = id;
+        }
+
+        String xmlreturn = messages.fetch("0767731855");
+        NodeList nodeList = parseXMLString(xmlreturn);// THE XML STRING IS VALID
+        assertTrue(nodeList.getLength() == messageIds.length);// THE XML STRING DOES NOT CONTAIN ANY messages
+        for(int i = 0; i < nodeList.getLength(); i++){
+            assertTrue(nodeList.item(i).getNodeType() == Node.ELEMENT_NODE);
+            if(nodeList.item(i).getNodeName().equals("Sender")){
+                assertEquals(nodeList.item(i).getFirstChild().getNodeValue(),senderId);
+            }
+        }
+    }
+
+    @Test
+    public void testContainsRightID() throws Exception {
+        String senderId = "0767731855";
+        String message = "Hello";
+
+        List<Integer> messageIds = new ArrayList<Integer>();
+
+        for(int i = 0; i <10; i++){
+            int id = messages.add(message, senderId, "0767731855");
+            assertFalse(messages.get(id).isfetching);
+            messageIds.add(id);
+        }
+
+        String xmlreturn = messages.fetch("0767731855");
+        NodeList nodeList = parseXMLString(xmlreturn);// THE XML STRING IS VALID
+        assertTrue(nodeList.getLength() == messageIds.size());// THE XML STRING DOES NOT CONTAIN ANY messages
+        for(int i = 0; i < nodeList.getLength(); i++){
+            assertTrue(nodeList.item(i).getNodeType() == Node.ELEMENT_NODE);
+            if(nodeList.item(i).getNodeName().equals("Id")){
+                int ID = Integer.parseInt(nodeList.item(i).getFirstChild().getNodeValue());
+                assert(messageIds.contains(ID));
             }
         }
     }
