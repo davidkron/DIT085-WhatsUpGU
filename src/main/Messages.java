@@ -1,22 +1,20 @@
 package main;
 
+import org.jdom2.Element;
+import org.jdom2.output.XMLOutputter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Messages {
-    private HashMap<String, HashMap<Integer, Message>> messages  = new HashMap<String, HashMap<Integer, Message>>();
+    private HashMap<Integer, Message> messages  = new HashMap<Integer, Message>();
     private Integer previousMessageId = 0;
+    private HashMap<String, ArrayList<Integer>> seenMesssages = new HashMap<String, ArrayList<Integer>>();
 
     public Message get(int index) {
-        Message message = null;
-
-        for (HashMap<Integer, Message> messagesMap : messages.values()) {
-            message = messagesMap.get(index);
-            if (message != null) break;
-        }
-
-        return message;
+        return messages.get(index);
     }
 
     public int add(String message, String senderId, String recieverId){
@@ -24,58 +22,83 @@ public class Messages {
         if (! isValidPhoneNumber(senderId)) return 0;
         if (! isValidPhoneNumber(recieverId)) return 0;
 
-        if (messages.containsKey(recieverId)) {
-            messages.get(recieverId).put(++previousMessageId, new Message(message));
-        } else {
-            HashMap<Integer, Message> messagesMap = new HashMap<Integer, Message>();
-            messagesMap.put(++previousMessageId, new Message(message));
-            messages.put(recieverId, messagesMap);
-        }
+        int messageID = ++previousMessageId;
+        messages.put(messageID, new Message(message, String.valueOf(messageID), senderId, recieverId));
 
-        return previousMessageId;
+        return messageID;
     }
 
     public String fetch(String recieverId){
-        HashMap<Integer, Message> messagesMap = messages.get(recieverId);
-        if (messagesMap == null) return "<null></null>";
+        Element root = new Element("items");
+        for (Message message : messages.values()) {
+            if (message.receiverId.equals(recieverId) && ! message.isfetching) {
+                message.isfetching = true;
 
-        return "<Item>" +
-                    "<Id>1</Id>" +
-                    "<Message>Hello</Message>" +
-                    "<Sender>0767731855</Sender>" +
-                "</Item>";
-    }
+                Element item = new Element("item");
 
-    public int replace(int messageId, String message){
-        if (isEmpty(message)) return 0;
+                Element idItem = new Element("Id");
+                idItem.setText(message.id);
+                item.addContent(idItem);
 
-        Message value = null;
+                Element messageItem = new Element("Message");
+                messageItem.setText(message.text);
+                item.addContent(messageItem);
 
-        for (HashMap<Integer, Message> messagesMap : messages.values()) {
-            value = messagesMap.put(messageId, new Message(message));
-            if (value != null) break;
+                Element senderItem = new Element("Sender");
+                senderItem.setText(message.senderId);
+                item.addContent(senderItem);
+
+                root.addContent(item);
+            }
         }
 
-        if (value == null) return 0;
+        return new XMLOutputter().outputString(root);
+    }
+
+    public int replace(int messageId, String text){
+        if (isEmpty(text)) return 0;
+
+        Message message = get(messageId);
+        if (message == null) return 0;
+
+        message.text = text;
+        messages.put(messageId, message);
 
         return messageId;
     }
 
     public int fetchComplete(String recieverId){
-        return -1;
+        boolean messagesRemoved = false;
+
+        for (Map.Entry<Integer, Message> entry : messages.entrySet()) {
+            Integer key = entry.getKey();
+            Message message = entry.getValue();
+
+            if (message.receiverId.equals(recieverId) && message.isfetching) {
+                messages.remove(key);
+
+                ArrayList<Integer> senderList = seenMesssages.get(message.senderId);
+                if (senderList == null) {
+                    senderList = new ArrayList<Integer>();
+                    senderList.add(key);
+                    seenMesssages.put(message.senderId, senderList);
+                } else {
+                    senderList.add(key);
+                }
+
+                if (! messagesRemoved) messagesRemoved = true;
+            }
+        }
+
+        if (messagesRemoved) return 1; return 0;
     }
 
     public List<Integer> getSeen(String senderId){
-        return new ArrayList<Integer>();
+        return seenMesssages.get(senderId);
     }
 
     public int delete(int messageId) {
-        Message previousValue = null;
-
-        for (HashMap<Integer, Message> messagesMap : messages.values()) {
-            previousValue = messagesMap.remove(messageId);
-            if (previousValue != null) break;
-        }
+        Message previousValue = messages.remove(messageId);
 
         if (previousValue == null) return 0;
 
