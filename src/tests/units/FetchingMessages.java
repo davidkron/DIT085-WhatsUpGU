@@ -1,10 +1,9 @@
 package tests.units;
 
-import junit.framework.TestCase;
 import main.Messages;
 import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.Document;
+import org.junit.runner.RunWith;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -13,16 +12,10 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static junit.framework.TestCase.*;
 
@@ -109,11 +102,15 @@ public class FetchingMessages{
 
         String xmlreturn = messages.fetch("0767731855");
         NodeList nodeList = parseXMLString(xmlreturn);// THE XML STRING IS VALID
-        assertTrue(nodeList.getLength() == 0);// THE XML STRING DOES NOT CONTAIN ANY messages
+        assertTrue(nodeList.getLength() > 0);// THE XML STRING CONTAINS messages
         for(int i = 0; i < nodeList.getLength(); i++){
             assertTrue(nodeList.item(i).getNodeType() == Node.ELEMENT_NODE);
-            if(nodeList.item(i).getNodeName().equals("Message")){
-                assertEquals(nodeList.item(i).getFirstChild().getNodeValue(),message);
+
+            for (int j = 0; j < nodeList.item(i).getChildNodes().getLength(); j++) {
+                if(nodeList.item(i).getChildNodes().item(j).getNodeName().equals("Message")){
+                    assertTrue(nodeList.item(i).getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE);
+                    assertEquals(nodeList.item(i).getChildNodes().item(j).getTextContent(), message);
+                }
             }
         }
     }
@@ -137,8 +134,12 @@ public class FetchingMessages{
         assertTrue(nodeList.getLength() == messageIds.length);// THE XML STRING DOES NOT CONTAIN ANY messages
         for(int i = 0; i < nodeList.getLength(); i++){
             assertTrue(nodeList.item(i).getNodeType() == Node.ELEMENT_NODE);
-            if(nodeList.item(i).getNodeName().equals("Sender")){
-                assertEquals(nodeList.item(i).getFirstChild().getNodeValue(),senderId);
+
+            for (int j = 0; j < nodeList.item(i).getChildNodes().getLength(); j++) {
+                if(nodeList.item(i).getChildNodes().item(j).getNodeName().equals("Sender")){
+                    assertTrue(nodeList.item(i).getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE);
+                    assertEquals(nodeList.item(i).getChildNodes().item(j).getTextContent(), senderId);
+                }
             }
         }
     }
@@ -161,9 +162,13 @@ public class FetchingMessages{
         assertTrue(nodeList.getLength() == messageIds.size());// THE XML STRING DOES NOT CONTAIN ANY messages
         for(int i = 0; i < nodeList.getLength(); i++){
             assertTrue(nodeList.item(i).getNodeType() == Node.ELEMENT_NODE);
-            if(nodeList.item(i).getNodeName().equals("Id")){
-                int ID = Integer.parseInt(nodeList.item(i).getFirstChild().getNodeValue());
-                assert(messageIds.contains(ID));
+
+            for (int j = 0; j < nodeList.item(i).getChildNodes().getLength(); j++) {
+                if(nodeList.item(i).getChildNodes().item(j).getNodeName().equals("Id")){
+                    assertTrue(nodeList.item(i).getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE);
+                    int ID = Integer.parseInt(nodeList.item(i).getChildNodes().item(j).getTextContent());
+                    assert(messageIds.contains(ID));
+                }
             }
         }
     }
