@@ -12,7 +12,6 @@ public class Messages {
     private HashMap<Integer, Message> messages  = new HashMap<Integer, Message>();
     private Integer previousMessageId = 0;
     private HashMap<String, ArrayList<Integer>> seenMesssages = new HashMap<String, ArrayList<Integer>>();
-    boolean godMode = false;
 
     public Message get(int index) {
         return messages.get(index);
@@ -30,7 +29,6 @@ public class Messages {
     }
 
     public String fetch(String recieverId){
-        godMode = true;
 
         Element root = new Element("items");
         for (Message message : messages.values()) {
@@ -93,7 +91,6 @@ public class Messages {
             }
         }
 
-        if (godMode) return 1;
         if (messagesRemoved) return 1; return 0;
     }
 
