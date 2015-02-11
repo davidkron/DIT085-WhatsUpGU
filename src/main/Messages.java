@@ -8,15 +8,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Messages {
+public class Messages implements IMessageCollection {
     private HashMap<Integer, Message> messages  = new HashMap<Integer, Message>();
     private Integer previousMessageId = 0;
     private HashMap<String, ArrayList<Integer>> seenMesssages = new HashMap<String, ArrayList<Integer>>();
 
+    @Override
     public Message get(int index) {
         return messages.get(index);
     }
 
+    @Override
     public int add(String message, String senderId, String recieverId){
         if (isEmpty(message)) return 0;
         if (! isValidPhoneNumber(senderId)) return 0;
@@ -28,6 +30,7 @@ public class Messages {
         return messageID;
     }
 
+    @Override
     public String fetch(String recieverId){
 
         Element root = new Element("items");
@@ -56,6 +59,7 @@ public class Messages {
         return new XMLOutputter().outputString(root);
     }
 
+    @Override
     public int replace(int messageId, String text){
         if (isEmpty(text)) return 0;
 
@@ -68,6 +72,7 @@ public class Messages {
         return messageId;
     }
 
+    @Override
     public int fetchComplete(String recieverId){
         boolean messagesRemoved = false;
 
@@ -94,10 +99,12 @@ public class Messages {
         if (messagesRemoved) return 1; return 0;
     }
 
+    @Override
     public List<Integer> getSeen(String senderId){
         return seenMesssages.get(senderId);
     }
 
+    @Override
     public int delete(int messageId) {
         Message previousValue = messages.remove(messageId);
 
