@@ -51,12 +51,9 @@ public class FetchingMessages{
     public void testFetchingMessageNotFetched() throws Exception {
         String senderId = "0767731855";
 
-        int messageIds[] = new int[10];
-
         for(int i = 0; i <10; i++){
             int id = IMessageCollection.add("TestID", senderId, "0767731855");
             assertFalse(IMessageCollection.get(id).isfetching);
-            messageIds[i] = id;
         }
 
         // FETCH TWICE
@@ -93,12 +90,9 @@ public class FetchingMessages{
         String senderId = "0767731855";
         String message = "Hello";
 
-        int messageIds[] = new int[10];
-
         for(int i = 0; i <10; i++){
             int id = IMessageCollection.add(message, senderId, "0767731855");
             assertFalse(IMessageCollection.get(id).isfetching);
-            messageIds[i] = id;
         }
 
         String xmlreturn = IMessageCollection.fetch("0767731855");
