@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Messages implements IMessageCollection {
-    private HashMap<Integer, Message> messages  = new HashMap<Integer, Message>();
+    private HashMap<Integer, Message> messages = new HashMap<Integer, Message>();
     private Integer previousMessageId = 0;
     private HashMap<String, ArrayList<Integer>> seenMesssages = new HashMap<String, ArrayList<Integer>>();
 
@@ -31,8 +31,29 @@ public class Messages implements IMessageCollection {
     }
 
     @Override
-    public String fetch(String recieverId){
+    public int delete(int messageId) {
+        Message previousValue = messages.remove(messageId);
 
+        if (previousValue == null) return 0;
+
+        return messageId;
+    }
+
+    @Override
+    public int replace(int messageId, String text) {
+        if (isEmpty(text)) return 0;
+
+        Message message = get(messageId);
+        if (message == null) return 0;
+
+        message.text = text;
+        messages.put(messageId, message);
+
+        return messageId;
+    }
+
+    @Override
+    public String fetch(String recieverId) {
         Element root = new Element("items");
         for (Message message : messages.values()) {
             if (message.receiverId.equals(recieverId) && ! message.isfetching) {
@@ -60,20 +81,7 @@ public class Messages implements IMessageCollection {
     }
 
     @Override
-    public int replace(int messageId, String text){
-        if (isEmpty(text)) return 0;
-
-        Message message = get(messageId);
-        if (message == null) return 0;
-
-        message.text = text;
-        messages.put(messageId, message);
-
-        return messageId;
-    }
-
-    @Override
-    public int fetchComplete(String recieverId){
+    public int fetchComplete(String recieverId) {
         boolean messagesRemoved = false;
 
         for (Map.Entry<Integer, Message> entry : messages.entrySet()) {
@@ -100,18 +108,10 @@ public class Messages implements IMessageCollection {
     }
 
     @Override
-    public List<Integer> getSeen(String senderId){
+    public List<Integer> getSeen(String senderId) {
         return seenMesssages.get(senderId);
     }
 
-    @Override
-    public int delete(int messageId) {
-        Message previousValue = messages.remove(messageId);
-
-        if (previousValue == null) return 0;
-
-        return messageId;
-    }
 
     /**
      * Checks provided string whether it's empty.
