@@ -78,7 +78,7 @@ public interface IMessageCollection {
     /**
      * Removes fetched messages from the messages list and notifies senders(from)
      * that their messages have been seen by the receiver(to).
-     * @param recieverId ID of the receiver(to, a valid telephone number.
+     * @param recieverId ID of the receiver(to), a valid telephone number.
      * @return a positive number if messages have been fetched successfully,
      * otherwise less than or 0 denoting error.
      * @test FetchCompletion.testWithoutFetchFirst()
