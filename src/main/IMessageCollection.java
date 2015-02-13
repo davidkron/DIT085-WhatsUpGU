@@ -18,7 +18,8 @@ public interface IMessageCollection {
      * @param message the non-empty text contents of the message.
      * @param senderId ID of the sender(from), a valid telephone number.
      * @param recieverId ID of the receiver(to), a valid telephone number.
-     * @return the unique ID integer of the message if successful, otherwise <0 denoting error.
+     * @return the unique ID integer of the message if successful,
+     * otherwise less than or 0 denoting error.
      * @test AddingMessage.testEmptyMessage()
      * @test AddingMessage.testInvalidSenderId()
      * @test AddingMessage.testInvalidRecieverId()
@@ -31,7 +32,8 @@ public interface IMessageCollection {
     /**
      * Removes a message from list of messages given its ID.
      * @param messageId the ID of the message
-     * @return the unique ID integer of the message if successful, otherwise <0 denoting error.
+     * @return the unique ID integer of the message if successful,
+     * otherwise less than or 0 denoting error.
      * @test DeletingMessage.testDeleteUnexistingMessage()
      * @test DeletingMessage.testMessageIsRemoved()
      * @test DeletingMessage.testMessageIdReturned()
@@ -42,7 +44,8 @@ public interface IMessageCollection {
      * Replaces text contents of a message given its ID.
      * @param messageId the ID of the message.
      * @param text the non-empty text of the message to be replaced with.
-     * @return the unique ID integer of the message if successful, otherwise <0 denoting error.
+     * @return the unique ID integer of the message if successful,
+     * otherwise less than or 0 denoting error.
      * @test ReplacingMessage.testEmptyMessage()
      * @test ReplacingMessage.testNonExisting()
      * @test ReplacingMessage.testSpecifiedIdReturned()
@@ -61,7 +64,8 @@ public interface IMessageCollection {
      *     <Sender>The ID of the sender.</Sender>
      * </item>
      * @param recieverId ID of the receiver(to), a valid telephone number.
-     * @return string of valid XML of items if successful, otherwise string of valid XML of empty root.
+     * @return string of valid XML of items if successful,
+     * otherwise string of valid XML of empty root.
      * @test FetchingMessages.testFetchMessageNotExists()
      * @test FetchingMessages.testFetchingMessageNotFetched()
      * @test FetchingMessages.testSetToFetchingStatus()
@@ -75,7 +79,8 @@ public interface IMessageCollection {
      * Removes fetched messages from the messages list and notifies senders(from)
      * that their messages have been seen by the receiver(to).
      * @param recieverId ID of the receiver(to, a valid telephone number.
-     * @return a positive number if messages have been fetched successfully, otherwise <0 denoting error.
+     * @return a positive number if messages have been fetched successfully,
+     * otherwise less than or 0 denoting error.
      * @test FetchCompletion.testWithoutFetchFirst()
      * @test FetchCompletion.testWithUnsuccessfulFetchFirst()
      * @test FetchCompletion.testWithSuccessfulFetchFirst()
