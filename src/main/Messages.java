@@ -92,13 +92,9 @@ public class Messages implements IMessageCollection {
                 messages.remove(key);
 
                 ArrayList<Integer> senderList = seenMesssages.get(message.senderId);
-                if (senderList == null) {
-                    senderList = new ArrayList<Integer>();
-                    senderList.add(key);
-                    seenMesssages.put(message.senderId, senderList);
-                } else {
-                    senderList.add(key);
-                }
+                if (senderList == null) senderList = new ArrayList<Integer>();
+                senderList.add(key);
+                seenMesssages.put(message.senderId, senderList);
 
                 if (! messagesRemoved) messagesRemoved = true;
             }
@@ -111,7 +107,6 @@ public class Messages implements IMessageCollection {
     public List<Integer> getSeen(String senderId) {
         return seenMesssages.get(senderId);
     }
-
 
     /**
      * Checks provided string whether it's empty.
