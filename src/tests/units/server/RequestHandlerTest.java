@@ -49,10 +49,4 @@ public class RequestHandlerTest {
         String result = requests.handle(requestString, messages);
         assertTrue(result.matches("<Message added: \"d+\" />"));
     }
-
-
-
-
-
-
 }

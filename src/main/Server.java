@@ -13,7 +13,6 @@ public class Server implements Runnable{
     private int PORT;
     IMessageCollection messages;
     ServerSocket socket;
-    ThreadSplitter splitter = new ThreadSplitter();
     boolean running = true;
 
     public int getPort(){
@@ -36,8 +35,7 @@ public class Server implements Runnable{
     public void run() {
         while(true){
             try {
-                System.out.println("Lol");
-                splitter.execute(socket.accept(),messages);
+                new ServerThread().start(socket.accept(), messages);
             } catch (IOException e) {
                 e.printStackTrace();
             }
