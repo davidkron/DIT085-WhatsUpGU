@@ -1,4 +1,4 @@
-package main;
+package main.messagestore;
 
 public class Message {
     public boolean isfetching = false;

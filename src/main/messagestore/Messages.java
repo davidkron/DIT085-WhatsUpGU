@@ -1,4 +1,4 @@
-package main;
+package main.messagestore;
 
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
@@ -17,6 +17,20 @@ public class Messages implements IMessageCollection {
     public Message get(int index) {
         return messages.get(index);
     }
+    /**
+
+     Description
+
+     Pre-conditions:
+        Message is a valid non-empty string.
+        Sender ID is a valid phone number
+        Reciever ID is a valid phone number
+     Post-condition:
+        Zero or less is returned
+
+     Test-cases:
+
+     */
 
     @Override
     public int add(String message, String senderId, String recieverId){

@@ -1,16 +1,18 @@
 package tests.units.messages;
 
-import main.Message;
-import main.Messages;
+import main.messagestore.IMessageCollection;
+import main.messagestore.Message;
+import main.messagestore.Messages;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static junit.framework.Assert.*;
+import static junit.framework.TestCase.*;
+
 
 @RunWith(org.junit.runners.JUnit4.class)
 public class GetMessage{
-    main.IMessageCollection messages;
+    IMessageCollection messages;
 
     @Before
     public void setUp() throws Exception {

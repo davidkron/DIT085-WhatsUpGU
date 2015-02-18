@@ -1,4 +1,4 @@
-package main;
+package main.messagestore;
 
 import java.util.List;
 

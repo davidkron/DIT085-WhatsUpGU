@@ -1,7 +1,7 @@
 package tests.units.messages;
 
-import main.IMessageCollection;
-import main.Messages;
+import main.messagestore.IMessageCollection;
+import main.messagestore.Messages;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,6 +1,6 @@
 package tests.units.messages;
 
-import main.Messages;
+import main.messagestore.Messages;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +9,7 @@ import static junit.framework.TestCase.*;
 
 @RunWith(org.junit.runners.JUnit4.class)
 public class AddingMessage{
-    main.IMessageCollection IMessageCollection;
+    main.messagestore.IMessageCollection IMessageCollection;
 
     @Before
     public void init(){
