@@ -1,8 +1,5 @@
 package main;
 
-import main.messagestore.IMessageCollection;
-import main.messagestore.Messages;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 
@@ -11,8 +8,9 @@ import java.net.ServerSocket;
  */
 public class Server implements Runnable{
     private int PORT;
-    IMessageCollection messages;
+    IServerState state = new ServerState();
     ServerSocket socket;
+
     boolean running = true;
 
     public int getPort(){
@@ -22,20 +20,18 @@ public class Server implements Runnable{
     public Server() throws IOException {
         this.PORT = 4444;
         socket = new ServerSocket(PORT);
-        messages = new Messages();
     }
 
     public Server(int port) throws IOException {
         this.PORT = port;
         socket = new ServerSocket(PORT);
-        messages = new Messages();
     }
 
     @Override
     public void run() {
         while(true){
             try {
-                new ServerThread().start(socket.accept(), messages);
+                new ServerThread().start(socket.accept(), state);
             } catch (IOException e) {
                 e.printStackTrace();
             }

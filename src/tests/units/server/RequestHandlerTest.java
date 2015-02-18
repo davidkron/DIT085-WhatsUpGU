@@ -1,8 +1,6 @@
 package tests.units.server;
 
-import main.RequestHandler;
-import main.messagestore.IMessageCollection;
-import main.messagestore.Messages;
+import main.ServerState;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,41 +10,40 @@ import static junit.framework.TestCase.assertEquals;
 
 public class RequestHandlerTest {
 
-    IMessageCollection messages;
-    RequestHandler requests;
+    ServerState serverState;
+
     String ID = "0767731855";
     String connectString = "<Request connection  " + ID + " +/>";
 
     @Before
     public void setUp() throws Exception {
-        messages = new Messages();
-        requests = new RequestHandler();
+        serverState = new ServerState();
     }
 
     @Test
     public void testHandleRequest() throws Exception {
         String acceptString = "<Accepted connection from  " + ID + " +/>";
-        String result = requests.handle(connectString, messages);
+        String result = serverState.handlerequest(connectString);
         assertEquals(acceptString,result);
     }
 
     @Test
     public void testConnectTwice(){
         String acceptString = "<Accepted connection from  " + ID + " +/>";
-        requests.handle(connectString, messages);
-        String result = requests.handle(connectString, messages);
+        serverState.handlerequest(connectString);
+        String result = serverState.handlerequest(connectString);
         assertFalse(acceptString.equals(result));
     }
 
     @Test
     public void testAddMessage(){
-        requests.handle(connectString, messages);
+        serverState.handlerequest(connectString);
         String requestString = "<AddMessage>\n" +
                                 "<Receiver \"0767731855\" />\n" +
                                 "<Content \"HELLO\" />\n" +
                                 "</AddMessage>";
         String acceptRegex = "<Message added: \"d+\" />";
-        String result = requests.handle(requestString, messages);
+        String result = serverState.handlerequest(requestString);
         assertTrue(result.matches("<Message added: \"d+\" />"));
     }
 }

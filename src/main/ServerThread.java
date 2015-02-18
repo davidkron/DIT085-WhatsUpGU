@@ -1,29 +1,25 @@
 package main;
 
-import main.messagestore.IMessageCollection;
-
 import java.net.Socket;
 
 /**
  * Created by david on 2/16/15.
  */
 public class ServerThread extends Thread{
-    RequestHandler requests;
     private Socket s;
-    IMessageCollection messages;
+    IServerState state;
 
-    public void start(Socket s, IMessageCollection messages) {
+    public void start(Socket s, IServerState state) {
         this.s = s;
-        this.messages = messages;
-        requests = new RequestHandler();
+        this.state = state;
         start();
     }
 
     @Override
     public void run() {
             //try {
-                //String result = RequestHandler.handleRequest(new BufferedReader(new InputStreamReader(s.getInputStream())), messages);
-                String result = requests.handle("lol",messages);
+                //String result = state.handlerequest(new BufferedReader(new InputStreamReader(s.getInputStream())));
+                String result = state.handlerequest("lol");
                 //new DataOutputStream(s.getOutputStream()).writeUTF(result);
                 //} catch (IOException e) {
                 //e.printStackTrace();
