@@ -1,9 +1,9 @@
-package main;
+package main.server.response;
 
 /**
  * Created by david on 2/19/15.
  */
-public enum ReturnKind {
+public enum ResponseKind {
     ACCEPTEDCONNECTION,
     REFUSEDCONNECTION,
     ADDEDMESSAGE,

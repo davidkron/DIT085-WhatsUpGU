@@ -1,17 +1,17 @@
-package main;
+package main.server.response;
 
 /**
  * Created by david on 2/19/15.
  */
-public class ReturnMessage {
-    public ReturnKind kind;
+public class Response {
+    public ResponseKind kind;
     public String ID;
     public String senderID;
     public String recieverID;
     public int messageID;
     public String Error = null;
 
-    public ReturnMessage(ReturnKind kind, String ID) {
+    public Response(ResponseKind kind, String ID) {
         this.kind = kind;
         this.ID = ID;
     }

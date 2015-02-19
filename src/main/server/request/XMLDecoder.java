@@ -1,7 +1,4 @@
-package main;
-
-import main.server.request.RequestKind;
-import main.server.request.RequestMessage;
+package main.server.request;
 
 /**
  * Created by david on 2/19/15.

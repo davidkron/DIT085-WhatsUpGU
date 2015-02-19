@@ -1,6 +1,8 @@
 package main;
 
 import main.server.request.RequestMessage;
+import main.server.request.XMLDecoder;
+import main.server.response.XMLEncoder;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -27,7 +29,7 @@ public class ServerThread extends Thread {
             out.flush();
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());
             String message = (String)in.readObject();
-            RequestMessage request = main.XMLDecoder.decode(message);
+            RequestMessage request = XMLDecoder.decode(message);
             String result = XMLEncoder.encode(state.handlerequest(request));
             out.writeObject(result);
             out.flush();

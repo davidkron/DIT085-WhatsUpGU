@@ -3,6 +3,8 @@ package main;
 import main.messagestore.IMessageCollection;
 import main.messagestore.Messages;
 import main.server.request.RequestMessage;
+import main.server.response.Response;
+import main.server.response.ResponseKind;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +18,7 @@ public class ServerState implements IServerState {
     List<String> connections = new LinkedList<String>();
 
     @Override
-    public ReturnMessage handlerequest(RequestMessage request) {
-        return new ReturnMessage(ReturnKind.ACCEPTEDCONNECTION, "0767731855");
+    public Response handlerequest(RequestMessage request) {
+        return new Response(ResponseKind.ACCEPTEDCONNECTION, "0767731855");
     }
 }
