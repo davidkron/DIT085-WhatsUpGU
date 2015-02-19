@@ -10,11 +10,12 @@ import static junit.framework.Assert.assertEquals;
 public class XMLDecoderTest {
 
     @Test
-    public void testDecode() throws Exception {
+    public void testDecodeReplace() throws Exception {
         RequestMessage msg = XMLDecoder.decode("<RplMessage>\n" +
-                "<MsgID \"+ messageID +\" />\n" +
+                "<MsgID \"5\" />\n" +
                 "<Content \"NEW HELLO\" />\n" +
                 "</RplMessage>");
         assertEquals(msg.kind, RequestKind.REPLACE);
+        assertEquals(msg.content, "NEW HELLO");
     }
 }

@@ -7,7 +7,7 @@ public class RequestMessage {
     public RequestKind kind;
     public String ID;
     public int messageID;
-    public String recipientID;
+    public String receiverID;
     public String senderID;
     public String content;
 

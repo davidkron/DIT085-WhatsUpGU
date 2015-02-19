@@ -19,6 +19,21 @@ public class ServerState implements IServerState {
 
     @Override
     public Response handlerequest(RequestMessage request) {
+
+        switch (request.kind){
+            case ADD:
+                int messId = messages.add(request.content,request.senderID,request.receiverID);
+                return Response.Added(messId);
+            case CONNECT:
+                if(connections.contains(request.ID))
+                    return  Response.AllreadyConnected(request.ID);
+                connections.add(request.ID);
+                    return Response.Connected(request.ID);
+            case REMOVE:
+            case REPLACE:
+        }
+
+
         return new Response(ResponseKind.ACCEPTEDCONNECTION, "0767731855");
     }
 }

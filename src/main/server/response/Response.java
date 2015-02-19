@@ -26,6 +26,13 @@ public class Response {
         return rM;
     }
 
+    public static Response AllreadyConnected(String ID){
+        Response rM = new Response(ResponseKind.REFUSEDCONNECTION);
+        rM.ID = ID;
+        rM.Error = "Allready connected";
+        return rM;
+    }
+
     public static Response Connected(String id) {
         Response rM = new Response(ResponseKind.ACCEPTEDCONNECTION);
         rM.ID = id;
