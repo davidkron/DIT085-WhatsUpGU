@@ -45,7 +45,7 @@ public class RequestHandlerTest {
     @Test
     public void testAddInvalidMessage() {
         Response returnmessage = serverState.handlerequest(RequestMessage.AddRequest("",ID));
-        assertTrue(returnmessage.kind == returnmessage.kind.FAILEDADDINGMESSAGE);
+        assertTrue(returnmessage.kind == returnmessage.kind.ADDINGMESSAGE_FAILED);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class RequestHandlerTest {
                                 "<MsgID \"+ messageID +\" />\n" +
                                 "</FetchedMessages>";
         returnmessage = serverState.handlerequest(requestString);
-        assertTrue(returnmessage.kind == returnmessage.kind.FETCHEDMESSAGE);
+        assertTrue(returnmessage.kind == returnmessage.kind.FETCHED);
     	
     }
     @Test
@@ -107,7 +107,7 @@ public class RequestHandlerTest {
                                     "<MsgID \"+ messageID +\" />\n" +
                                     "</FetchedMessages>";
             Response returnmessage = serverState.handlerequest(requestString);
-            assertTrue(returnmessage.kind == returnmessage.kind.FETCHEDMESSAGEFAILED);
+            assertTrue(returnmessage.kind == returnmessage.kind.FETCHED_FAILED);
         	
         }
     @Test
@@ -127,7 +127,7 @@ public class RequestHandlerTest {
     Response returnmessage = serverState.handlerequest(requestString);
     assertTrue(returnmessage.kind == returnmessage.kind.FAILEDFETCHCOMPLETE);
 }
-        assertTrue(returnmessage.kind == returnmessage.kind.FAILEDADDINGMESSAGE);
+        assertTrue(returnmessage.kind == returnmessage.kind.ADDINGMESSAGE_FAILED);
         assertEquals(returnmessage.Error,"Message empty");
     }*/
 
