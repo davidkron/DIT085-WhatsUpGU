@@ -5,6 +5,7 @@ import main.ServerState;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 public class RequestHandlerTest {
@@ -43,4 +44,17 @@ public class RequestHandlerTest {
         ReturnMessage returnmessage = serverState.handlerequest(requestString);
         assertTrue(returnmessage.kind == returnmessage.kind.ADDEDMESSAGE);
     }
+
+    @Test
+    public void testAddInvalidMessage() {
+        serverState.handlerequest(connectString);
+        String requestString = "<AddMessage>\n" +
+                                "<Receiver \"0767731855\" />\n" +
+                                "<Content \"\" />\n" +
+                                "</AddMessage>";
+        ReturnMessage returnmessage = serverState.handlerequest(requestString);
+        assertTrue(returnmessage.kind == returnmessage.kind.FAILEDADDINGMESSAGE);
+        assertEquals(returnmessage.Error,"Message empty");
+    }
+
 }

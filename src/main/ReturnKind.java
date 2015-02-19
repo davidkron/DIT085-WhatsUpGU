@@ -6,5 +6,6 @@ package main;
 public enum ReturnKind {
     ACCEPTEDCONNECTION,
     REFUSEDCONNECTION,
-    ADDEDMESSAGE;
+    ADDEDMESSAGE,
+    FAILEDADDINGMESSAGE;
 }
