@@ -19,7 +19,7 @@ public class ServerThread extends Thread{
     public void run() {
             //try {
                 //String result = state.handlerequest(new BufferedReader(new InputStreamReader(s.getInputStream())));
-                String result = state.handlerequest("lol");
+                String result = XMLEncoder.encode(state.handlerequest("lol"));
                 //new DataOutputStream(s.getOutputStream()).writeUTF(result);
                 //} catch (IOException e) {
                 //e.printStackTrace();

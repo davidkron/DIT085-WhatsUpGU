@@ -1,12 +1,11 @@
 package tests.units.server;
 
+import main.ReturnMessage;
 import main.ServerState;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.TestCase.assertEquals;
 
 public class RequestHandlerTest {
 
@@ -22,17 +21,16 @@ public class RequestHandlerTest {
 
     @Test
     public void testHandleRequest() throws Exception {
-        String acceptString = "<Accepted connection from  " + ID + " +/>";
-        String result = serverState.handlerequest(connectString);
-        assertEquals(acceptString,result);
+        ReturnMessage returnmessage = serverState.handlerequest(connectString);
+        assertTrue(returnmessage.kind == returnmessage.kind.ACCEPTEDCONNECTION);
+        assertTrue(returnmessage.ID == ID);
     }
 
     @Test
     public void testConnectTwice(){
-        String acceptString = "<Accepted connection from  " + ID + " +/>";
         serverState.handlerequest(connectString);
-        String result = serverState.handlerequest(connectString);
-        assertFalse(acceptString.equals(result));
+        ReturnMessage returnmessage = serverState.handlerequest(connectString);
+        assertTrue(returnmessage.kind == returnmessage.kind.REFUSEDCONNECTION);
     }
 
     @Test
@@ -42,8 +40,7 @@ public class RequestHandlerTest {
                                 "<Receiver \"0767731855\" />\n" +
                                 "<Content \"HELLO\" />\n" +
                                 "</AddMessage>";
-        String acceptRegex = "<Message added: \"d+\" />";
-        String result = serverState.handlerequest(requestString);
-        assertTrue(result.matches("<Message added: \"d+\" />"));
+        ReturnMessage returnmessage = serverState.handlerequest(requestString);
+        assertTrue(returnmessage.kind == returnmessage.kind.ADDEDMESSAGE);
     }
 }
