@@ -6,6 +6,7 @@ import main.server.request.RequestMessage;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 public class RequestHandlerTest {
@@ -52,30 +53,20 @@ public class RequestHandlerTest {
         Response rM = serverState.handlerequest(RequestMessage.AddRequest("Hello", ID));
         int messId = rM.messageID;
         rM = serverState.handlerequest(RequestMessage.DeleteRequest(messId));
-        assertTrue(rM.kind == rM.kind.DELETEDMESSAGE);
-        assertTrue(rM.messageID == messId);
+        assertEquals(rM.kind,rM.kind.DELETEDMESSAGE);
+        assertEquals(rM.messageID, messId);
+    }
+
+    @Test
+    public void testReplaceMessage() {
+        Response rM = serverState.handlerequest(RequestMessage.AddRequest("Hello", ID));
+        int messId = rM.messageID;
+        rM = serverState.handlerequest(RequestMessage.ReplaceRequest(messId));
+        assertEquals(rM.kind,rM.kind.MESSAGEREPLACED);
+        assertEquals(rM.messageID,messId);
     }
 
     /*
-    
-    public void testReplaceMessage(){
-        serverState.handlerequest(connectString);
-        String requestString = "<AddMessage>\n" +
-                                "<Receiver \"0767731855\" />\n" +
-                                "<Content \" HELLO\" />\n" +
-                                "</AddMessage>";
-        Response returnmessage = serverState.handlerequest(requestString);
-        messagID = returnmessage.ID;// saved for testing replacing purpose.
-        assertTrue(returnmessage.kind == returnmessage.kind.ADDEDMESSAGE);
-        
-        requestString = "<RplMessage>\n" +
-        					"<MsgID \"+ messageID +\" />\n" +
-        					"<Content \"NEW HELLO\" />\n" +
-        					"</RplMessage>";
-        returnmessage = serverState.handlerequest(requestString);
-        messagID = returnmessage.ID;// saved for testing deleleting purpose.
-        assertTrue(returnmessage.kind == returnmessage.kind.MESSAGEREPLACED);
-    }
     
     public void testEmptyReplaceMessage(){
     	serverState.handlerequest(connectString);

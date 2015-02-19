@@ -33,4 +33,10 @@ public class RequestMessage {
         rM.messageID = messageID;
         return rM;
     }
+
+    public static RequestMessage ReplaceRequest(int messageID) {
+        RequestMessage rM = new RequestMessage(RequestKind.REPLACE);
+        rM.messageID = messageID;
+        return rM;
+    }
 }
