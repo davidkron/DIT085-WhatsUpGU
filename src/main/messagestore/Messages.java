@@ -17,26 +17,25 @@ public class Messages implements IMessageCollection {
     public Message get(int index) {
         return messages.get(index);
     }
+
     /**
-
-     Description
-
-     Pre-conditions:
-        Message is a valid non-empty string.
-        Sender ID is a valid phone number
-        Reciever ID is a valid phone number
-     Post-condition:
-        Zero or less is returned
-
-     Test-cases:
-
+     * Description
+     * <p/>
+     * Pre-conditions:
+     * Message is a valid non-empty string.
+     * Sender ID is a valid phone number
+     * Reciever ID is a valid phone number
+     * Post-condition:
+     * Zero or less is returned
+     * <p/>
+     * Test-cases:
      */
 
     @Override
-    public int add(String message, String senderId, String recieverId){
+    public int add(String message, String senderId, String recieverId) {
         if (isEmpty(message)) return 0;
-        if (! isValidPhoneNumber(senderId)) return 0;
-        if (! isValidPhoneNumber(recieverId)) return 0;
+        if (!isValidPhoneNumber(senderId)) return 0;
+        if (!isValidPhoneNumber(recieverId)) return 0;
 
         int messageID = ++previousMessageId;
         messages.put(messageID, new Message(message, String.valueOf(messageID), senderId, recieverId));
@@ -70,7 +69,7 @@ public class Messages implements IMessageCollection {
     public String fetch(String recieverId) {
         Element root = new Element("items");
         for (Message message : messages.values()) {
-            if (message.receiverId.equals(recieverId) && ! message.isfetching) {
+            if (message.receiverId.equals(recieverId) && !message.isfetching) {
                 message.isfetching = true;
 
                 Element item = new Element("item");
@@ -110,11 +109,12 @@ public class Messages implements IMessageCollection {
                 senderList.add(key);
                 seenMesssages.put(message.senderId, senderList);
 
-                if (! messagesRemoved) messagesRemoved = true;
+                if (!messagesRemoved) messagesRemoved = true;
             }
         }
 
-        if (messagesRemoved) return 1; return 0;
+        if (messagesRemoved) return 1;
+        return 0;
     }
 
     @Override
@@ -124,6 +124,7 @@ public class Messages implements IMessageCollection {
 
     /**
      * Checks provided string whether it's empty.
+     *
      * @param message string to be checked.
      * @return true if empty, otherwise false.
      */
@@ -135,6 +136,7 @@ public class Messages implements IMessageCollection {
      * Checks provided string whether it's a valid
      * mobile telephone number. Has to be numeric
      * and contain 10 digits.
+     *
      * @param number string to be checked.
      * @return true if valid, otherwise false.
      */

@@ -11,13 +11,14 @@ import static junit.framework.TestCase.*;
 
 
 @RunWith(org.junit.runners.JUnit4.class)
-public class GetMessage{
+public class GetMessage {
     IMessageCollection messages;
 
     @Before
     public void setUp() throws Exception {
         messages = new Messages();
     }
+
     //Null is returned when the specified message has not been added.
     @Test
     public void NotAdded() throws Exception {

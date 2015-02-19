@@ -11,12 +11,12 @@ import org.junit.runner.RunWith;
 import static junit.framework.TestCase.*;
 
 @RunWith(org.junit.runners.JUnit4.class)
-public class DeletingMessage{
+public class DeletingMessage {
 
     IMessageCollection IMessageCollection;
 
     @Before
-    public void init(){
+    public void init() {
         IMessageCollection = new Messages();
     }
 
@@ -30,7 +30,7 @@ public class DeletingMessage{
     //The message does not exist after removal.
     @Test
     public void testMessageIsRemoved() throws Exception {
-        int id = IMessageCollection.add("Hello","0767731855","0767731855");
+        int id = IMessageCollection.add("Hello", "0767731855", "0767731855");
         assertNotNull(IMessageCollection.get(id));
         assertFalse(IMessageCollection.get(id).isfetching);
         IMessageCollection.delete(id);
@@ -39,8 +39,8 @@ public class DeletingMessage{
 
     //The specified ID is returned on deletion.
     @Test
-    public void testMessageIdReturned(){
-        int id = IMessageCollection.add("Hello","0767731855","0767731855");
+    public void testMessageIdReturned() {
+        int id = IMessageCollection.add("Hello", "0767731855", "0767731855");
         assertTrue(IMessageCollection.delete(id) == id);
     }
 }

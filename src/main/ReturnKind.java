@@ -1,13 +1,13 @@
 package main;
 
 /**
-* Created by david on 2/19/15.
-*/
-public enum ReturnKind
-{
+ * Created by david on 2/19/15.
+ */
+public enum ReturnKind {
     ACCEPTEDCONNECTION,
     REFUSEDCONNECTION,
     ADDEDMESSAGE,
+<<<<<<< HEAD
     FAILEDADDINGMESSAGE,
     DELETEMESSAGE,
     FAILEDDELETEMESSAGE,
@@ -18,4 +18,7 @@ public enum ReturnKind
     FETCHCOMPLETE,
     FAILEDFETCHCOMPLETE
     ;
+=======
+    FAILEDADDINGMESSAGE;
+>>>>>>> fbace605cff6d5f6ac875381201c2e0ad748b0a8
 }

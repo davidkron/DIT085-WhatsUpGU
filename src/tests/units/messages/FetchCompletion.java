@@ -14,7 +14,7 @@ public class FetchCompletion {
     IMessageCollection IMessageCollection;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         IMessageCollection = new Messages();
     }
 
@@ -55,7 +55,7 @@ public class FetchCompletion {
     public void testSignaledSeen() throws Exception {
         String senderId = "0222222222";
         String recieverId = "0111111111";
-        int id = IMessageCollection.add("Test",senderId , recieverId);
+        int id = IMessageCollection.add("Test", senderId, recieverId);
         assertTrue(IMessageCollection.get(id) != null);
         IMessageCollection.fetch(recieverId);
         assertTrue(IMessageCollection.fetchComplete(recieverId) > 0);
