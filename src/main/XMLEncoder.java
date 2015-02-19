@@ -6,8 +6,8 @@ package main;
 
 public class XMLEncoder {
 
-    public static String encode(ReturnMessage message){
-        switch (message.kind){
+    public static String encode(ReturnMessage message) {
+        switch (message.kind) {
             case ACCEPTEDCONNECTION:
                 return AcceptedConnection(message);
         }
@@ -16,11 +16,11 @@ public class XMLEncoder {
     }
 
 
-    public static String RefusedConnection(ReturnMessage retmsg){
-        return "<Declined connection from  " + retmsg.ID + " +/>";
+    public static String RefusedConnection(ReturnMessage retmsg) {
+        return "<Declined connection from  \"" + retmsg.ID + "\" +/>";
     }
 
-    public static String AcceptedConnection(ReturnMessage retmsg){
-        return "<Accepted connection from  " + retmsg.ID + " +/>";
+    public static String AcceptedConnection(ReturnMessage retmsg) {
+        return "<Accepted connection from  \"" + retmsg.ID + "\" +/>";
     }
 }

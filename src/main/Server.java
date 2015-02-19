@@ -6,14 +6,14 @@ import java.net.ServerSocket;
 /**
  * Created by david on 2/16/15.
  */
-public class Server implements Runnable{
+public class Server implements Runnable {
     private int PORT;
-    IServerState state = new ServerState();
+    ServerState state = new ServerState();
     ServerSocket socket;
 
     boolean running = true;
 
-    public int getPort(){
+    public int getPort() {
         return PORT;
     }
 
@@ -29,7 +29,7 @@ public class Server implements Runnable{
 
     @Override
     public void run() {
-        while(true){
+        while (true) {
             try {
                 new ServerThread().start(socket.accept(), state);
             } catch (IOException e) {

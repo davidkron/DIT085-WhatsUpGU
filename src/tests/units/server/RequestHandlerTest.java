@@ -27,19 +27,19 @@ public class RequestHandlerTest {
     }
 
     @Test
-    public void testConnectTwice(){
+    public void testConnectTwice() {
         serverState.handlerequest(connectString);
         ReturnMessage returnmessage = serverState.handlerequest(connectString);
         assertTrue(returnmessage.kind == returnmessage.kind.REFUSEDCONNECTION);
     }
 
     @Test
-    public void testAddMessage(){
+    public void testAddMessage() {
         serverState.handlerequest(connectString);
         String requestString = "<AddMessage>\n" +
-                                "<Receiver \"0767731855\" />\n" +
-                                "<Content \"HELLO\" />\n" +
-                                "</AddMessage>";
+                "<Receiver \"0767731855\" />\n" +
+                "<Content \"HELLO\" />\n" +
+                "</AddMessage>";
         ReturnMessage returnmessage = serverState.handlerequest(requestString);
         assertTrue(returnmessage.kind == returnmessage.kind.ADDEDMESSAGE);
     }

@@ -15,7 +15,7 @@ public class ServerState implements IServerState {
     List<String> connections = new LinkedList<String>();
 
     @Override
-    public ReturnMessage handlerequest(String request){
-        return new ReturnMessage(ReturnKind.ACCEPTEDCONNECTION,"0767731855");
+    public ReturnMessage handlerequest(String request) {
+        return new ReturnMessage(ReturnKind.ACCEPTEDCONNECTION, "0767731855");
     }
 }

@@ -14,7 +14,7 @@ public class ReplacingMessage {
     IMessageCollection IMessageCollection;
 
     @Before
-    public void init(){
+    public void init() {
         IMessageCollection = new Messages();
     }
 
@@ -38,16 +38,16 @@ public class ReplacingMessage {
     @Test
     public void testSpecifiedIdReturned() throws Exception {
         String reciever = "0767731855";
-        int id = IMessageCollection.add("Hej","0767731855",reciever);
+        int id = IMessageCollection.add("Hej", "0767731855", reciever);
         assertTrue(id >= 0);
-        assertEquals(IMessageCollection.replace(id, "Hejdå"),id);
+        assertEquals(IMessageCollection.replace(id, "Hejdå"), id);
     }
 
     //The message is replaced on success
     @Test
     public void testMessageReplaced() throws Exception {
         String reciever = "0767731855";
-        int id = IMessageCollection.add("Hej","0767731855",reciever);
+        int id = IMessageCollection.add("Hej", "0767731855", reciever);
         assertTrue(id >= 0);
         String inputString = "Hello";
         assertTrue(IMessageCollection.replace(id, inputString) >= 0);

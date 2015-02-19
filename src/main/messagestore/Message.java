@@ -6,6 +6,7 @@ public class Message {
     public String senderId;
     public String receiverId;
     public String text;
+
     public Message(String message, String messageId, String fromId, String toId) {
         id = messageId;
         senderId = fromId;
