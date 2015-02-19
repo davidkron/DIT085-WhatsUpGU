@@ -17,17 +17,17 @@ public class XMLEncoder {
             case DELETEDMESSAGE:
                 return Deleted(message);
             case FETCHED:
-                return Deleted(message);
+                return Fetched(message);
             case FETCHCOMPLETE:
-                return Deleted(message);
+                return FetchCompleted(message);
 
             /// FAILS
             case FETCHCOMPLETE_FAILED:
-                return Deleted(message);
+                return FailedFetchCompleting(message);
             case FETCHED_FAILED:
-                return Deleted(message);
+                return FailedFetching(message);
             case DELETEMESSAGE_FAILED:
-                return Deleted(message);
+                return FailedDeleting(message);
             case ADDINGMESSAGE_FAILED:
                 return FailedAdding(message);
         }
@@ -53,7 +53,26 @@ public class XMLEncoder {
         return "</>";
     }
 
+    public static String Fetched(Response retmsg){
+        return "</>";
+    }
 
+    public static String FetchCompleted(Response retmsg){
+        return "</>";
+    }
+
+
+    /*                  FAILS               */
+
+    public static String FailedFetching(Response retmsg){
+        return "</>";
+    }
+    public static String FailedDeleting(Response retmsg){
+        return "</>";
+    }
+    public static String FailedFetchCompleting(Response retmsg){
+        return "</>";
+    }
     public static String FailedAdding(Response retmsg){
         return "</>";
     }
