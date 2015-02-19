@@ -1,5 +1,7 @@
 package main;
 
+import main.server.request.RequestMessage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,14 +22,13 @@ public class ServerThread extends Thread {
 
     @Override
     public void run() {
-
-        ObjectOutputStream out = null;
         try {
-            out = new ObjectOutputStream(s.getOutputStream());
+            ObjectOutputStream out= new ObjectOutputStream(s.getOutputStream());
             out.flush();
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());
             String message = (String)in.readObject();
-            String result = XMLEncoder.encode(state.handlerequest(message));
+            RequestMessage request = main.XMLDecoder.decode(message);
+            String result = XMLEncoder.encode(state.handlerequest(request));
             out.writeObject(result);
             out.flush();
         } catch (IOException e) {

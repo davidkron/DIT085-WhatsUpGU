@@ -2,6 +2,7 @@ package main;
 
 import main.messagestore.IMessageCollection;
 import main.messagestore.Messages;
+import main.server.request.RequestMessage;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class ServerState implements IServerState {
     List<String> connections = new LinkedList<String>();
 
     @Override
-    public ReturnMessage handlerequest(String request) {
+    public ReturnMessage handlerequest(RequestMessage request) {
         return new ReturnMessage(ReturnKind.ACCEPTEDCONNECTION, "0767731855");
     }
 }
