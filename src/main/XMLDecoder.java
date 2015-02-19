@@ -1,5 +1,6 @@
 package main;
 
+import main.server.request.RequestKind;
 import main.server.request.RequestMessage;
 
 /**
@@ -7,6 +8,6 @@ import main.server.request.RequestMessage;
  */
 public class XMLDecoder {
     public static RequestMessage decode(String xml) {
-        return new RequestMessage();
+        return new RequestMessage(RequestKind.CONNECT);
     }
 }

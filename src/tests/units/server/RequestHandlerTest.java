@@ -6,7 +6,6 @@ import main.server.request.RequestMessage;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 public class RequestHandlerTest {
@@ -47,6 +46,8 @@ public class RequestHandlerTest {
         ReturnMessage returnmessage = serverState.handlerequest(RequestMessage.AddRequest("",ID));
         assertTrue(returnmessage.kind == returnmessage.kind.FAILEDADDINGMESSAGE);
     }
+
+    /*
     @Test
     public void testDeletingMessage(){
     	serverState.handlerequest(connectString);
@@ -148,6 +149,6 @@ public class RequestHandlerTest {
 }
         assertTrue(returnmessage.kind == returnmessage.kind.FAILEDADDINGMESSAGE);
         assertEquals(returnmessage.Error,"Message empty");
-    }
+    }*/
 
 }
