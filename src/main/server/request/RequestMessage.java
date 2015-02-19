@@ -6,7 +6,7 @@ package main.server.request;
 public class RequestMessage {
     public RequestKind kind;
     public String ID;
-    public String messageID;
+    public int messageID;
     public String recipientID;
     public String senderID;
     public String content;
@@ -25,6 +25,12 @@ public class RequestMessage {
     public static RequestMessage ConnectRequest(String id) {
         RequestMessage rM = new RequestMessage(RequestKind.CONNECT);
         rM.ID = id;
+        return rM;
+    }
+
+    public static RequestMessage DeleteRequest(int messageID) {
+        RequestMessage rM = new RequestMessage(RequestKind.REMOVE);
+        rM.messageID = messageID;
         return rM;
     }
 }

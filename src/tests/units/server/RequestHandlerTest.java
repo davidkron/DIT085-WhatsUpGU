@@ -47,18 +47,19 @@ public class RequestHandlerTest {
         assertTrue(returnmessage.kind == returnmessage.kind.FAILEDADDINGMESSAGE);
     }
 
-    /*
     @Test
     public void testDeletingMessage(){
-    	serverState.handlerequest(connectString);
-        String requestString = "<DelMessage>\n" +
+        ReturnMessage rM = serverState.handlerequest(RequestMessage.AddRequest("Hello", ID));
+        int messId = rM.messageID;
+        rM = serverState.handlerequest(RequestMessage.DeleteRequest(messId));
+        /*String requestString = "<DelMessage>\n" +
                                 "<MsgID \"+ messageID +\" />\n" +
-                                "</DelMessage>";
-        ReturnMessage returnmessage = serverState.handlerequest(requestString);
-        assertTrue(returnmessage.kind == returnmessage.kind.DELETEMESSAGE);
-    	
+                                "</DelMessage>";*/
+        assertTrue(rM.kind == rM.kind.DELETEDMESSAGE);
+        assertTrue(rM.messageID == messId);
     }
-    
+
+    /*
     public void testDeletingEmptyMessage(){
     	serverState.handlerequest(connectString);
         String requestString = "<DelMessage>\n" +

@@ -8,6 +8,7 @@ public class ReturnMessage {
     public String ID;
     public String senderID;
     public String recieverID;
+    public int messageID;
     public String Error = null;
 
     public ReturnMessage(ReturnKind kind, String ID) {
