@@ -13,7 +13,6 @@ public class ServerTest {
 
     Server server;
     Socket socket;
-    ObjectInputStream in;
 
     @Before
     public void setUp() throws InterruptedException {
@@ -32,7 +31,7 @@ public class ServerTest {
 
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         out.flush();
-        in = new ObjectInputStream(socket.getInputStream());
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
         out.writeObject("<Request connection  \"0767731855\" +/>\n");
         out.flush();
 
