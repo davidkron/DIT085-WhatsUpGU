@@ -5,7 +5,6 @@ import main.server.response.XMLEncoder;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 public class XMLEncoderTest {
 
@@ -18,16 +17,16 @@ public class XMLEncoderTest {
     public void testAcceptedConnection() throws Exception {
         String ID = "0767731855";
         String xml = XMLEncoder.AcceptedConnection(Response.Connected(ID));
-        String acceptString = "<Accepted connection from  " + ID + " +/>";
+        String acceptString = "<connection><accepted>" + ID + "</accepted></connection>";
         assertEquals(xml, acceptString);
     }
 
     @Test
     public void testAddMessage() throws Exception {
-        String ID = "0767731855";
-        String xml = XMLEncoder.AcceptedConnection(Response.Connected(ID));
-        String acceptRegex = "<Message added: \"d+\" />";
-        assertTrue(xml.matches(acceptRegex));
+        Integer ID = 5;
+        String xml = XMLEncoder.Added(Response.Added(ID));
+        String acceptString = "<messageActionResponse><added>" + ID + "</added></messageActionResponse>";
+        assertEquals(xml, acceptString);
     }
 
 

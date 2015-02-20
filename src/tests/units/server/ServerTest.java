@@ -4,7 +4,9 @@ import main.Server;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import static junit.framework.TestCase.assertEquals;
@@ -32,12 +34,21 @@ public class ServerTest {
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         out.flush();
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        out.writeObject("<Request connection  \"0767731855\" +/>\n");
+        out.writeObject(
+            "<connection>" +
+                "<request>0767731855</request>" +
+            "</connection>"
+        );
         out.flush();
 
         String message = (String)in.readObject();
 
         System.out.println("Received from Server: " + message);
-        assertEquals("<Accepted connection from  \"0767731855\" +/>", message);
+        assertEquals(
+            "<connection>" +
+                "<accepted>0767731855</accepted>" +
+            "</connection>",
+            message
+        );
     }
 }

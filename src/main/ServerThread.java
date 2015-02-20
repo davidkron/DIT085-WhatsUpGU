@@ -3,6 +3,7 @@ package main;
 import main.server.request.RequestMessage;
 import main.server.request.XMLDecoder;
 import main.server.response.XMLEncoder;
+import org.jdom2.JDOMException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -30,9 +31,7 @@ public class ServerThread extends Thread {
             String result = XMLEncoder.encode(state.handlerequest(request));
             out.writeObject(result);
             out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | JDOMException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

@@ -11,10 +11,14 @@ public class XMLDecoderTest {
 
     @Test
     public void testDecodeReplace() throws Exception {
-        RequestMessage msg = XMLDecoder.decode("<RplMessage>\n" +
-                "<MsgID \"5\" />\n" +
-                "<Content \"NEW HELLO\" />\n" +
-                "</RplMessage>");
+        RequestMessage msg = XMLDecoder.decode(
+                "<messageAction>" +
+                    "<replace>" +
+                        "<messageID>5</messageID>" +
+                        "<content>NEW HELLO</content>" +
+                    "</replace>" +
+                "</messageAction>");
+
         assertEquals(msg.kind, RequestKind.REPLACE);
         assertEquals(msg.content, "NEW HELLO");
     }

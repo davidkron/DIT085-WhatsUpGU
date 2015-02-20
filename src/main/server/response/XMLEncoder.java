@@ -1,5 +1,8 @@
 package main.server.response;
 
+import org.jdom2.Element;
+import org.jdom2.output.XMLOutputter;
+
 public class XMLEncoder {
 
     public static String encode(Response message) {
@@ -32,15 +35,30 @@ public class XMLEncoder {
     }
 
     public static String RefusedConnection(Response retmsg) {
-        return "<Declined connection from  \"" + retmsg.ID + "\" +/>";
+        Element root = new Element("connection");
+        Element refused = new Element("refused");
+        refused .addContent(retmsg.ID);
+        root.addContent(refused);
+
+        return new XMLOutputter().outputString(root);
     }
 
     public static String AcceptedConnection(Response retmsg) {
-        return "<Accepted connection from  \"" + retmsg.ID + "\" +/>";
+        Element root = new Element("connection");
+        Element accepted = new Element("accepted");
+        accepted.addContent(retmsg.ID);
+        root.addContent(accepted);
+
+        return new XMLOutputter().outputString(root);
     }
 
     public static String Added(Response retmsg){
-        return "</>";
+        Element root = new Element("messageActionResponse");
+        Element added = new Element("added");
+        added.addContent(String.valueOf(retmsg.messageID));
+        root.addContent(added);
+
+        return new XMLOutputter().outputString(root);
     }
     public static String Deleted(Response retmsg){
         return "</>";
