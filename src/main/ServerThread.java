@@ -9,9 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-/**
- * Created by david on 2/16/15.
- */
 public class ServerThread extends Thread {
     private Socket s;
     IServerState state;

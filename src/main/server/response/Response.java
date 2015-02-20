@@ -1,8 +1,5 @@
 package main.server.response;
 
-/**
- * Created by david on 2/19/15.
- */
 public class Response {
     public ResponseKind kind;
     public String ID;
@@ -26,10 +23,16 @@ public class Response {
         return rM;
     }
 
-    public static Response AllreadyConnected(String ID){
+    public static Response AddedFailed(int messageID) {
+        Response rM = new Response(ResponseKind.ADDINGMESSAGE_FAILED);
+        rM.messageID = messageID;
+        return rM;
+    }
+
+    public static Response AlreadyConnected(String ID){
         Response rM = new Response(ResponseKind.REFUSEDCONNECTION);
         rM.ID = ID;
-        rM.Error = "Allready connected";
+        rM.Error = "Already connected";
         return rM;
     }
 

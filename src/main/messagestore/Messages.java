@@ -32,13 +32,13 @@ public class Messages implements IMessageCollection {
      */
 
     @Override
-    public int add(String message, String senderId, String recieverId) {
+    public int add(String message, String senderId, String receiverId) {
         if (isEmpty(message)) return 0;
         if (!isValidPhoneNumber(senderId)) return 0;
-        if (!isValidPhoneNumber(recieverId)) return 0;
+        if (!isValidPhoneNumber(receiverId)) return 0;
 
         int messageID = ++previousMessageId;
-        messages.put(messageID, new Message(message, String.valueOf(messageID), senderId, recieverId));
+        messages.put(messageID, new Message(message, String.valueOf(messageID), senderId, receiverId));
 
         return messageID;
     }

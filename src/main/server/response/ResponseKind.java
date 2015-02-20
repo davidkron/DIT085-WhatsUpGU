@@ -1,8 +1,5 @@
 package main.server.response;
 
-/**
- * Created by david on 2/19/15.
- */
 public enum ResponseKind {
     ACCEPTEDCONNECTION,
     ADDEDMESSAGE,
@@ -10,11 +7,10 @@ public enum ResponseKind {
     MESSAGEREPLACED,
     FETCHED,
     FETCHCOMPLETE,
-
     REFUSEDCONNECTION,
     ADDINGMESSAGE_FAILED,
     DELETEMESSAGE_FAILED,
     REPLACINGMESSAGE_FAILED,
     FETCHED_FAILED,
-    FETCHCOMPLETE_FAILED;
+    FETCHCOMPLETE_FAILED
 }

@@ -1,8 +1,5 @@
 package main.server.request;
 
-/**
- * Created by david on 2/19/15.
- */
 public class RequestMessage {
     public RequestKind kind;
     public String ID;
@@ -15,10 +12,11 @@ public class RequestMessage {
         this.kind = kind;
     }
 
-    public static RequestMessage AddRequest(String content,String senderID){
+    public static RequestMessage AddRequest(String content, String senderID, String receiverID){
         RequestMessage rM = new RequestMessage(RequestKind.ADD);
         rM.content = content;
         rM.senderID = senderID;
+        rM.receiverID = receiverID;
         return rM;
     }
 
@@ -34,9 +32,10 @@ public class RequestMessage {
         return rM;
     }
 
-    public static RequestMessage ReplaceRequest(int messageID) {
+    public static RequestMessage ReplaceRequest(int messageID, String content) {
         RequestMessage rM = new RequestMessage(RequestKind.REPLACE);
         rM.messageID = messageID;
+        rM.content = content;
         return rM;
     }
 }

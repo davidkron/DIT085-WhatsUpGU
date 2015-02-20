@@ -3,9 +3,6 @@ package main;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-/**
- * Created by david on 2/16/15.
- */
 public class Server implements Runnable {
     private int PORT;
     ServerState state = new ServerState();

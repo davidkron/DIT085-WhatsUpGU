@@ -3,6 +3,7 @@ package tests.units.server;
 import main.server.response.Response;
 import main.ServerState;
 import main.server.request.RequestMessage;
+import main.server.response.ResponseKind;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,8 +13,9 @@ import static junit.framework.Assert.assertTrue;
 public class RequestHandlerTest {
 
     ServerState serverState;
-    String ID = "0767731855";
-    RequestMessage connectRequest = RequestMessage.ConnectRequest(ID);
+    String senderID = "0767731855";
+    String receiverID = "0765861635";
+    RequestMessage connectRequest = RequestMessage.ConnectRequest(senderID);
 
     @Before
     public void setUp() throws Exception {
@@ -24,8 +26,8 @@ public class RequestHandlerTest {
     @Test
     public void testHandleRequest() throws Exception {
         Response returnmessage = serverState.handlerequest(connectRequest);
-        assertTrue(returnmessage.kind == returnmessage.kind.ACCEPTEDCONNECTION);
-        assertTrue(returnmessage.ID == ID);
+        assertTrue(returnmessage.kind == ResponseKind.ACCEPTEDCONNECTION);
+        assertTrue(returnmessage.ID.equals(senderID));
     }
 
     //Connecting multiple times should fail
@@ -33,36 +35,36 @@ public class RequestHandlerTest {
     public void testConnectTwice() {
         serverState.handlerequest(connectRequest);
         Response returnmessage = serverState.handlerequest(connectRequest );
-        assertTrue(returnmessage.kind == returnmessage.kind.REFUSEDCONNECTION);
+        assertTrue(returnmessage.kind == ResponseKind.REFUSEDCONNECTION);
     }
 
     @Test
     public void testAddMessage() {
-        Response returnmessage = serverState.handlerequest(RequestMessage.AddRequest("HEllo", ID));
-        assertTrue(returnmessage.kind == returnmessage.kind.ADDEDMESSAGE);
+        Response returnmessage = serverState.handlerequest(RequestMessage.AddRequest("HEllo", senderID, receiverID));
+        assertTrue(returnmessage.kind == ResponseKind.ADDEDMESSAGE);
     }
 
     @Test
     public void testAddInvalidMessage() {
-        Response returnmessage = serverState.handlerequest(RequestMessage.AddRequest("",ID));
-        assertTrue(returnmessage.kind == returnmessage.kind.ADDINGMESSAGE_FAILED);
+        Response returnmessage = serverState.handlerequest(RequestMessage.AddRequest("", senderID, receiverID));
+        assertTrue(returnmessage.kind == ResponseKind.ADDINGMESSAGE_FAILED);
     }
 
     @Test
     public void testDeletingMessage(){
-        Response rM = serverState.handlerequest(RequestMessage.AddRequest("Hello", ID));
+        Response rM = serverState.handlerequest(RequestMessage.AddRequest("Hello", senderID, receiverID));
         int messId = rM.messageID;
         rM = serverState.handlerequest(RequestMessage.DeleteRequest(messId));
-        assertEquals(rM.kind,rM.kind.DELETEDMESSAGE);
+        assertEquals(rM.kind, ResponseKind.DELETEDMESSAGE);
         assertEquals(rM.messageID, messId);
     }
 
     @Test
     public void testReplaceMessage() {
-        Response rM = serverState.handlerequest(RequestMessage.AddRequest("Hello", ID));
+        Response rM = serverState.handlerequest(RequestMessage.AddRequest("Hello", senderID, receiverID));
         int messId = rM.messageID;
-        rM = serverState.handlerequest(RequestMessage.ReplaceRequest(messId));
-        assertEquals(rM.kind,rM.kind.MESSAGEREPLACED);
+        rM = serverState.handlerequest(RequestMessage.ReplaceRequest(messId, "Hejsan"));
+        assertEquals(rM.kind, ResponseKind.MESSAGEREPLACED);
         assertEquals(rM.messageID,messId);
     }
 
