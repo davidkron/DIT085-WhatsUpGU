@@ -1,11 +1,15 @@
 package main.server.response;
 
+import main.messagestore.Message;
+import java.util.ArrayList;
+
 public class Response {
     public ResponseKind kind;
     public String ID;
     public String senderID;
     public String recieverID;
     public int messageID;
+    public ArrayList<Message> messages = new ArrayList<>();
     public String Error = null;
 
     public Response(ResponseKind kind, String ID) {
