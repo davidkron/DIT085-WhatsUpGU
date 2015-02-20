@@ -27,12 +27,6 @@ public class Response {
         return rM;
     }
 
-    public static Response AddedFailed(int messageID) {
-        Response rM = new Response(ResponseKind.ADDINGMESSAGE_FAILED);
-        rM.messageID = messageID;
-        return rM;
-    }
-
     public static Response AlreadyConnected(String ID){
         Response rM = new Response(ResponseKind.REFUSEDCONNECTION);
         rM.ID = ID;
@@ -55,6 +49,20 @@ public class Response {
     public static Response Replaced(int messageID) {
         Response rM = new Response(ResponseKind.MESSAGEREPLACED);
         rM.messageID = messageID;
+        return rM;
+    }
+
+    public static Response ErrorDeleting(int messageID, String error) {
+        Response rM = new Response(ResponseKind.DELETEMESSAGE_FAILED);
+        rM.messageID = messageID;
+        rM.Error = error;
+        return rM;
+    }
+
+    public static Response AddedFailed(int messageID,String error) {
+        Response rM = new Response(ResponseKind.ADDINGMESSAGE_FAILED);
+        rM.messageID = messageID;
+        rM.Error = error;
         return rM;
     }
     public static Response Fetched(int messageID,String recieverID, String senderID) {

@@ -46,7 +46,7 @@ public class XMLDecoderTest {
                         "</fetch>" +
                         "</messageAction>");
 
-        assertEquals(msg.kind, RequestKind.FETCH);
+        assertEquals(RequestKind.FETCH,msg.kind);
     }
 
 
@@ -59,7 +59,7 @@ public class XMLDecoderTest {
                         "</fetch>" +
                         "</messageAction>");
 
-        assertEquals(msg.kind, RequestKind.FETCHCOMPLETE);
+        assertEquals(RequestKind.FETCHCOMPLETE,msg.kind);
     }
 
 

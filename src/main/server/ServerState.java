@@ -24,8 +24,8 @@ public class ServerState implements IServerState {
             case ADD:
                 messId = messages.add(request.content, request.senderID, request.receiverID);
 
-                if (messId == 0) {
-                    return Response.AddedFailed(messId);
+                if (messId <= 0) {
+                    return Response.AddedFailed(request.messageID,"Errar");
                 } else {
                     return Response.Added(messId);
                 }
@@ -40,6 +40,9 @@ public class ServerState implements IServerState {
                 return Response.Deleted(messId);
             case REPLACE:
                 messId = messages.replace(request.messageID, request.content);
+                if(messId <= 0){
+                    return Response.ErrorDeleting(request.messageID, "Message invalid");
+                }
                 return Response.Replaced(messId);
         }
 
