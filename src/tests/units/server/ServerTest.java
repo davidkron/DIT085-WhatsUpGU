@@ -1,6 +1,6 @@
 package tests.units.server;
 
-import main.Server;
+import main.server.Server;
 import org.junit.Before;
 import org.junit.Test;
 

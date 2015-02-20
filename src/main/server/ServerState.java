@@ -1,7 +1,6 @@
-package main;
+package main.server;
 
 import main.messagestore.IMessageCollection;
-import main.messagestore.Messages;
 import main.server.request.RequestMessage;
 import main.server.response.Response;
 import main.server.response.ResponseKind;
@@ -10,8 +9,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ServerState implements IServerState {
-    IMessageCollection messages = new Messages();
+    IMessageCollection messages;
     List<String> connections = new LinkedList<String>();
+
+    public ServerState(IMessageCollection messages){
+        this.messages = messages;
+    }
 
     @Override
     public Response handlerequest(RequestMessage request) {

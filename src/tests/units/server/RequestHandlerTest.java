@@ -1,6 +1,6 @@
 package tests.units.server;
 
-import main.ServerState;
+import main.server.ServerState;
 import main.server.request.RequestMessage;
 import main.server.response.Response;
 import main.server.response.ResponseKind;

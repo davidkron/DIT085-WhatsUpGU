@@ -1,4 +1,4 @@
-package main;
+package main.server;
 
 import main.server.request.RequestMessage;
 import main.server.request.XMLDecoder;

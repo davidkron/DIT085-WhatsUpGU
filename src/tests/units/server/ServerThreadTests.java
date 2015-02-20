@@ -1,6 +1,6 @@
 package tests.units.server;
 
-import main.ServerThread;
+import main.server.ServerThread;
 import org.junit.Test;
 
 import java.io.OutputStream;

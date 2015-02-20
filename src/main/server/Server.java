@@ -1,11 +1,13 @@
-package main;
+package main.server;
+
+import main.messagestore.Messages;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 
 public class Server implements Runnable {
     private int PORT;
-    ServerState state = new ServerState();
+    ServerState state = new ServerState(new Messages());
     ServerSocket socket;
 
     boolean running = true;
