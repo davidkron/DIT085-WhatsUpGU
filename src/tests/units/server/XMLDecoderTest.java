@@ -36,4 +36,31 @@ public class XMLDecoderTest {
         assertEquals(msg.kind, RequestKind.REMOVE);
         assertEquals(msg.messageID, 5);
     }
+
+    @Test
+    public void testDecodeFetch() throws Exception {
+        RequestMessage msg = XMLDecoder.decode(
+                "<messageAction>" +
+                        "<fetch>" +
+                        "true" +
+                        "</fetch>" +
+                        "</messageAction>");
+
+        assertEquals(msg.kind, RequestKind.FETCH);
+    }
+
+
+    @Test
+    public void testDecodeFetchComplete() throws Exception {
+        RequestMessage msg = XMLDecoder.decode(
+                "<messageAction>" +
+                        "<fetch>" +
+                        "true" +
+                        "</fetch>" +
+                        "</messageAction>");
+
+        assertEquals(msg.kind, RequestKind.FETCHCOMPLETE);
+    }
+
+
 }
