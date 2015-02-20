@@ -37,7 +37,24 @@ public class XMLEncoderTest {
         String acceptString = "<deleted>" + ID+ "</deleted>";
         assertEquals(acceptString,xml);
     }
-        /*
+
+    @Test
+    public void testFetchMessage() throws Exception {
+        Integer ID = 5;
+        String receiverID = "0722353472";
+        String senderID = "0722353472";
+        String content = "Hello";
+        String xml = XMLEncoder.Added(Response.Fetched(ID,receiverID, senderID));
+
+
+        String responseReceiverID = "<receiverID>" +  receiverID +  "</receiverID>";
+        String responseSenderID = "<senderID>"  + senderID+ "</senderID>";
+        String responseContent = "<content>"  + content+ "</content>";
+        String response = "<fetched>" + responseReceiverID+ responseSenderID + responseContent+ "</fetched>";
+
+        assertEquals(response, xml);
+    }
+     /*
 
         DELETE:
 

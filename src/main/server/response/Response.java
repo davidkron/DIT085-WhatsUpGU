@@ -57,4 +57,11 @@ public class Response {
         rM.messageID = messageID;
         return rM;
     }
+    public static Response Fetched(int messageID,String recieverID, String senderID) {
+        Response rM = new Response(ResponseKind.FETCHED);
+        rM.messageID = messageID;
+        rM.recieverID = recieverID;
+        rM.senderID = senderID;
+        return rM;
+    }
 }
