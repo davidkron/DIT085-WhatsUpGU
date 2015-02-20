@@ -4,5 +4,7 @@ public enum RequestKind {
     CONNECT,
     ADD,
     REMOVE,
-    REPLACE
+    REPLACE,
+    FETCH,
+    FETCHCOMPLETE,
 }
