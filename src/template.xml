@@ -1,0 +1,51 @@
+<roots>
+    <connection>
+        <request>ID</request>
+
+        <accepted>ID</accepted>
+
+        <refused>ID</refused>
+    </connection>
+
+    <messageAction>
+        <add>
+            <receiverID>ID</receiverID>
+            <senderID>ID</senderID>
+            <content>ID</content>
+        </add>
+
+        <delete>
+            <messageID>ID</messageID>
+        </delete>
+
+        <replace>
+            <messageID>ID</messageID>
+            <content>string</content>
+        </replace>
+
+        <fetch>true</fetch>
+
+        <fetchComplete>true</fetchComplete>
+    </messageAction>
+
+    <messageActionResponse>
+        <added>ID</added>
+
+        <replaced>ID</replaced>
+
+        <deleted>ID</deleted>
+
+        <fetched>
+            <message>
+                <receiverID>ID</receiverID>
+                <senderID>ID</senderID>
+                <content>ID</content>
+            </message>
+        </fetched>
+
+        <fetchCompleted>true/false</fetchCompleted>
+
+        <error>string</error>
+    </messageActionResponse>
+
+</roots>
