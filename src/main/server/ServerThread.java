@@ -2,6 +2,8 @@ package main.server;
 
 import main.server.request.RequestMessage;
 import main.server.request.XMLDecoder;
+import main.server.response.Response;
+import main.server.response.ResponseKind;
 import main.server.response.XMLEncoder;
 import org.jdom2.JDOMException;
 
@@ -13,6 +15,7 @@ import java.net.Socket;
 public class ServerThread extends Thread {
     private Socket s;
     IServerState state;
+    String ID = null;
 
     public void start(Socket s, IServerState state) {
         this.s = s;
@@ -28,7 +31,18 @@ public class ServerThread extends Thread {
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());
             String message = (String)in.readObject();
             RequestMessage request = XMLDecoder.decode(message);
-            String result = XMLEncoder.encode(state.handlerequest(request));
+
+            if(ID != null){
+                request.ID = ID;
+            }
+
+            Response response = state.handlerequest(request);
+
+            if(response.kind == ResponseKind.ACCEPTEDCONNECTION){
+                ID = response.ID;
+            }
+
+            String result = XMLEncoder.encode(response);
             out.writeObject(result);
             out.flush();
         } catch (IOException | JDOMException | ClassNotFoundException e) {
