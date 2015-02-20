@@ -24,6 +24,8 @@ public class XMLDecoder {
                     Integer.parseInt(action.getChildren("messageID").get(0).getText()),
                     action.getChildren("content").get(0).getText()
                 );
+            case "delete":
+                return RequestMessage.DeleteRequest(Integer.parseInt(action.getChildren("messageID").get(0).getText()));
         }
 
         return new RequestMessage(RequestKind.CONNECT);
