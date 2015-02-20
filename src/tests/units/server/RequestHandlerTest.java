@@ -1,5 +1,6 @@
 package tests.units.server;
 
+import main.messagestore.Messages;
 import main.server.ServerState;
 import main.server.request.RequestMessage;
 import main.server.response.Response;
@@ -19,9 +20,8 @@ public class RequestHandlerTest {
 
     @Before
     public void setUp() throws Exception {
-        serverState = new ServerState();
+        serverState = new ServerState(new Messages());
     }
-
     //
     @Test
     public void testHandleRequest() throws Exception {
