@@ -9,6 +9,15 @@ import java.io.IOException;
 import java.io.StringReader;
 
 public class XMLDecoder {
+
+    public static int getMessageId(Element action){
+        return Integer.parseInt(action.getChildren("messageID").get(0).getText());
+    }
+
+    public static String getContent(Element action){
+        return action.getChildren("content").get(0).getText();
+    }
+
     public static RequestMessage decode(String xml) throws JDOMException, IOException {
         SAXBuilder sb = new SAXBuilder();
         Document doc = sb.build(new StringReader(xml));
@@ -21,9 +30,11 @@ public class XMLDecoder {
                 return RequestMessage.ConnectRequest(action.getText());
             case "replace":
                 return RequestMessage.ReplaceRequest(
-                    Integer.parseInt(action.getChildren("messageID").get(0).getText()),
-                    action.getChildren("content").get(0).getText()
+                        getMessageId(action),
+                        getContent(action)
                 );
+            case "delete":
+                return RequestMessage.DeleteRequest(getMessageId(action));
         }
 
         return new RequestMessage(RequestKind.CONNECT);
