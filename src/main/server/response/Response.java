@@ -1,7 +1,7 @@
 package main.server.response;
 
 import main.messagestore.Message;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Response {
     public ResponseKind kind;
@@ -9,7 +9,7 @@ public class Response {
     public String senderID;
     public String recieverID;
     public int messageID;
-    public ArrayList<Message> messages = new ArrayList<>();
+    public HashMap<Integer, Message> messages = new HashMap<>();
     public String Error = null;
 
     public Response(ResponseKind kind, String ID) {
