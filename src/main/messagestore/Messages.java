@@ -38,7 +38,7 @@ public class Messages implements IMessageCollection {
         if (!isValidPhoneNumber(receiverId)) return 0;
 
         int messageID = ++previousMessageId;
-        messages.put(messageID, new Message(message, String.valueOf(messageID), senderId, receiverId));
+        messages.put(messageID, new Message(message, messageID, senderId, receiverId));
 
         return messageID;
     }
@@ -75,7 +75,7 @@ public class Messages implements IMessageCollection {
                 Element item = new Element("item");
 
                 Element idItem = new Element("Id");
-                idItem.setText(message.id);
+                idItem.setText(String.valueOf(message.id));
                 item.addContent(idItem);
 
                 Element messageItem = new Element("Message");

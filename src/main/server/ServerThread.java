@@ -1,10 +1,9 @@
 package main.server;
 
 import main.server.request.ActionKind;
-import main.server.request.RequestMessage;
+import main.server.request.RequestObject;
 import main.server.request.XMLDecoder;
-import main.server.response.Response;
-import main.server.response.XMLEncoder;
+import main.server.request.XMLEncoder;
 import org.jdom2.JDOMException;
 
 import java.io.IOException;
@@ -30,13 +29,13 @@ public class ServerThread extends Thread {
             out.flush();
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());
             String message = (String)in.readObject();
-            RequestMessage request = XMLDecoder.decode(message);
+            RequestObject request = XMLDecoder.decode(message);
 
             if(ID != null){
                 request.ID = ID;
             }
 
-            Response response = state.handlerequest(request);
+            RequestObject response = state.handlerequest(request);
 
             if(response.kind == ActionKind.CONNECT){
                 ID = response.ID;

@@ -1,7 +1,7 @@
 package tests.units.server;
 
 import main.server.request.ActionKind;
-import main.server.request.RequestMessage;
+import main.server.request.RequestObject;
 import main.server.request.XMLDecoder;
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ public class XMLDecoderTest {
 
     @Test
     public void testDecodeReplace() throws Exception {
-        RequestMessage msg = XMLDecoder.decode(
+        RequestObject msg = XMLDecoder.decode(
                 "<messageAction>" +
                     "<replace>" +
                         "<messageID>5</messageID>" +
@@ -26,7 +26,7 @@ public class XMLDecoderTest {
 
     @Test
     public void testDecodeDelete() throws Exception {
-        RequestMessage msg = XMLDecoder.decode(
+        RequestObject msg = XMLDecoder.decode(
                 "<messageAction>" +
                         "<delete>" +
                         "<messageID>5</messageID>" +
@@ -39,7 +39,7 @@ public class XMLDecoderTest {
 
     @Test
     public void testDecodeFetch() throws Exception {
-        RequestMessage msg = XMLDecoder.decode(
+        RequestObject msg = XMLDecoder.decode(
                 "<messageAction>" +
                         "<fetch>" +
                         "true" +
@@ -52,7 +52,7 @@ public class XMLDecoderTest {
 
     @Test
     public void testDecodeFetchComplete() throws Exception {
-        RequestMessage msg = XMLDecoder.decode(
+        RequestObject msg = XMLDecoder.decode(
                 "<messageAction>" +
                         "<fetch>" +
                         "true" +

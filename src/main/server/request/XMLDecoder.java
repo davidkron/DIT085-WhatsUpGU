@@ -18,7 +18,7 @@ public class XMLDecoder {
         return action.getChildren("content").get(0).getText();
     }
 
-    public static RequestMessage decode(String xml) throws JDOMException, IOException {
+    public static RequestObject decode(String xml) throws JDOMException, IOException {
         SAXBuilder sb = new SAXBuilder();
         Document doc = sb.build(new StringReader(xml));
 
@@ -27,16 +27,16 @@ public class XMLDecoder {
 
         switch (actionName) {
             case "request":
-                return RequestMessage.ConnectRequest(action.getText());
+                return RequestObject.ConnectRequest(action.getText());
             case "replace":
-                return RequestMessage.ReplaceRequest(
+                return RequestObject.ReplaceRequest(
                         getMessageId(action),
                         getContent(action)
                 );
             case "delete":
-                return RequestMessage.DeleteRequest(getMessageId(action));
+                return RequestObject.DeleteRequest(getMessageId(action));
         }
 
-        return new RequestMessage(ActionKind.CONNECT);
+        return new RequestObject(ActionKind.CONNECT);
     }
 }

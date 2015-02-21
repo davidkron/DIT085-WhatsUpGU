@@ -1,11 +1,11 @@
-package main.server.response;
+package main.server.request;
 
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
 
 public class XMLEncoder {
 
-    public static String encode(Response message) {
+    public static String encode(RequestObject message) {
         switch (message.kind) {
             case CONNECT:
                 if(message.Error != null){
@@ -37,11 +37,11 @@ public class XMLEncoder {
         return null;
     }
 
-    private static String FailedReplacing(Response message) {
+    private static String FailedReplacing(RequestObject message) {
         return null;
     }
 
-    public static String RefusedConnection(Response retmsg) {
+    public static String RefusedConnection(RequestObject retmsg) {
         Element root = new Element("connection");
         Element refused = new Element("refused");
         refused .addContent(retmsg.ID);
@@ -50,7 +50,7 @@ public class XMLEncoder {
         return new XMLOutputter().outputString(root);
     }
 
-    public static String AcceptedConnection(Response retmsg) {
+    public static String AcceptedConnection(RequestObject retmsg) {
         Element root = new Element("connection");
         Element accepted = new Element("accepted");
         accepted.addContent(retmsg.ID);
@@ -59,7 +59,7 @@ public class XMLEncoder {
         return new XMLOutputter().outputString(root);
     }
 
-    public static String Added(Response retmsg){
+    public static String Added(RequestObject retmsg){
         Element root = new Element("messageActionResponse");
         Element added = new Element("added");
         added.addContent(String.valueOf(retmsg.messageID));
@@ -67,34 +67,34 @@ public class XMLEncoder {
 
         return new XMLOutputter().outputString(root);
     }
-    public static String Deleted(Response retmsg){
+    public static String Deleted(RequestObject retmsg){
         return "</>";
     }
-    public static String Replaced(Response retmsg){
-        return "</>";
-    }
-
-    public static String Fetched(Response retmsg){
+    public static String Replaced(RequestObject retmsg){
         return "</>";
     }
 
-    public static String FetchCompleted(Response retmsg){
+    public static String Fetched(RequestObject retmsg){
+        return "</>";
+    }
+
+    public static String FetchCompleted(RequestObject retmsg){
         return "</>";
     }
 
 
     /*                  FAILS               */
 
-    public static String FailedFetching(Response retmsg){
+    public static String FailedFetching(RequestObject retmsg){
         return "</>";
     }
-    public static String FailedDeleting(Response retmsg){
+    public static String FailedDeleting(RequestObject retmsg){
         return "</>";
     }
-    public static String FailedFetchCompleting(Response retmsg){
+    public static String FailedFetchCompleting(RequestObject retmsg){
         return "</>";
     }
-    public static String FailedAdding(Response retmsg){
+    public static String FailedAdding(RequestObject retmsg){
         return "</>";
     }
 }

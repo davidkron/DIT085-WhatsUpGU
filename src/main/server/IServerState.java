@@ -1,8 +1,7 @@
 package main.server;
 
-import main.server.request.RequestMessage;
-import main.server.response.Response;
+import main.server.request.RequestObject;
 
 public interface IServerState {
-    Response handlerequest(RequestMessage request);
+    RequestObject handlerequest(RequestObject request);
 }

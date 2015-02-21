@@ -40,7 +40,7 @@ public class GetMessage {
         int ID = messages.add("Hi", "0767731855", "0767731855");
         assertTrue(ID > 0);
         Message m = messages.get(ID);
-        assertEquals(ID, Integer.parseInt(m.id));
+        assertEquals(ID, m.id);
     }
 
 
