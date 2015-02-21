@@ -1,9 +1,9 @@
 package main.server;
 
+import main.server.request.ActionKind;
 import main.server.request.RequestMessage;
 import main.server.request.XMLDecoder;
 import main.server.response.Response;
-import main.server.response.ResponseKind;
 import main.server.response.XMLEncoder;
 import org.jdom2.JDOMException;
 
@@ -38,7 +38,7 @@ public class ServerThread extends Thread {
 
             Response response = state.handlerequest(request);
 
-            if(response.kind == ResponseKind.ACCEPTEDCONNECTION){
+            if(response.kind == ActionKind.CONNECT){
                 ID = response.ID;
             }
 

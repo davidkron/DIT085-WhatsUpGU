@@ -1,6 +1,6 @@
 package tests.units.server;
 
-import main.server.request.RequestKind;
+import main.server.request.ActionKind;
 import main.server.request.RequestMessage;
 import main.server.request.XMLDecoder;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class XMLDecoderTest {
                     "</replace>" +
                 "</messageAction>");
 
-        assertEquals(msg.kind, RequestKind.REPLACE);
+        assertEquals(msg.kind, ActionKind.REPLACE);
         assertEquals(msg.content, "NEW HELLO");
         assertEquals(msg.messageID, 5);
     }
@@ -33,7 +33,7 @@ public class XMLDecoderTest {
                         "</delete>" +
                         "</messageAction>");
 
-        assertEquals(msg.kind, RequestKind.REMOVE);
+        assertEquals(msg.kind, ActionKind.REMOVE);
         assertEquals(msg.messageID, 5);
     }
 
@@ -46,7 +46,7 @@ public class XMLDecoderTest {
                         "</fetch>" +
                         "</messageAction>");
 
-        assertEquals(RequestKind.FETCH,msg.kind);
+        assertEquals(ActionKind.FETCH,msg.kind);
     }
 
 
@@ -59,7 +59,7 @@ public class XMLDecoderTest {
                         "</fetch>" +
                         "</messageAction>");
 
-        assertEquals(RequestKind.FETCHCOMPLETE,msg.kind);
+        assertEquals(ActionKind.FETCHCOMPLETE,msg.kind);
     }
 
 

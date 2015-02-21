@@ -37,6 +37,6 @@ public class XMLDecoder {
                 return RequestMessage.DeleteRequest(getMessageId(action));
         }
 
-        return new RequestMessage(RequestKind.CONNECT);
+        return new RequestMessage(ActionKind.CONNECT);
     }
 }

@@ -1,6 +1,6 @@
 package main.server.request;
 
-public enum RequestKind {
+public enum ActionKind {
     CONNECT,
     ADD,
     REMOVE,

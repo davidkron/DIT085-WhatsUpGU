@@ -2,9 +2,9 @@ package tests.units.server;
 
 import main.messagestore.Messages;
 import main.server.ServerState;
+import main.server.request.ActionKind;
 import main.server.request.RequestMessage;
 import main.server.response.Response;
-import main.server.response.ResponseKind;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class RequestHandlerTest {
     @Test
     public void testHandleRequest() throws Exception {
         Response returnmessage = serverState.handlerequest(connectRequest);
-        assertTrue(returnmessage.kind == ResponseKind.ACCEPTEDCONNECTION);
+        assertTrue(returnmessage.kind == ActionKind.CONNECT);
         assertTrue(returnmessage.ID.equals(senderID));
     }
 
@@ -35,19 +35,21 @@ public class RequestHandlerTest {
     public void testConnectTwice() {
         serverState.handlerequest(connectRequest);
         Response returnmessage = serverState.handlerequest(connectRequest );
-        assertTrue(returnmessage.kind == ResponseKind.REFUSEDCONNECTION);
+        assertTrue(returnmessage.kind == ActionKind.CONNECT);
+        assertTrue(returnmessage.Error != null);
     }
 
     @Test
     public void testAddMessage() {
         Response returnmessage = serverState.handlerequest(RequestMessage.AddRequest("HEllo", senderID, receiverID));
-        assertTrue(returnmessage.kind == ResponseKind.ADDEDMESSAGE);
+        assertTrue(returnmessage.kind == ActionKind.ADD);
     }
 
     @Test
     public void testAddInvalidMessage() {
         Response returnmessage = serverState.handlerequest(RequestMessage.AddRequest("", senderID, receiverID));
-        assertTrue(returnmessage.kind == ResponseKind.ADDINGMESSAGE_FAILED);
+        assertTrue(returnmessage.kind == ActionKind.ADD);
+        assertTrue(returnmessage.Error != null);
     }
 
     @Test
@@ -55,7 +57,7 @@ public class RequestHandlerTest {
         Response rM = serverState.handlerequest(RequestMessage.AddRequest("Hello", senderID, receiverID));
         int messId = rM.messageID;
         rM = serverState.handlerequest(RequestMessage.DeleteRequest(messId));
-        assertEquals(rM.kind, ResponseKind.DELETEDMESSAGE);
+        assertEquals(rM.kind, ActionKind.REMOVE);
         assertEquals(rM.messageID, messId);
     }
 
@@ -64,7 +66,7 @@ public class RequestHandlerTest {
         Response rM = serverState.handlerequest(RequestMessage.AddRequest("Hello", senderID, receiverID));
         int messId = rM.messageID;
         rM = serverState.handlerequest(RequestMessage.ReplaceRequest(messId, "Hejsan"));
-        assertEquals(rM.kind, ResponseKind.MESSAGEREPLACED);
+        assertEquals(rM.kind, ActionKind.REPLACE);
         assertEquals(rM.messageID,messId);
     }
 

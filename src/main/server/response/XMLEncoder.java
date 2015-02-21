@@ -7,30 +7,37 @@ public class XMLEncoder {
 
     public static String encode(Response message) {
         switch (message.kind) {
-            case ACCEPTEDCONNECTION:
+            case CONNECT:
+                if(message.Error != null){
+                    return RefusedConnection(message);
+                }
                 return AcceptedConnection(message);
-            case REFUSEDCONNECTION:
-                return RefusedConnection(message);
-            case MESSAGEREPLACED:
+            case REPLACE:
+                if(message.Error != null){
+                    return FailedReplacing(message);
+                }
                 return Replaced(message);
-            case DELETEDMESSAGE:
+            case REMOVE:
+                if(message.Error != null){
+                    return FailedDeleting(message);
+                }
                 return Deleted(message);
-            case FETCHED:
+            case FETCH:
+                if(message.Error != null){
+                    return FailedFetching(message);
+                }
                 return Fetched(message);
             case FETCHCOMPLETE:
+                if(message.Error != null){
+                    return FailedFetchCompleting(message);
+                }
                 return FetchCompleted(message);
-
-            /// FAILS
-            case FETCHCOMPLETE_FAILED:
-                return FailedFetchCompleting(message);
-            case FETCHED_FAILED:
-                return FailedFetching(message);
-            case DELETEMESSAGE_FAILED:
-                return FailedDeleting(message);
-            case ADDINGMESSAGE_FAILED:
-                return FailedAdding(message);
         }
 
+        return null;
+    }
+
+    private static String FailedReplacing(Response message) {
         return null;
     }
 
