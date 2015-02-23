@@ -1,32 +1,36 @@
 package tests.units.server;
 
-import main.messagestore.Messages;
+import main.messagestore.IMessageCollection;
 import main.server.ServerState;
-import main.server.request.ActionKind;
 import main.server.request.RequestObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class RequestHandlerTest {
 
-    ServerState serverState;
     String senderID = "0767731855";
     String receiverID = "0765861635";
     RequestObject connectRequest = RequestObject.ConnectRequest(senderID);
 
+    IMessageCollection fakeMessages;
+    ServerState serverState;
+
     @Before
     public void setUp() throws Exception {
-        serverState = new ServerState(new Messages());
+        fakeMessages = Mockito.mock(IMessageCollection.class);
+        serverState = new ServerState(fakeMessages);
     }
     //
     @Test
     public void testHandleRequest() throws Exception {
         RequestObject returnmessage = serverState.handlerequest(connectRequest);
-        assertTrue(returnmessage.kind == ActionKind.CONNECT);
         assertTrue(returnmessage.ID.equals(senderID));
+        assertNull(returnmessage.Error);
     }
 
     //Connecting multiple times should fail
@@ -34,54 +38,91 @@ public class RequestHandlerTest {
     public void testConnectTwice() {
         serverState.handlerequest(connectRequest);
         RequestObject returnmessage = serverState.handlerequest(connectRequest );
-        assertTrue(returnmessage.kind == ActionKind.CONNECT);
         assertTrue(returnmessage.Error != null);
     }
 
     @Test
     public void testAddMessage() {
-        RequestObject returnmessage = serverState.handlerequest(RequestObject.AddRequest("HEllo", senderID, receiverID));
-        assertTrue(returnmessage.kind == ActionKind.ADD);
+        String content = "Hello";
+        int newMsgId = 5;
+        when(fakeMessages.add(content,senderID,receiverID)).thenReturn(newMsgId);
+
+        RequestObject returnmessage = serverState.handlerequest(RequestObject.AddRequest(content, senderID, receiverID));
+
+        /////////////////////////////////////////////////////
+        verify(fakeMessages).add(content, senderID, receiverID); // Make sure add is called
+        assertEquals(returnmessage.messageID, newMsgId);
     }
 
     @Test
     public void testAddInvalidMessage() {
+        when(fakeMessages.add("",senderID,receiverID)).thenReturn(-10);
         RequestObject returnmessage = serverState.handlerequest(RequestObject.AddRequest("", senderID, receiverID));
-        assertTrue(returnmessage.kind == ActionKind.ADD);
+
+        /////////////////////////////////////////////////////
         assertTrue(returnmessage.Error != null);
     }
 
     @Test
     public void testDeletingMessage(){
-        RequestObject rM = serverState.handlerequest(RequestObject.AddRequest("Hello", senderID, receiverID));
-        int messId = rM.messageID;
-        rM = serverState.handlerequest(RequestObject.DeleteRequest(messId));
-        assertEquals(rM.kind, ActionKind.REMOVE);
+        int messId = 10;
+        when(fakeMessages.delete(messId)).thenReturn(messId);
+        RequestObject rM = serverState.handlerequest(RequestObject.DeleteRequest(messId));
+
+        /////////////////////////////////////////////////////
+        verify(fakeMessages).delete(messId);
         assertEquals(rM.messageID, messId);
+        assertNull(rM.Error);
+    }
+
+    @Test
+    public void testFailDeletingMessage(){
+        int messId = 10;
+        when(fakeMessages.delete(messId)).thenReturn(-10);
+        RequestObject rM = serverState.handlerequest(RequestObject.DeleteRequest(messId));
+
+        /////////////////////////////////////////////////////
+        verify(fakeMessages).delete(messId);
+        assertNotNull(rM.Error);
     }
 
     @Test
     public void testReplaceMessage() {
-        RequestObject rM = serverState.handlerequest(RequestObject.AddRequest("Hello", senderID, receiverID));
-        int messId = rM.messageID;
-        rM = serverState.handlerequest(RequestObject.ReplaceRequest(messId, "Hejsan"));
-        assertEquals(rM.kind, ActionKind.REPLACE);
-        assertEquals(rM.messageID,messId);
+        int messId = 10;
+        String content = "Hej";
+        when(fakeMessages.replace(messId,content)).thenReturn(messId);
+        RequestObject rM = serverState.handlerequest(RequestObject.ReplaceRequest(messId, content));
+
+        /////////////////////////////////////////////////////
+        verify(fakeMessages).replace(messId,content);
+        assertEquals(rM.messageID, messId);
+        assertNull(rM.Error);
+    }
+
+    @Test
+    public void testFailReplaceMessage() {
+        int messId = 10;
+        String content = "Hej";
+        when(fakeMessages.replace(messId,content)).thenReturn(-10);
+        RequestObject rM = serverState.handlerequest(RequestObject.ReplaceRequest(messId, content));
+
+        /////////////////////////////////////////////////////
+        verify(fakeMessages).replace(messId, content);
+        assertNotNull(rM.Error);
+    }
+
+    @Test
+    public void testFetchComplete() {
+        when(fakeMessages.fetchComplete(receiverID)).thenReturn(1);
+        RequestObject rM = serverState.handlerequest(RequestObject.FetchComplete(receiverID));
+
+        /////////////////////////////////////////////////////
+        verify(fakeMessages).fetchComplete(receiverID);
+        assertNull(rM.Error);
     }
 
     /*
-    
-    public void testEmptyReplaceMessage(){
-    	serverState.handlerequest(connectString);
-        String requestString = "<RplMessage>\n" +
-                                "<MsgID \" \" />\n" +
-                                "<Content \"NEW HELLO\" />\n" +
-                                "</RplMessage>";
-        RequestObject returnmessage = serverState.handlerequest(requestString);
-        assertTrue(returnmessage.kind == returnmessage.kind.ERRORREPLACINGMESSAGE);
-    	
-    }
-    
+
     @Test
     public void testFetchingMessage(){
     	 serverState.handlerequest(connectString);
@@ -92,8 +133,8 @@ public class RequestHandlerTest {
          RequestObject returnmessage = serverState.handlerequest(requestString);
          senderID = returnmessage.senderID;
          assertTrue(returnmessage.kind == returnmessage.kind.ADDEDMESSAGE);serverState.handlerequest(connectString);
-    	
-    	
+
+
         requestString = "<FetchMessages>\n" +
         						"<SenderID \"+ senderID +\" />\n" +
         						"<Content \"HELLO HELLO\" />\n" +
@@ -101,7 +142,7 @@ public class RequestHandlerTest {
                                 "</FetchedMessages>";
         returnmessage = serverState.handlerequest(requestString);
         assertTrue(returnmessage.kind == returnmessage.kind.FETCHED);
-    	
+
     }
     @Test
     public void testFailedFetchingMessage(){
@@ -111,7 +152,7 @@ public class RequestHandlerTest {
                                     "</FetchedMessages>";
             RequestObject returnmessage = serverState.handlerequest(requestString);
             assertTrue(returnmessage.kind == returnmessage.kind.FETCHED_FAILED);
-        	
+
         }
     @Test
     public void testFetchComplete(){
@@ -121,7 +162,7 @@ public class RequestHandlerTest {
         RequestObject returnmessage = serverState.handlerequest(requestString);
         assertTrue(returnmessage.kind == returnmessage.kind.FETCHCOMPLETE);
     }
-    
+
     @Test
     public void testFailedFetchComplete(){
 	serverState.handlerequest(connectString);

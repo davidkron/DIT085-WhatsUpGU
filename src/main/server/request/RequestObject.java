@@ -50,4 +50,10 @@ public class RequestObject {
         rM.receiverID = receiverID;
         return rM;
     }
+
+    public static RequestObject FetchComplete(String receiverID) {
+        RequestObject rM = new RequestObject(ActionKind.FETCHCOMPLETE);
+        rM.receiverID = receiverID;
+        return rM;
+    }
 }
