@@ -9,18 +9,23 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 public class XMLEncoderTest {
 
     @Test
-    public void testRefusedConnection() throws Exception {
-
+    public void testError() throws Exception {
+        RequestObject errorRequest = new RequestObject(ActionKind.ADD);
+        String errorMessage = "Errormessage";
+        errorRequest.Error = errorMessage;
+        String xml = XMLEncoder.encode(errorRequest);
+        assertEquals("<error>" + errorMessage + "</error>",xml);
     }
 
     @Test
     public void testAcceptedConnection() throws Exception {
         String ID = "0767731855";
-        String xml = XMLEncoder.AcceptedConnection(RequestObject.ConnectRequest(ID));
+        String xml = XMLEncoder.encode(RequestObject.ConnectRequest(ID));
         String acceptString = "<connection><accepted>" + ID + "</accepted></connection>";
         assertEquals(acceptString,xml);
     }
@@ -52,7 +57,7 @@ public class XMLEncoderTest {
         String content = "Hello";
         RequestObject response = RequestObject.FetchRequest(receiverID);
         response.fetchedMessages = new ArrayList<Message>();
-        response.fetchedMessages.add(new Message(content,messageId,senderID,receiverID));
+        response.fetchedMessages.add(new Message(content, messageId, senderID, receiverID));
 
         String xml = XMLEncoder.encode(response);
         String responseReceiverID = "<receiverID>" +  receiverID +  "</receiverID>";
@@ -64,13 +69,6 @@ public class XMLEncoderTest {
     }
     @Test
     public void testFetchComplete() throws Exception {
-
+        assertTrue(false);
     }
-     /*
-
-        DELETE:
-
-        String requestString = "<DelMessage>\n" +
-                                "<MsgID \"+ messageID +\" />\n" +
-                                "</DelMessage>";*/
 }
