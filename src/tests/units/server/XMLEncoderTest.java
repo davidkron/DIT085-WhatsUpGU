@@ -9,12 +9,12 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 public class XMLEncoderTest {
 
     @Test
     public void testError() throws Exception {
+        //TODO: need test units for each kind of failure
         RequestObject errorRequest = new RequestObject(ActionKind.ADD);
         String errorMessage = "Errormessage";
         errorRequest.Error = errorMessage;
@@ -56,7 +56,7 @@ public class XMLEncoderTest {
         String senderID = "0722353472";
         String content = "Hello";
         RequestObject response = RequestObject.FetchRequest(receiverID);
-        response.fetchedMessages = new ArrayList<Message>();
+        response.fetchedMessages = new ArrayList<>();
         response.fetchedMessages.add(new Message(content, messageId, senderID, receiverID));
 
         String xml = XMLEncoder.encode(response);
@@ -69,6 +69,13 @@ public class XMLEncoderTest {
     }
     @Test
     public void testFetchComplete() throws Exception {
-        assertTrue(false);
+        String receiverID = "0722353472";
+        RequestObject response = RequestObject.FetchComplete(receiverID);
+        response.content = "true";
+
+        String xml = XMLEncoder.encode(response);
+        String RequestObject = "<fetchCompleted>true</fetchCompleted>";
+
+        assertEquals(RequestObject, xml);
     }
 }

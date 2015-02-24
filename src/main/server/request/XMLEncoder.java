@@ -89,7 +89,6 @@ public class XMLEncoder {
     }
 
     public static String Fetched(RequestObject retmsg){
-
         Element root = new Element("fetched");
         Element fetched = new Element("message");
         Element receiverid = new Element("receiverID");
@@ -114,7 +113,9 @@ public class XMLEncoder {
     }
 
     public static String FetchCompleted(RequestObject retmsg){
-        return "</>";
+        Element root = new Element("fetchCompleted");
+        root.addContent(retmsg.content);
+        return new XMLOutputter().outputString(root);
     }
 
 
@@ -129,7 +130,10 @@ public class XMLEncoder {
     public static String FailedFetchCompleting(RequestObject retmsg){
         return "</>";
     }
+
     public static String FailedAdding(RequestObject retmsg){
-        return "</>";
+        Element root = new Element("error");
+        root.addContent(retmsg.Error);
+        return new XMLOutputter().outputString(root);
     }
 }
