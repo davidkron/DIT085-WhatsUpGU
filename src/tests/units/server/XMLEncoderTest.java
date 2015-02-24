@@ -37,7 +37,8 @@ public class XMLEncoderTest {
     public void testDelete() throws Exception {
         Integer ID = 5;
         String xml = XMLEncoder.encode(RequestObject.DeleteRequest(ID));
-        String acceptString = "<deleted>" + ID+ "</deleted>";
+
+        String acceptString = "<delete><deleted>" + ID+ "</deleted></delete>";
         assertEquals(acceptString,xml);
     }
 
@@ -57,6 +58,10 @@ public class XMLEncoderTest {
         String RequestObject = "<fetched><message>" + responseReceiverID+ responseSenderID + responseContent+ "</message></fetched>";
 
         assertEquals(RequestObject, xml);
+    }
+    @Test
+    public void testFetchComplete() throws Exception {
+
     }
      /*
 

@@ -2,6 +2,9 @@ package main.server.request;
 
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
+import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
 
 public class XMLEncoder {
 
@@ -27,6 +30,11 @@ public class XMLEncoder {
                     return FailedFetching(message);
                 }
                 return Fetched(message);
+            case ADD:
+                if(message.Error != null){
+                    return FailedAdding(message);
+                }
+                return Added(message);
             case FETCHCOMPLETE:
                 if(message.Error != null){
                     return FailedFetchCompleting(message);
@@ -59,6 +67,7 @@ public class XMLEncoder {
         return new XMLOutputter().outputString(root);
     }
 
+
     public static String Added(RequestObject retmsg){
         Element root = new Element("messageActionResponse");
         Element added = new Element("added");
@@ -68,7 +77,14 @@ public class XMLEncoder {
         return new XMLOutputter().outputString(root);
     }
     public static String Deleted(RequestObject retmsg){
-        return "</>";
+
+        Element root = new Element("delete");
+        Element deleted = new Element("deleted");
+        deleted.addContent(String.valueOf(retmsg.messageID));
+        root.addContent(deleted);
+        return new XMLOutputter().outputString(root);
+
+        //return "</>";
     }
     public static String Replaced(RequestObject retmsg){
         return "</>";
