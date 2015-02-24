@@ -10,7 +10,7 @@
     <messageAction>
         <add>
             <receiverID>ID</receiverID>
-            <senderID>ID</senderID>
+            //removed senderID as it is not in the requirement.
             <content>ID</content>
         </add>
 

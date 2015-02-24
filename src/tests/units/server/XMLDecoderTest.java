@@ -56,13 +56,31 @@ public class XMLDecoderTest {
     public void testDecodeFetchComplete() throws Exception {
         RequestObject msg = XMLDecoder.decode(
                 "<messageAction>" +
-                        "<fetch>" +
+                        "<fetchComplete>" +
                         "true" +
-                        "</fetch>" +
+                        "</fetchComplete>" +
                         "</messageAction>", ID);
 
         assertEquals(ActionKind.FETCHCOMPLETE,msg.kind);
     }
+
+
+    @Test
+    public void testDecodeAdd() throws Exception {
+        RequestObject msg = XMLDecoder.decode(
+                "<messageAction>" +
+                        "<add>" +
+                        "<receiverID>5</receiverID>" +
+                        "<content>HELLO</content>" +
+                        "</add>" +
+                        "</messageAction>", ID);
+
+        assertEquals(ActionKind.ADD, msg.kind);
+        assertEquals("5", msg.receiverID);
+        assertEquals( "HELLO", msg.content);
+    }
+
+
 
 
 }
