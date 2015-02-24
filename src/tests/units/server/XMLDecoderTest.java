@@ -9,6 +9,8 @@ import static junit.framework.Assert.assertEquals;
 
 public class XMLDecoderTest {
 
+    String ID = "5";
+
     @Test
     public void testDecodeReplace() throws Exception {
         RequestObject msg = XMLDecoder.decode(
@@ -17,7 +19,7 @@ public class XMLDecoderTest {
                         "<messageID>5</messageID>" +
                         "<content>NEW HELLO</content>" +
                     "</replace>" +
-                "</messageAction>");
+                "</messageAction>", ID);
 
         assertEquals(msg.kind, ActionKind.REPLACE);
         assertEquals(msg.content, "NEW HELLO");
@@ -31,7 +33,7 @@ public class XMLDecoderTest {
                         "<delete>" +
                         "<messageID>5</messageID>" +
                         "</delete>" +
-                        "</messageAction>");
+                        "</messageAction>", ID);
 
         assertEquals(msg.kind, ActionKind.REMOVE);
         assertEquals(msg.messageID, 5);
@@ -44,7 +46,7 @@ public class XMLDecoderTest {
                         "<fetch>" +
                          "true" +
                         "</fetch>" +
-                        "</messageAction>");
+                        "</messageAction>", ID);
 
         assertEquals(ActionKind.FETCH,msg.kind);
     }
@@ -57,7 +59,7 @@ public class XMLDecoderTest {
                         "<fetch>" +
                         "true" +
                         "</fetch>" +
-                        "</messageAction>");
+                        "</messageAction>", ID);
 
         assertEquals(ActionKind.FETCHCOMPLETE,msg.kind);
     }

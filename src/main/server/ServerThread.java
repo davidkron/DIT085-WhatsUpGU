@@ -29,11 +29,7 @@ public class ServerThread extends Thread {
             out.flush();
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());
             String message = (String)in.readObject();
-            RequestObject request = XMLDecoder.decode(message);
-
-            if(ID != null){
-                request.ID = ID;
-            }
+            RequestObject request = XMLDecoder.decode(message,ID);
 
             RequestObject response = state.handlerequest(request);
 
