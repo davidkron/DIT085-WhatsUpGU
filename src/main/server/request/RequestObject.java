@@ -2,7 +2,7 @@ package main.server.request;
 
 import main.messagestore.Message;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class RequestObject {
     public ActionKind kind;
@@ -12,7 +12,7 @@ public class RequestObject {
     public String senderID;
     public String content;
     public String Error;
-    public ArrayList<Message> fetchedMessages = new ArrayList<>();
+    public List<Message> fetchedMessages;
 
     public RequestObject(ActionKind kind){
         this.kind = kind;

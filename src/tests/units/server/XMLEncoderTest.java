@@ -6,6 +6,8 @@ import main.server.request.RequestObject;
 import main.server.request.XMLEncoder;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static junit.framework.Assert.assertEquals;
 
 public class XMLEncoderTest {
@@ -49,6 +51,7 @@ public class XMLEncoderTest {
         String senderID = "0722353472";
         String content = "Hello";
         RequestObject response = RequestObject.FetchRequest(receiverID);
+        response.fetchedMessages = new ArrayList<Message>();
         response.fetchedMessages.add(new Message(content,messageId,senderID,receiverID));
 
         String xml = XMLEncoder.encode(response);

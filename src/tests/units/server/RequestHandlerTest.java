@@ -1,11 +1,14 @@
 package tests.units.server;
 
 import main.messagestore.IMessageCollection;
+import main.messagestore.Message;
 import main.server.ServerState;
 import main.server.request.RequestObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
 
 import static junit.framework.Assert.*;
 import static org.mockito.Mockito.verify;
@@ -108,6 +111,28 @@ public class RequestHandlerTest {
 
         /////////////////////////////////////////////////////
         verify(fakeMessages).replace(messId, content);
+        assertNotNull(rM.Error);
+    }
+
+    @Test
+    public void testFetch() {
+        Message msg = new Message("Content",4,"A","B");
+        ArrayList<Message> msges = new ArrayList<Message>();
+        when(fakeMessages.fetch(receiverID)).thenReturn(msges);
+        RequestObject rM = serverState.handlerequest(RequestObject.FetchRequest(receiverID));
+
+        /////////////////////////////////////////////////////
+        verify(fakeMessages).fetch(receiverID);
+        assertEquals(rM.fetchedMessages,msges);
+        assertNull(rM.Error);
+    }
+
+    @Test
+    public void testFailFetch() {
+        when(fakeMessages.fetch(receiverID)).thenReturn(new ArrayList<Message>());
+        RequestObject rM = serverState.handlerequest(RequestObject.FetchRequest(receiverID));
+        /////////////////////////////////////////////////////
+        verify(fakeMessages).fetch(receiverID);
         assertNotNull(rM.Error);
     }
 

@@ -1,11 +1,11 @@
 package tests.units.messages;
 
 import main.messagestore.IMessageCollection;
+import main.messagestore.Message;
 import main.messagestore.Messages;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -18,7 +18,9 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.TestCase.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 
 @RunWith(org.junit.runners.JUnit4.class)
 public class FetchingMessages {
@@ -41,10 +43,8 @@ public class FetchingMessages {
     //The xml string does not contain any message nodes when no message with the specified receipent ID exist.
     @Test
     public void testFetchMessageNotExists() throws Exception {
-        String xmlreturn = IMessageCollection.fetch("0767731855");
-        NodeList nodeList = parseXMLString(xmlreturn);
-        ;
-        assertTrue(nodeList.getLength() == 0);// THE XML STRING DOES NOT CONTAIN ANY messages
+        List<Message> messages = IMessageCollection.fetch("0767731855");
+        assertTrue(messages.size() == 0);// DOES NOT CONTAIN ANY messages
     }
 
     //The xml string does not contain any message nodes when all messages with specified recipient id are set to fetching status.
@@ -59,10 +59,8 @@ public class FetchingMessages {
 
         // FETCH TWICE
         IMessageCollection.fetch("0767731855");
-        String xmlreturn = IMessageCollection.fetch("0767731855");
-
-        NodeList nodeList = parseXMLString(xmlreturn);// THE XML STRING IS VALID
-        assertTrue(nodeList.getLength() == 0);// THE XML STRING DOES NOT CONTAIN ANY messages
+        List<Message> messages = IMessageCollection.fetch("0767731855");
+        assertTrue(messages.size() == 0);// DOES NOT CONTAIN ANY messages
     }
 
     @Test
@@ -96,18 +94,12 @@ public class FetchingMessages {
             assertFalse(IMessageCollection.get(id).isfetching);
         }
 
-        String xmlreturn = IMessageCollection.fetch("0767731855");
-        NodeList nodeList = parseXMLString(xmlreturn);// THE XML STRING IS VALID
-        assertTrue(nodeList.getLength() > 0);// THE XML STRING CONTAINS messages
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            assertTrue(nodeList.item(i).getNodeType() == Node.ELEMENT_NODE);
+        List<Message> messages = IMessageCollection.fetch("0767731855");
+        assertEquals(messages.size(), 10);// CONTAINS messages
 
-            for (int j = 0; j < nodeList.item(i).getChildNodes().getLength(); j++) {
-                if (nodeList.item(i).getChildNodes().item(j).getNodeName().equals("Message")) {
-                    assertTrue(nodeList.item(i).getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE);
-                    assertEquals(nodeList.item(i).getChildNodes().item(j).getTextContent(), message);
-                }
-            }
+
+        for (Message m : messages) {
+            assertEquals(m.text,message);
         }
     }
 
@@ -125,18 +117,10 @@ public class FetchingMessages {
             messageIds[i] = id;
         }
 
-        String xmlreturn = IMessageCollection.fetch("0767731855");
-        NodeList nodeList = parseXMLString(xmlreturn);// THE XML STRING IS VALID
-        assertTrue(nodeList.getLength() == messageIds.length);// THE XML STRING DOES NOT CONTAIN ANY messages
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            assertTrue(nodeList.item(i).getNodeType() == Node.ELEMENT_NODE);
+        List<Message> messages = IMessageCollection.fetch("0767731855");
 
-            for (int j = 0; j < nodeList.item(i).getChildNodes().getLength(); j++) {
-                if (nodeList.item(i).getChildNodes().item(j).getNodeName().equals("Sender")) {
-                    assertTrue(nodeList.item(i).getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE);
-                    assertEquals(nodeList.item(i).getChildNodes().item(j).getTextContent(), senderId);
-                }
-            }
+        for (Message m : messages) {
+            assertEquals(m.senderId,senderId);
         }
     }
 
@@ -153,19 +137,10 @@ public class FetchingMessages {
             messageIds.add(id);
         }
 
-        String xmlreturn = IMessageCollection.fetch("0767731855");
-        NodeList nodeList = parseXMLString(xmlreturn);// THE XML STRING IS VALID
-        assertTrue(nodeList.getLength() == messageIds.size());// THE XML STRING DOES NOT CONTAIN ANY messages
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            assertTrue(nodeList.item(i).getNodeType() == Node.ELEMENT_NODE);
+        List<Message> messages = IMessageCollection.fetch("0767731855");
 
-            for (int j = 0; j < nodeList.item(i).getChildNodes().getLength(); j++) {
-                if (nodeList.item(i).getChildNodes().item(j).getNodeName().equals("Id")) {
-                    assertTrue(nodeList.item(i).getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE);
-                    int ID = Integer.parseInt(nodeList.item(i).getChildNodes().item(j).getTextContent());
-                    assert (messageIds.contains(ID));
-                }
-            }
+        for (Message m : messages) {
+            assert (messageIds.contains(m.id));
         }
     }
 

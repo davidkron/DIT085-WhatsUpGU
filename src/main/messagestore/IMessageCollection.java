@@ -78,7 +78,7 @@ public interface IMessageCollection {
      * @test FetchingMessages.testContainsRightSender()
      * @test FetchingMessages.testContainsRightID()
      */
-    String fetch(String recieverId);
+    List<Message> fetch(String recieverId);
 
     /**
      * Removes fetched messages from the messages list and notifies senders(from)

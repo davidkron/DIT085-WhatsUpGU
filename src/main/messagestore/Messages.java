@@ -1,7 +1,6 @@
 package main.messagestore;
 
 import org.jdom2.Element;
-import org.jdom2.output.XMLOutputter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,13 +65,14 @@ public class Messages implements IMessageCollection {
     }
 
     @Override
-    public String fetch(String recieverId) {
+    public List<Message> fetch(String recieverId) {
+        List<Message> userMessages = new ArrayList<Message>();
         Element root = new Element("items");
         for (Message message : messages.values()) {
             if (message.receiverId.equals(recieverId) && !message.isfetching) {
                 message.isfetching = true;
-
-                Element item = new Element("item");
+                userMessages.add(message);
+                /*Element item = new Element("item");
 
                 Element idItem = new Element("Id");
                 idItem.setText(String.valueOf(message.id));
@@ -86,11 +86,11 @@ public class Messages implements IMessageCollection {
                 senderItem.setText(message.senderId);
                 item.addContent(senderItem);
 
-                root.addContent(item);
+                root.addContent(item);*/
             }
         }
-
-        return new XMLOutputter().outputString(root);
+          return userMessages;
+        //return new XMLOutputter().outputString(root);
     }
 
     @Override

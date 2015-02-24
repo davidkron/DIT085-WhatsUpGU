@@ -46,6 +46,9 @@ public class ServerState implements IServerState {
                     request.Error = "Message invalid";
                 }
                 break;
+            case FETCH:
+                request.fetchedMessages = messages.fetch(request.receiverID);
+                break;
         }
 
         return request;

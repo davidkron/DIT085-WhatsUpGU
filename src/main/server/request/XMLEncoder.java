@@ -3,11 +3,6 @@ package main.server.request;
 import main.messagestore.Message;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
-import org.junit.Test;
-
-import java.util.ArrayList;
-
-import static junit.framework.Assert.assertEquals;
 
 public class XMLEncoder {
 
@@ -95,13 +90,12 @@ public class XMLEncoder {
 
     public static String Fetched(RequestObject retmsg){
 
-        ArrayList<Message> fetchedMessages = retmsg.fetchedMessages;
         Element root = new Element("fetched");
         Element fetched = new Element("message");
         Element receiverid = new Element("receiverID");
         receiverid.addContent(String.valueOf(retmsg.receiverID));
 
-        for(Message m:fetchedMessages) {
+        for(Message m : retmsg.fetchedMessages) {
             Element senderid = new Element("senderID");
             fetched.addContent(receiverid);
             senderid.addContent(String.valueOf(m.senderId));
