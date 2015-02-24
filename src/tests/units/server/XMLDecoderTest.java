@@ -42,7 +42,7 @@ public class XMLDecoderTest {
         RequestObject msg = XMLDecoder.decode(
                 "<messageAction>" +
                         "<fetch>" +
-                        "true" +
+                         "true" +
                         "</fetch>" +
                         "</messageAction>");
 

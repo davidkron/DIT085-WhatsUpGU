@@ -48,7 +48,7 @@ public class XMLEncoderTest {
         String receiverID = "0722353472";
         String senderID = "0722353472";
         String content = "Hello";
-        RequestObject response = RequestObject.Fetch(receiverID);
+        RequestObject response = RequestObject.FetchRequest(receiverID);
         response.fetchedMessages.add(new Message(content,messageId,senderID,receiverID));
 
         String xml = XMLEncoder.encode(response);

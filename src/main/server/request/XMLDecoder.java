@@ -15,8 +15,10 @@ public class XMLDecoder {
     }
 
     public static String getContent(Element action){
+
         return action.getChildren("content").get(0).getText();
     }
+
 
     public static RequestObject decode(String xml) throws JDOMException, IOException {
         SAXBuilder sb = new SAXBuilder();
@@ -35,6 +37,8 @@ public class XMLDecoder {
                 );
             case "delete":
                 return RequestObject.DeleteRequest(getMessageId(action));
+            case "fetch":
+                return RequestObject.FetchRequest(getContent(action));
         }
 
         return new RequestObject(ActionKind.CONNECT);

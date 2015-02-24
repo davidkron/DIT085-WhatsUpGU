@@ -50,7 +50,7 @@ public class RequestObject {
         return rM;
     }
 
-    public static RequestObject Fetch(String receiverID) {
+    public static RequestObject FetchRequest(String receiverID) {
         RequestObject rM = new RequestObject(ActionKind.FETCH);
         rM.receiverID = receiverID;
         return rM;
