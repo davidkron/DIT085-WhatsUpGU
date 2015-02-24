@@ -81,6 +81,21 @@ public class XMLDecoderTest {
     }
 
 
+    @Test
+    public void testDecodeConnect() throws Exception {
+        RequestObject msg = XMLDecoder.decode(
+                "<messageAction>" +
+                        "<connection>" +
+                        "<ID>5</ID>" +
+                        "</connection>" +
+                        "</messageAction>", ID);
+
+        assertEquals(ActionKind.CONNECT, msg.kind);
+        assertEquals("5", msg.ID);
+
+    }
+
+
 
 
 }

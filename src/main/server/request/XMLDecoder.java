@@ -55,6 +55,8 @@ public class XMLDecoder {
                         getContent(action),
                         ID,
                         getreceiverID(action));
+            case "connection":
+                return RequestObject.ConnectRequest(ID);
 
 
 
