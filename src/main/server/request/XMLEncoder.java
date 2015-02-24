@@ -1,8 +1,11 @@
 package main.server.request;
 
+import main.messagestore.Message;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -91,7 +94,29 @@ public class XMLEncoder {
     }
 
     public static String Fetched(RequestObject retmsg){
-        return "</>";
+
+        ArrayList<Message> fetchedMessages = retmsg.fetchedMessages;
+        Element root = new Element("fetched");
+        Element fetched = new Element("message");
+        Element receiverid = new Element("receiverID");
+        receiverid.addContent(String.valueOf(retmsg.receiverID));
+
+        for(Message m:fetchedMessages) {
+            Element senderid = new Element("senderID");
+            fetched.addContent(receiverid);
+            senderid.addContent(String.valueOf(m.senderId));
+            Element content = new Element("content");
+            fetched.addContent(senderid);
+            content.addContent(String.valueOf(m.text));
+            fetched.addContent(content);
+        }
+        root.addContent(fetched);
+
+        return new XMLOutputter().outputString(root);
+
+
+
+
     }
 
     public static String FetchCompleted(RequestObject retmsg){
