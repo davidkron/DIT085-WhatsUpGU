@@ -31,6 +31,20 @@ public class parts {
         );
     }
 
+    public static void asserted_delete(ObjectInputStream in,ObjectOutputStream out,int messageid) throws IOException, ClassNotFoundException {
+        out.writeObject(
+                "<messageAction>" +
+                        "<delete>" +
+                        "<messageID>" + messageid + "</messageID>" +
+                        "</delete>" +
+                        "</messageAction>"
+        );
+
+        out.flush();
+        assertEquals((String) in.readObject(), "<deleted>" + messageid + "</deleted>");
+    }
+
+
     public static int asserted_add(ObjectInputStream in,ObjectOutputStream out,String receiver) throws IOException, ClassNotFoundException {
         out.flush();
         out.writeObject(

@@ -15,14 +15,13 @@ import java.util.regex.Pattern;
 import static junit.framework.Assert.assertTrue;
 
     /*
-    *
     *                      SCENARIOS
     *
     * 1: User connects, adds a message, then deletes it
-    * 2: User tries to delete an unexisting message
+    * 2: User tries to delete a message twice
     * 3: User adds two messages, deletes one of them, replaces the other and fetches
+    * 4: User X adds a message, user Y fetches it, user X tries to delete it
     * 5: User X and Y adds a message at the same time, user X deletes it, user Y replaces it
-    *
     * */
 
 public class Scenarios {
@@ -31,8 +30,18 @@ public class Scenarios {
     Socket socket;
     Thread serverThread;
 
+    String xId = "0767731855";
+    final String yId = "0767731856";
+
+    ObjectOutputStream xOut;
+    ObjectInputStream xIn;
+
+    ObjectOutputStream yOut;
+    ObjectInputStream yIn;
+
+
     @Before
-    public void setUp() throws InterruptedException {
+    public void setUp() throws InterruptedException, IOException, ClassNotFoundException {
         try {
             server = new Server();
             serverThread = new Thread(server);
@@ -41,6 +50,17 @@ public class Scenarios {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        Socket socketX = new Socket("127.0.0.1", server.getPort());
+        xOut = new ObjectOutputStream(socketX.getOutputStream());
+        xIn = new ObjectInputStream(socketX.getInputStream());
+        parts.asserted_connect(xIn, xOut, xId);
+
+        Socket socketY = new Socket("127.0.0.1", server.getPort());
+        yOut = new ObjectOutputStream(socketY.getOutputStream());
+        yIn = new ObjectInputStream(socketY.getInputStream());
+        parts.asserted_connect(yIn, yOut, yId);
     }
 
     @After
@@ -48,26 +68,19 @@ public class Scenarios {
         server.close();
     }
 
+
+    // 1: User X connects, adds a message, then deletes it
+    @Test
+    public void testScenario1() throws IOException, ClassNotFoundException, InterruptedException {
+        int msg = parts.asserted_add(xIn, xOut, xId);
+        parts.asserted_delete(xIn, xOut, msg);
+    }
+
     // User X adds a message, user Y fetches it, user X tries to delete it
     @Test
     public void testScenario4() throws IOException, ClassNotFoundException, InterruptedException {
-        String xId = "0767731855";
-        final String yId = "0767731856";
-
-        Socket socketX = new Socket("127.0.0.1", server.getPort());
-
-        ObjectOutputStream xOut = new ObjectOutputStream(socketX.getOutputStream());
-        ObjectInputStream xIn = new ObjectInputStream(socketX.getInputStream());
-        parts.asserted_connect(xIn, xOut, xId);
-
         int msg = parts.asserted_add(xIn, xOut, yId);
-
-        Socket socketY = new Socket("127.0.0.1", server.getPort());
-        ObjectOutputStream yOut = new ObjectOutputStream(socketY.getOutputStream());
-        ObjectInputStream yIn = new ObjectInputStream(socketY.getInputStream());
-
-        parts.asserted_connect(yIn, yOut, yId);
-        parts.asserted_fetch(yIn, yOut, yId);
+        parts.asserted_fetch(yIn,yOut,yId);
         /*  TRY DELETING MESSAGE BEING FETCHED    */
         xOut.writeObject("<messageAction>" +
                 "<delete>" +
@@ -79,7 +92,6 @@ public class Scenarios {
         Pattern pattern = Pattern.compile("<error>(.+)</error>");
         Matcher m = pattern.matcher(message);
         assertTrue(m.matches());
-
     }
 
 
