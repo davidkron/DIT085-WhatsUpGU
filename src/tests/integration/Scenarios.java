@@ -9,10 +9,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static junit.framework.Assert.assertTrue;
 
     /*
     *                      SCENARIOS
@@ -46,11 +42,9 @@ public class Scenarios {
             server = new Server();
             serverThread = new Thread(server);
             serverThread.start();
-            Thread.sleep(100);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         Socket socketX = new Socket("127.0.0.1", server.getPort());
         xOut = new ObjectOutputStream(socketX.getOutputStream());
@@ -66,6 +60,7 @@ public class Scenarios {
     @After
     public void tearDown() throws IOException, InterruptedException {
         server.close();
+        serverThread.join();
     }
 
 
@@ -76,23 +71,20 @@ public class Scenarios {
         parts.asserted_delete(xIn, xOut, msg);
     }
 
-    // User X adds a message, user Y fetches it, user X tries to delete it
+    // 2: User X adds a tries to delete a message twice
+    @Test
+    public void testScenario2() throws IOException, ClassNotFoundException, InterruptedException {
+        int msg = parts.asserted_add(xIn, xOut, xId);
+        parts.asserted_delete(xIn, xOut, msg);
+        parts.asserted_delete_failed(xIn, xOut, msg);
+    }
+
+    // 4: User X adds a message, user Y fetches it, user X tries to delete it
     @Test
     public void testScenario4() throws IOException, ClassNotFoundException, InterruptedException {
         int msg = parts.asserted_add(xIn, xOut, yId);
         parts.asserted_fetch(yIn,yOut,yId);
         /*  TRY DELETING MESSAGE BEING FETCHED    */
-        xOut.writeObject("<messageAction>" +
-                "<delete>" +
-                "<messageID>"+ msg +"</messageID>" +
-                "</delete>" +
-                "</messageAction>");
-        String message = (String)xIn.readObject();
-        /*  SHOULD HAVE FAILED  */
-        Pattern pattern = Pattern.compile("<error>(.+)</error>");
-        Matcher m = pattern.matcher(message);
-        assertTrue(m.matches());
+        parts.asserted_delete_failed(xIn,xOut,msg);
     }
-
-
 }

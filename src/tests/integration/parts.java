@@ -44,6 +44,20 @@ public class parts {
         assertEquals((String) in.readObject(), "<deleted>" + messageid + "</deleted>");
     }
 
+    public static void asserted_delete_failed(ObjectInputStream in,ObjectOutputStream out,int messageid) throws IOException, ClassNotFoundException {
+        out.writeObject(
+                "<messageAction>" +
+                        "<delete>" +
+                        "<messageID>" + messageid + "</messageID>" +
+                        "</delete>" +
+                        "</messageAction>"
+        );
+        out.flush();
+        Pattern pattern = Pattern.compile("<error>(.+)</error>");
+        Matcher m = pattern.matcher((String)in.readObject());
+        assertTrue(m.matches());
+    }
+
 
     public static int asserted_add(ObjectInputStream in,ObjectOutputStream out,String receiver) throws IOException, ClassNotFoundException {
         out.flush();
