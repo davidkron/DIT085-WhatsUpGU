@@ -2,7 +2,8 @@ package tests.units.server;
 
 import main.messagestore.IMessageCollection;
 import main.messagestore.Message;
-import main.server.ServerState;
+import main.server.RequestHandler;
+import main.server.request.RequestCreator;
 import main.server.request.RequestObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,20 +19,20 @@ public class RequestHandlerTest {
 
     String senderID = "0767731855";
     String receiverID = "0765861635";
-    RequestObject connectRequest = RequestObject.ConnectRequest(senderID);
+    RequestObject connectRequest = RequestCreator.ConnectRequest(senderID);
 
     IMessageCollection fakeMessages;
-    ServerState serverState;
+    RequestHandler requestHandler;
 
     @Before
     public void setUp() throws Exception {
         fakeMessages = Mockito.mock(IMessageCollection.class);
-        serverState = new ServerState(fakeMessages);
+        requestHandler = new RequestHandler(fakeMessages);
     }
     //
     @Test
     public void testHandleRequest() throws Exception {
-        RequestObject returnmessage = serverState.handlerequest(connectRequest);
+        RequestObject returnmessage = requestHandler.handlerequest(connectRequest);
         assertTrue(returnmessage.ID.equals(senderID));
         assertNull(returnmessage.Error);
     }
@@ -39,8 +40,8 @@ public class RequestHandlerTest {
     //Connecting multiple times should fail
     @Test
     public void testConnectTwice() {
-        serverState.handlerequest(connectRequest);
-        RequestObject returnmessage = serverState.handlerequest(connectRequest );
+        requestHandler.handlerequest(connectRequest);
+        RequestObject returnmessage = requestHandler.handlerequest(connectRequest );
         assertTrue(returnmessage.Error != null);
     }
 
@@ -50,7 +51,7 @@ public class RequestHandlerTest {
         int newMsgId = 5;
         when(fakeMessages.add(content,senderID,receiverID)).thenReturn(newMsgId);
 
-        RequestObject returnmessage = serverState.handlerequest(RequestObject.AddRequest(content, senderID, receiverID));
+        RequestObject returnmessage = requestHandler.handlerequest(RequestCreator.AddRequest(content, senderID, receiverID));
 
         /////////////////////////////////////////////////////
         verify(fakeMessages).add(content, senderID, receiverID); // Make sure add is called
@@ -60,7 +61,7 @@ public class RequestHandlerTest {
     @Test
     public void testAddInvalidMessage() {
         when(fakeMessages.add("",senderID,receiverID)).thenReturn(-10);
-        RequestObject returnmessage = serverState.handlerequest(RequestObject.AddRequest("", senderID, receiverID));
+        RequestObject returnmessage = requestHandler.handlerequest(RequestCreator.AddRequest("", senderID, receiverID));
 
         /////////////////////////////////////////////////////
         assertTrue(returnmessage.Error != null);
@@ -70,7 +71,7 @@ public class RequestHandlerTest {
     public void testDeletingMessage(){
         int messId = 10;
         when(fakeMessages.delete(messId)).thenReturn(messId);
-        RequestObject rM = serverState.handlerequest(RequestObject.DeleteRequest(messId));
+        RequestObject rM = requestHandler.handlerequest(RequestCreator.DeleteRequest(messId));
 
         /////////////////////////////////////////////////////
         verify(fakeMessages).delete(messId);
@@ -82,7 +83,7 @@ public class RequestHandlerTest {
     public void testFailDeletingMessage(){
         int messId = 10;
         when(fakeMessages.delete(messId)).thenReturn(-10);
-        RequestObject rM = serverState.handlerequest(RequestObject.DeleteRequest(messId));
+        RequestObject rM = requestHandler.handlerequest(RequestCreator.DeleteRequest(messId));
 
         /////////////////////////////////////////////////////
         verify(fakeMessages).delete(messId);
@@ -94,7 +95,7 @@ public class RequestHandlerTest {
         int messId = 10;
         String content = "Hej";
         when(fakeMessages.replace(messId,content)).thenReturn(messId);
-        RequestObject rM = serverState.handlerequest(RequestObject.ReplaceRequest(messId, content));
+        RequestObject rM = requestHandler.handlerequest(RequestCreator.ReplaceRequest(messId, content));
 
         /////////////////////////////////////////////////////
         verify(fakeMessages).replace(messId,content);
@@ -107,7 +108,7 @@ public class RequestHandlerTest {
         int messId = 10;
         String content = "Hej";
         when(fakeMessages.replace(messId,content)).thenReturn(-10);
-        RequestObject rM = serverState.handlerequest(RequestObject.ReplaceRequest(messId, content));
+        RequestObject rM = requestHandler.handlerequest(RequestCreator.ReplaceRequest(messId, content));
 
         /////////////////////////////////////////////////////
         verify(fakeMessages).replace(messId, content);
@@ -120,7 +121,7 @@ public class RequestHandlerTest {
         ArrayList<Message> msges = new ArrayList<Message>();
         msges.add(msg);
         when(fakeMessages.fetch(receiverID)).thenReturn(msges);
-        RequestObject rM = serverState.handlerequest(RequestObject.FetchRequest(receiverID));
+        RequestObject rM = requestHandler.handlerequest(RequestCreator.FetchRequest(receiverID));
 
         /////////////////////////////////////////////////////
         verify(fakeMessages).fetch(receiverID);
@@ -131,7 +132,7 @@ public class RequestHandlerTest {
     @Test
     public void testFailFetch() {
         when(fakeMessages.fetch(receiverID)).thenReturn(new ArrayList<Message>());
-        RequestObject rM = serverState.handlerequest(RequestObject.FetchRequest(receiverID));
+        RequestObject rM = requestHandler.handlerequest(RequestCreator.FetchRequest(receiverID));
         /////////////////////////////////////////////////////
         verify(fakeMessages).fetch(receiverID);
         assertNotNull(rM.Error);
@@ -140,7 +141,7 @@ public class RequestHandlerTest {
     @Test
     public void testFetchComplete() {
         when(fakeMessages.fetchComplete(receiverID)).thenReturn(1);
-        RequestObject rM = serverState.handlerequest(RequestObject.FetchComplete(receiverID));
+        RequestObject rM = requestHandler.handlerequest(RequestCreator.FetchComplete(receiverID));
 
         /////////////////////////////////////////////////////
         verify(fakeMessages).fetchComplete(receiverID);

@@ -6,12 +6,12 @@ import main.server.request.RequestObject;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ServerState implements IServerState {
+public class RequestHandler implements IServerState {
     IMessageCollection messages;
     List<String> connections = new LinkedList<String>();
     int res;
 
-    public ServerState(IMessageCollection messages){
+    public RequestHandler(IMessageCollection messages){
         this.messages = messages;
     }
 

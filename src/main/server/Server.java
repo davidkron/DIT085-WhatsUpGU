@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Server implements Runnable {
     private int PORT;
-    ServerState state = new ServerState(new Messages());
+    RequestHandler state = new RequestHandler(new Messages());
     ServerSocket socket;
     List<ServerThread> threads = new ArrayList<>();
 

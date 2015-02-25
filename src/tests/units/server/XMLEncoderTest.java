@@ -2,6 +2,7 @@ package tests.units.server;
 
 import main.messagestore.Message;
 import main.server.request.ActionKind;
+import main.server.request.RequestCreator;
 import main.server.request.RequestObject;
 import main.server.request.XMLEncoder;
 import org.junit.Test;
@@ -25,7 +26,7 @@ public class XMLEncoderTest {
     @Test
     public void testAcceptedConnection() throws Exception {
         String ID = "0767731855";
-        String xml = XMLEncoder.encode(RequestObject.ConnectRequest(ID));
+        String xml = XMLEncoder.encode(RequestCreator.ConnectRequest(ID));
         String acceptString = "<connection><accepted>" + ID + "</accepted></connection>";
         assertEquals(acceptString,xml);
     }
@@ -43,7 +44,7 @@ public class XMLEncoderTest {
     @Test
     public void testDelete() throws Exception {
         Integer ID = 5;
-        String xml = XMLEncoder.encode(RequestObject.DeleteRequest(ID));
+        String xml = XMLEncoder.encode(RequestCreator.DeleteRequest(ID));
 
         String acceptString = "<deleted>" + ID+ "</deleted>";
         assertEquals(acceptString,xml);
@@ -55,7 +56,7 @@ public class XMLEncoderTest {
         String receiverID = "0722353472";
         String senderID = "0722353472";
         String content = "Hello";
-        RequestObject response = RequestObject.FetchRequest(receiverID);
+        RequestObject response = RequestCreator.FetchRequest(receiverID);
         response.fetchedMessages = new ArrayList<>();
         response.fetchedMessages.add(new Message(content, messageId, senderID, receiverID));
 
@@ -70,7 +71,7 @@ public class XMLEncoderTest {
     @Test
     public void testFetchComplete() throws Exception {
         String receiverID = "0722353472";
-        RequestObject response = RequestObject.FetchComplete(receiverID);
+        RequestObject response = RequestCreator.FetchComplete(receiverID);
         response.content = "true";
 
         String xml = XMLEncoder.encode(response);

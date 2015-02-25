@@ -4,7 +4,6 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-import org.mockito.internal.matchers.Null;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -36,27 +35,27 @@ public class XMLDecoder {
        // String content, String senderID, String receiverID
         switch (actionName) {
             case "request":
-                return RequestObject.ConnectRequest(action.getText());
+                return RequestCreator.ConnectRequest(action.getText());
 
             case "replace":
-                return RequestObject.ReplaceRequest(
+                return RequestCreator.ReplaceRequest(
                         getMessageId(action),
                         getContent(action)
                 );
             case "delete":
-                return RequestObject.DeleteRequest(getMessageId(action));
+                return RequestCreator.DeleteRequest(getMessageId(action));
             case "fetch":
-                return RequestObject.FetchRequest(ID);
+                return RequestCreator.FetchRequest(ID);
             case "fetchComplete":
-                return RequestObject.FetchComplete(ID);
+                return RequestCreator.FetchComplete(ID);
             case "add":
-                return  RequestObject.AddRequest(
+                return  RequestCreator.AddRequest(
 
                         getContent(action),
                         ID,
                         getreceiverID(action));
             case "connection":
-                return RequestObject.ConnectRequest(ID);
+                return RequestCreator.ConnectRequest(ID);
 
 
 
