@@ -10,11 +10,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ServerThread extends Thread {
     private Socket s;
     IServerState state;
     String ID = null;
+    boolean running = true;
 
     public void start(Socket s, IServerState state) {
         this.s = s;
@@ -22,12 +24,17 @@ public class ServerThread extends Thread {
         start();
     }
 
+    public void close() throws IOException {
+        running = false;
+        s.close();
+    }
+
     @Override
     public void run() {
         try {
             ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-            while (true) {
+            while (running) {
                 String message = (String) in.readObject();
                 RequestObject request = XMLDecoder.decode(message, ID);
 
@@ -41,6 +48,9 @@ public class ServerThread extends Thread {
                 out.writeObject(result);
                 out.flush();
             }
+
+        } catch (SocketException s) {
+            running = false;
         } catch (IOException | JDOMException | ClassNotFoundException e) {
             e.printStackTrace();
         }

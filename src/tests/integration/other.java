@@ -1,6 +1,7 @@
 package tests.integration;
 
 import main.server.Server;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,6 +24,12 @@ public class other {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @After
+    public void tearDown() throws IOException, InterruptedException {
+        server.close();
     }
 
     @Test

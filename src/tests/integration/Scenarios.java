@@ -1,6 +1,7 @@
 package tests.integration;
 
 import main.server.Server;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,21 +29,27 @@ public class Scenarios {
 
     Server server;
     Socket socket;
+    Thread serverThread;
 
     @Before
     public void setUp() throws InterruptedException {
         try {
             server = new Server();
-            new Thread(server).start();
+            serverThread = new Thread(server);
+            serverThread.start();
             Thread.sleep(100);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    @After
+    public void tearDown() throws IOException, InterruptedException {
+    }
+
     // User X adds a message, user Y fetches it, user X tries to delete it
     @Test
-    public void testScenario4() throws IOException, ClassNotFoundException {
+    public void testScenario4() throws IOException, ClassNotFoundException, InterruptedException {
         String xId = "0767731855";
         final String yId = "0767731856";
 
@@ -71,6 +78,9 @@ public class Scenarios {
         Pattern pattern = Pattern.compile("<error>(.+)</error>");
         Matcher m = pattern.matcher(message);
         assertTrue(m.matches());
+
+        server.close();
+        serverThread.join();
     }
 
 
