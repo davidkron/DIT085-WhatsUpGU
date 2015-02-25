@@ -44,11 +44,12 @@ public class Messages implements IMessageCollection {
 
     @Override
     public int delete(int messageId) {
-        Message previousValue = messages.remove(messageId);
-
-        if (previousValue == null) return 0;
-
-        return messageId;
+        if(messages.get(messageId) == null ||  messages.get(messageId).isfetching)
+            return 0;
+        else{
+            messages.remove(messageId);
+            return messageId;
+        }
     }
 
     @Override
@@ -72,25 +73,9 @@ public class Messages implements IMessageCollection {
             if (message.receiverId.equals(recieverId) && !message.isfetching) {
                 message.isfetching = true;
                 userMessages.add(message);
-                /*Element item = new Element("item");
-
-                Element idItem = new Element("Id");
-                idItem.setText(String.valueOf(message.id));
-                item.addContent(idItem);
-
-                Element messageItem = new Element("Message");
-                messageItem.setText(message.text);
-                item.addContent(messageItem);
-
-                Element senderItem = new Element("Sender");
-                senderItem.setText(message.senderId);
-                item.addContent(senderItem);
-
-                root.addContent(item);*/
             }
         }
           return userMessages;
-        //return new XMLOutputter().outputString(root);
     }
 
     @Override
