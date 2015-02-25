@@ -52,11 +52,11 @@ public class XMLEncoder {
         Element root = new Element("deleted");
         root.addContent(String.valueOf(retmsg.messageID));
         return new XMLOutputter().outputString(root);
-
-        //return "</>";
     }
     public static String Replaced(RequestObject retmsg){
-        return "</>";
+        Element root = new Element("replaced");
+        root.addContent(String.valueOf(retmsg.messageID));
+        return new XMLOutputter().outputString(root);
     }
 
     public static String Fetched(RequestObject retmsg){

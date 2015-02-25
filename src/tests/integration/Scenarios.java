@@ -10,6 +10,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import static junit.framework.TestCase.assertTrue;
+
     /*
     *                      SCENARIOS
     *
@@ -17,7 +19,7 @@ import java.net.Socket;
     * 2: User tries to delete a message twice
     * 3: User adds two messages, deletes one of them, replaces the other and fetches
     * 4: User X adds a message, user Y fetches it, user X tries to delete it
-    * 5: User X and Y adds a message at the same time, user X deletes it, user Y replaces it
+    * 5: User X adds and deletes a message at the same time as user Y adds and replaces a message
     * */
 
 public class Scenarios {
@@ -71,12 +73,18 @@ public class Scenarios {
         parts.asserted_delete(xIn, xOut, msg);
     }
 
-    // 2: User X adds a tries to delete a message twice
+    // 2: User X tries to delete a message twice
     @Test
     public void testScenario2() throws IOException, ClassNotFoundException, InterruptedException {
         int msg = parts.asserted_add(xIn, xOut, xId);
         parts.asserted_delete(xIn, xOut, msg);
         parts.asserted_delete_failed(xIn, xOut, msg);
+    }
+
+    // 3: User adds two messages, deletes one of them, replaces the other and fetches
+    @Test
+    public void testScenario3() throws IOException, ClassNotFoundException, InterruptedException {
+        assertTrue(false);
     }
 
     // 4: User X adds a message, user Y fetches it, user X tries to delete it
@@ -86,5 +94,35 @@ public class Scenarios {
         parts.asserted_fetch(yIn,yOut,yId);
         /*  TRY DELETING MESSAGE BEING FETCHED    */
         parts.asserted_delete_failed(xIn,xOut,msg);
+    }
+
+    // 5: User X adds and deletes a message at the same time as user Y adds and replaces a message
+    @Test
+    public void testScenario5() throws IOException, ClassNotFoundException, InterruptedException {
+        int msg2 = 0;
+        Thread yAdd = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    Socket socketZ = new Socket("127.0.0.1", server.getPort());
+                    ObjectOutputStream zOut = new ObjectOutputStream(socketZ.getOutputStream());
+                    ObjectInputStream zIn = new ObjectInputStream(socketZ.getInputStream());
+                    parts.asserted_connect(zIn, zOut, "0767731888");
+                    int msg = parts.asserted_add(zIn, zOut, xId);
+                    parts.asserted_replace(zIn,zOut,msg);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        yAdd.start();
+        int msg = parts.asserted_add(xIn, xOut, xId);
+        parts.asserted_delete(xIn, xOut, msg);
+        yAdd.join();
     }
 }

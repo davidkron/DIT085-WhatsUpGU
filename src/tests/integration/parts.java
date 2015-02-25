@@ -88,4 +88,18 @@ public class parts {
         String message = (String)in.readObject();
         TestCase.assertTrue(message.matches("<fetched>.+</fetched>"));
     }
+
+    public static void asserted_replace(ObjectInputStream in, ObjectOutputStream out, int messageID) throws IOException, ClassNotFoundException {
+        out.writeObject(
+                "<messageAction>" +
+                        "<replace>" +
+                        "<content>STUFF</content>" +
+                        "<messageID>" + messageID + "</messageID>" +
+                        "</replace>" +
+                        "</messageAction>"
+        );
+
+        out.flush();
+        assertEquals((String) in.readObject(), "<replaced>" + messageID + "</replaced>");
+    }
 }
