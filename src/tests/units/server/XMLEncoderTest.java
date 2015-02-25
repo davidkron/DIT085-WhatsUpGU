@@ -45,7 +45,7 @@ public class XMLEncoderTest {
         Integer ID = 5;
         String xml = XMLEncoder.encode(RequestObject.DeleteRequest(ID));
 
-        String acceptString = "<delete><deleted>" + ID+ "</deleted></delete>";
+        String acceptString = "<delete>" + ID+ "</delete>";
         assertEquals(acceptString,xml);
     }
 

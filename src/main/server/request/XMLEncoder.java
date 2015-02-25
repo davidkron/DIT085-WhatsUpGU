@@ -77,9 +77,7 @@ public class XMLEncoder {
     public static String Deleted(RequestObject retmsg){
 
         Element root = new Element("delete");
-        Element deleted = new Element("deleted");
-        deleted.addContent(String.valueOf(retmsg.messageID));
-        root.addContent(deleted);
+        root.addContent(String.valueOf(retmsg.messageID));
         return new XMLOutputter().outputString(root);
 
         //return "</>";
