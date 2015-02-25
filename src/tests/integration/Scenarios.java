@@ -10,8 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import static junit.framework.TestCase.assertTrue;
-
     /*
     *                      SCENARIOS
     *
@@ -81,10 +79,15 @@ public class Scenarios {
         parts.asserted_delete_failed(xIn, xOut, msg);
     }
 
-    // 3: User adds two messages, deletes one of them, replaces the other and fetches
+    // 3: User X adds two messages, deletes one of them, replaces the other and fetches
     @Test
     public void testScenario3() throws IOException, ClassNotFoundException, InterruptedException {
-        assertTrue(false);
+        int msg = parts.asserted_add(xIn, xOut, xId);
+        int msg2 = parts.asserted_add(xIn, xOut, xId);
+        parts.asserted_delete(xIn, xOut, msg);
+        parts.asserted_replace(xIn, xOut, msg2);
+        parts.asserted_fetch(xIn,xOut,xId);
+        //TODO: check content of fetched results, no messageID?
     }
 
     // 4: User X adds a message, user Y fetches it, user X tries to delete it
