@@ -4,11 +4,16 @@ import main.messagestore.Messages;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server implements Runnable {
     private int PORT;
     ServerState state = new ServerState(new Messages());
     ServerSocket socket;
+    List<ServerThread> threads = new ArrayList<>();
+
 
     boolean running = true;
 
@@ -26,12 +31,30 @@ public class Server implements Runnable {
         socket = new ServerSocket(PORT);
     }
 
+    public void close() throws IOException, InterruptedException {
+        running = false;
+        socket.close();
+    }
+
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             try {
-                new ServerThread().start(socket.accept(), state);
+                ServerThread thread = new ServerThread();
+                thread.start(socket.accept(), state);
+                threads.add(thread);
+            } catch (SocketException s) {
+                running = false;
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (ServerThread t: threads){
+            try {
+                t.close();
+                t.join();
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         }
