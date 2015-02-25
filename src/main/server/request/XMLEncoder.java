@@ -67,10 +67,8 @@ public class XMLEncoder {
 
 
     public static String Added(RequestObject retmsg){
-        Element root = new Element("messageActionResponse");
-        Element added = new Element("added");
-        added.addContent(String.valueOf(retmsg.messageID));
-        root.addContent(added);
+        Element root = new Element("added");
+        root.addContent(String.valueOf(retmsg.messageID));
 
         return new XMLOutputter().outputString(root);
     }

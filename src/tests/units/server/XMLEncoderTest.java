@@ -35,7 +35,7 @@ public class XMLEncoderTest {
         RequestObject requestObject = new RequestObject(ActionKind.ADD);
         requestObject.messageID = 5;
         String xml = XMLEncoder.encode(requestObject);
-        String acceptString = "<messageActionResponse><added>" + requestObject.messageID + "</added></messageActionResponse>";
+        String acceptString = "<added>" + requestObject.messageID + "</added>";
         assertEquals(acceptString,xml);
     }
 
