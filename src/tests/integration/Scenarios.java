@@ -45,6 +45,7 @@ public class Scenarios {
 
     @After
     public void tearDown() throws IOException, InterruptedException {
+        server.close();
     }
 
     // User X adds a message, user Y fetches it, user X tries to delete it
@@ -79,8 +80,6 @@ public class Scenarios {
         Matcher m = pattern.matcher(message);
         assertTrue(m.matches());
 
-        server.close();
-        serverThread.join();
     }
 
 
