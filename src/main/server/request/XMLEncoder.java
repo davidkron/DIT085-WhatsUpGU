@@ -31,19 +31,6 @@ public class XMLEncoder {
         return null;
     }
 
-    private static String FailedReplacing(RequestObject message) {
-        return null;
-    }
-
-    public static String RefusedConnection(RequestObject retmsg) {
-        Element root = new Element("connection");
-        Element refused = new Element("refused");
-        refused .addContent(retmsg.ID);
-        root.addContent(refused);
-
-        return new XMLOutputter().outputString(root);
-    }
-
     public static String AcceptedConnection(RequestObject retmsg) {
         Element root = new Element("connection");
         Element accepted = new Element("accepted");
@@ -90,10 +77,6 @@ public class XMLEncoder {
         root.addContent(fetched);
 
         return new XMLOutputter().outputString(root);
-
-
-
-
     }
 
     public static String FetchCompleted(RequestObject retmsg){

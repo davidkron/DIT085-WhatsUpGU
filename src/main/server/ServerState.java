@@ -18,7 +18,6 @@ public class ServerState implements IServerState {
     @Override
     public RequestObject handlerequest(RequestObject request) {
         int messId;
-       // String receiverID;
 
         switch (request.kind){
             case ADD:
@@ -29,7 +28,7 @@ public class ServerState implements IServerState {
                 break;
             case CONNECT:
                 if(connections.contains(request.ID)) {
-                    request.Error = "Allready connected";
+                    request.Error = "Already connected";
                 }
                 else {
                     connections.add(request.ID);
@@ -57,7 +56,7 @@ public class ServerState implements IServerState {
                 break;
             case FETCHCOMPLETE:
                 res  = messages.fetchComplete(request.receiverID);
-                //receiverID = request.receiverID;
+
                 if (res <= 0){
                     request.Error = " Error Fetch Complete";
                 }
