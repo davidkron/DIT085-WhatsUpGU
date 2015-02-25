@@ -7,44 +7,40 @@
         <refused>ID</refused>
     </connection>
 
-    <messageAction>
-        <add>
+    <add>
+        <receiverID>ID</receiverID>
+        //removed senderID as it is not in the requirement.
+        <content>ID</content>
+    </add>
+
+    <delete>
+        <messageID>ID</messageID>
+    </delete>
+
+    <replace>
+        <messageID>ID</messageID>
+        <content>string</content>
+    </replace>
+
+    <fetch>true</fetch>
+
+    <fetchComplete>true</fetchComplete>
+
+    <added>ID</added>
+
+    <replaced>ID</replaced>
+
+    <deleted>ID</deleted>
+
+    <fetched>
+        <message>
             <receiverID>ID</receiverID>
-            //removed senderID as it is not in the requirement.
+            <senderID>ID</senderID>
             <content>ID</content>
-        </add>
+        </message>
+    </fetched>
 
-        <delete>
-            <messageID>ID</messageID>
-        </delete>
+    <fetchCompleted>true/false</fetchCompleted>
 
-        <replace>
-            <messageID>ID</messageID>
-            <content>string</content>
-        </replace>
-
-        <fetch>true</fetch>
-
-        <fetchComplete>true</fetchComplete>
-    </messageAction>
-
-    <messageActionResponse>
-        <added>ID</added>
-
-        <replaced>ID</replaced>
-
-        <deleted>ID</deleted>
-
-        <fetched>
-            <message>
-                <receiverID>ID</receiverID>
-                <senderID>ID</senderID>
-                <content>ID</content>
-            </message>
-        </fetched>
-
-        <fetchCompleted>true/false</fetchCompleted>
-
-        <error>string</error>
-    </messageActionResponse>
+    <error>string</error>
 </roots>
