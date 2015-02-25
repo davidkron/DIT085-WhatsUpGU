@@ -9,8 +9,7 @@
 
     <add>
         <receiverID>ID</receiverID>
-        //removed senderID as it is not in the requirement.
-        <content>ID</content>
+        <content>string</content>
     </add>
 
     <delete>
@@ -36,7 +35,7 @@
         <message>
             <receiverID>ID</receiverID>
             <senderID>ID</senderID>
-            <content>ID</content>
+            <content>string</content>
         </message>
     </fetched>
 
