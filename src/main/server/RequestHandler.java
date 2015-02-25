@@ -6,7 +6,7 @@ import main.server.request.RequestObject;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RequestHandler implements IServerState {
+public class RequestHandler implements IRequestHandler {
     IMessageCollection messages;
     List<String> connections = new LinkedList<String>();
     int res;

@@ -14,11 +14,11 @@ import java.net.SocketException;
 
 public class ServerThread extends Thread {
     private Socket s;
-    IServerState state;
+    IRequestHandler state;
     String ID = null;
     boolean running = true;
 
-    public void start(Socket s, IServerState state) {
+    public void start(Socket s, IRequestHandler state) {
         this.s = s;
         this.state = state;
         start();
