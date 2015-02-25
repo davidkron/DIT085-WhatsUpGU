@@ -118,6 +118,7 @@ public class RequestHandlerTest {
     public void testFetch() {
         Message msg = new Message("Content",4,"A","B");
         ArrayList<Message> msges = new ArrayList<Message>();
+        msges.add(msg);
         when(fakeMessages.fetch(receiverID)).thenReturn(msges);
         RequestObject rM = serverState.handlerequest(RequestObject.FetchRequest(receiverID));
 
