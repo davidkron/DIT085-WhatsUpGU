@@ -9,6 +9,7 @@ import java.util.List;
 public class ServerState implements IServerState {
     IMessageCollection messages;
     List<String> connections = new LinkedList<String>();
+    int res;
 
     public ServerState(IMessageCollection messages){
         this.messages = messages;
@@ -17,6 +18,7 @@ public class ServerState implements IServerState {
     @Override
     public RequestObject handlerequest(RequestObject request) {
         int messId;
+        String receiverID;
 
         switch (request.kind){
             case ADD:
@@ -48,6 +50,21 @@ public class ServerState implements IServerState {
                 break;
             case FETCH:
                 request.fetchedMessages = messages.fetch(request.receiverID);
+                receiverID = request.receiverID;
+
+                if(Integer.parseInt(receiverID) <= 0){
+                    request.Error = " Error Fetch";
+               }
+                if( request.fetchedMessages.isEmpty() ){
+                    request.Error = " Error Fetch";
+                }
+                break;
+            case FETCHCOMPLETE:
+                res  = messages.fetchComplete(request.receiverID);
+                receiverID = request.receiverID;
+                if (Integer.parseInt(receiverID) <= 0){
+                    request.Error = " Error Fetch Complete";
+                }
                 break;
         }
 

@@ -118,8 +118,11 @@ public class XMLEncoder {
     /*                  FAILS               */
 
     public static String FailedFetching(RequestObject retmsg){
+
+
         return "</>";
     }
+
     public static String FailedDeleting(RequestObject retmsg){
         return "</>";
     }
