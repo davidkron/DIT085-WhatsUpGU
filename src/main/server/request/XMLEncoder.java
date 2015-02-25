@@ -7,36 +7,24 @@ import org.jdom2.output.XMLOutputter;
 public class XMLEncoder {
 
     public static String encode(RequestObject message) {
+
+        if(message.Error != null) {
+            Element root = new Element("error");
+            root.addContent(message.Error);
+            return new XMLOutputter().outputString(root);
+        }
         switch (message.kind) {
             case CONNECT:
-                if(message.Error != null){
-                    return RefusedConnection(message);
-                }
                 return AcceptedConnection(message);
             case REPLACE:
-                if(message.Error != null){
-                    return FailedReplacing(message);
-                }
                 return Replaced(message);
             case REMOVE:
-                if(message.Error != null){
-                    return FailedDeleting(message);
-                }
                 return Deleted(message);
             case FETCH:
-                if(message.Error != null){
-                    return FailedFetching(message);
-                }
                 return Fetched(message);
             case ADD:
-                if(message.Error != null){
-                    return FailedAdding(message);
-                }
                 return Added(message);
             case FETCHCOMPLETE:
-                if(message.Error != null){
-                    return FailedFetchCompleting(message);
-                }
                 return FetchCompleted(message);
         }
 
@@ -111,25 +99,6 @@ public class XMLEncoder {
     public static String FetchCompleted(RequestObject retmsg){
         Element root = new Element("fetchCompleted");
         root.addContent(retmsg.content);
-        return new XMLOutputter().outputString(root);
-    }
-
-
-    /*                  FAILS               */
-
-    public static String FailedFetching(RequestObject retmsg){
-        return "</>";
-    }
-    public static String FailedDeleting(RequestObject retmsg){
-        return "</>";
-    }
-    public static String FailedFetchCompleting(RequestObject retmsg){
-        return "</>";
-    }
-
-    public static String FailedAdding(RequestObject retmsg){
-        Element root = new Element("error");
-        root.addContent(retmsg.Error);
         return new XMLOutputter().outputString(root);
     }
 }

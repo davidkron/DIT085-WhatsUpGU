@@ -25,21 +25,22 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         try {
-            ObjectOutputStream out= new ObjectOutputStream(s.getOutputStream());
-            out.flush();
+            ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-            String message = (String)in.readObject();
-            RequestObject request = XMLDecoder.decode(message,ID);
+            while (true) {
+                String message = (String) in.readObject();
+                RequestObject request = XMLDecoder.decode(message, ID);
 
-            RequestObject response = state.handlerequest(request);
+                RequestObject response = state.handlerequest(request);
 
-            if(response.kind == ActionKind.CONNECT){
-                ID = response.ID;
+                if (response.kind == ActionKind.CONNECT) {
+                    ID = response.ID;
+                }
+
+                String result = XMLEncoder.encode(response);
+                out.writeObject(result);
+                out.flush();
             }
-
-            String result = XMLEncoder.encode(response);
-            out.writeObject(result);
-            out.flush();
         } catch (IOException | JDOMException | ClassNotFoundException e) {
             e.printStackTrace();
         }
