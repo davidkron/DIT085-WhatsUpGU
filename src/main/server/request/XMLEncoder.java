@@ -9,9 +9,7 @@ public class XMLEncoder {
     public static String encode(RequestObject message) {
 
         if(message.Error != null) {
-            Element root = new Element("error");
-            root.addContent(message.Error);
-            return new XMLOutputter().outputString(root);
+            return Error(message.Error);
         }
         switch (message.kind) {
             case CONNECT:
@@ -29,6 +27,12 @@ public class XMLEncoder {
         }
 
         return null;
+    }
+
+    public static String Error(String msg){
+        Element root = new Element("error");
+        root.addContent(msg);
+        return new XMLOutputter().outputString(root);
     }
 
     public static String AcceptedConnection(RequestObject retmsg) {

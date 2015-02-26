@@ -15,7 +15,6 @@ public class XMLEncoderTest {
 
     @Test
     public void testError() throws Exception {
-        //TODO: need test units for each kind of failure
         RequestObject errorRequest = new RequestObject(ActionKind.ADD);
         String errorMessage = "Errormessage";
         errorRequest.Error = errorMessage;
