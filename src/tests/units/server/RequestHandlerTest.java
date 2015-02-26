@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -146,5 +147,15 @@ public class RequestHandlerTest {
         /////////////////////////////////////////////////////
         verify(fakeMessages).fetchComplete(receiverID);
         assertNull(rM.Error);
+    }
+
+    @Test
+    public void testFailFetchComplete() {
+        when(fakeMessages.fetchComplete(receiverID)).thenReturn(0);
+        RequestObject rM = requestHandler.handlerequest(RequestCreator.FetchComplete(receiverID));
+
+        /////////////////////////////////////////////////////
+        verify(fakeMessages).fetchComplete(receiverID);
+        assertNotNull(rM.Error);
     }
 }
