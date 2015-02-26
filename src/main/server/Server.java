@@ -41,7 +41,7 @@ public class Server implements Runnable {
         while (running) {
             try {
                 ServerThread thread = new ServerThread();
-                thread.start(socket.accept(), state);
+                thread.start(new ObjectStream(socket.accept()), state);
                 threads.add(thread);
             } catch (SocketException s) {
                 running = false;
