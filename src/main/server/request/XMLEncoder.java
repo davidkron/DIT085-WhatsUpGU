@@ -41,25 +41,25 @@ public class XMLEncoder {
     }
 
 
-    public static String Added(RequestObject retmsg){
+    private static String Added(RequestObject retmsg){
         Element root = new Element("added");
         root.addContent(String.valueOf(retmsg.messageID));
 
         return new XMLOutputter().outputString(root);
     }
-    public static String Deleted(RequestObject retmsg){
+    private static String Deleted(RequestObject retmsg){
 
         Element root = new Element("deleted");
         root.addContent(String.valueOf(retmsg.messageID));
         return new XMLOutputter().outputString(root);
     }
-    public static String Replaced(RequestObject retmsg){
+    private static String Replaced(RequestObject retmsg){
         Element root = new Element("replaced");
         root.addContent(String.valueOf(retmsg.messageID));
         return new XMLOutputter().outputString(root);
     }
 
-    public static String Fetched(RequestObject retmsg){
+    private static String Fetched(RequestObject retmsg){
         Element root = new Element("fetched");
         Element fetched = new Element("message");
         Element receiverid = new Element("receiverID");
@@ -79,7 +79,7 @@ public class XMLEncoder {
         return new XMLOutputter().outputString(root);
     }
 
-    public static String FetchCompleted(RequestObject retmsg){
+    private static String FetchCompleted(RequestObject retmsg){
         Element root = new Element("fetchCompleted");
         root.addContent(retmsg.content);
         return new XMLOutputter().outputString(root);

@@ -42,6 +42,16 @@ public class XMLEncoderTest {
 
 
     @Test
+    public void testReplaced() throws Exception {
+        RequestObject requestObject = new RequestObject(ActionKind.REPLACE);
+        requestObject.messageID = 5;
+        String xml = XMLEncoder.encode(requestObject);
+        String acceptString = "<replaced>" + requestObject.messageID + "</replaced>";
+        assertEquals(acceptString,xml);
+    }
+
+
+    @Test
     public void testDelete() throws Exception {
         Integer ID = 5;
         String xml = XMLEncoder.encode(RequestCreator.DeleteRequest(ID));
