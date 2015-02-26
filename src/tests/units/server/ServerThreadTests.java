@@ -1,21 +1,58 @@
 package tests.units.server;
 
+import main.server.IRequestHandler;
+import main.server.ObjectStream;
 import main.server.ServerThread;
+import main.server.request.RequestCreator;
+import main.server.request.RequestObject;
+import main.server.request.XMLEncoder;
 import org.junit.Test;
+import org.mockito.Matchers;
 
-import java.io.OutputStream;
+import java.net.SocketException;
+
+import static org.mockito.Mockito.*;
 
 public class ServerThreadTests {
 
     @Test
-    public void testStart() throws Exception {
-        // Mocking a socket
+    public void testInvalidXML() throws Exception {
+        ObjectStream stream = mock(ObjectStream.class);
+        IRequestHandler requestHandler = mock(IRequestHandler.class);
 
-        String ret = "Test";
+        when(stream.readString()).thenReturn(">invalidXML<").thenThrow(new SocketException("Connection Closed"));
 
-        OutputStream out;
+        ServerThread thread = new ServerThread();
+        thread.start(stream, requestHandler);
+        thread.join();
 
-        ServerThread sThread = new ServerThread();
-        //sThread.start(socket,state);
+        ////////////////////////////////////////////////////////////////
+        verify(stream).writeString(Matchers.matches("<error>.*</error>"));
+    }
+
+
+    @Test
+    public void testIdKept() throws Exception {
+        ObjectStream stream = mock(ObjectStream.class);
+        IRequestHandler requestHandler = mock(IRequestHandler.class);
+        String id = "0767731855";
+
+        when(stream.readString()).thenReturn(
+                "<root><connection>" +
+                        "<request>"+ id +"</request>" +
+                        "</connection></root>"
+        ).thenReturn("<root><fetch>true</fetch></root>").thenThrow(new SocketException("Connection Closed"));
+
+        RequestObject Connect = RequestCreator.ConnectRequest(id);
+
+        when(requestHandler.handlerequest(Matchers.<RequestObject>anyObject())).thenReturn(Connect);
+
+        ServerThread thread = new ServerThread();
+        thread.start(stream, requestHandler);
+        thread.join();
+
+        //////////////////////////////////////////////////////////////////////////////////
+        verify(stream,atLeastOnce()).writeString(XMLEncoder.encode(Connect));
+        verify(requestHandler).handlerequest(Matchers.refEq(RequestCreator.FetchRequest(id)));
     }
 }

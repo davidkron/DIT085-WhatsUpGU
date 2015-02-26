@@ -9,7 +9,8 @@ import org.jdom2.JDOMException;
 import java.io.IOException;
 import java.net.SocketException;
 
-public class ServerThread extends Thread {
+public class ServerThread extends Thread// extends Thread
+{
     private ObjectStream stream;
     IRequestHandler state;
     String ID = null;
@@ -30,21 +31,30 @@ public class ServerThread extends Thread {
     public void run() {
         try {
             while (running) {
-                String message = (String) stream.readString();
-                RequestObject request = XMLDecoder.decode(message, ID);
-                RequestObject response = state.handlerequest(request);
+                String message = stream.readString();
+                RequestObject request = null;
+                String responseXML = "";
+                try {
+                    System.out.println(message);
+                    request = XMLDecoder.decode(message, ID);
+                    RequestObject response = state.handlerequest(request);
 
-                if (response.kind == ActionKind.CONNECT) {
-                    ID = response.ID;
+                    if (response.kind == ActionKind.CONNECT) {
+                        ID = response.ID;
+                    }
+
+                    responseXML = XMLEncoder.encode(response);
+
+                } catch (JDOMException e) {
+                    responseXML = XMLEncoder.Error("Failed parsing request");
                 }
 
-                String result = XMLEncoder.encode(response);
-                stream.writeString(result);
+                stream.writeString(responseXML);
             }
 
         } catch (SocketException s) {
             running = false;
-        } catch (IOException | JDOMException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

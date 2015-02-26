@@ -28,7 +28,6 @@ public class XMLDecoder {
     public static RequestObject decode(String xml, String ID) throws JDOMException, IOException {
         SAXBuilder sb = new SAXBuilder();
         Document doc = sb.build(new StringReader(xml));
-
         Element action = doc.getRootElement().getChildren().get(0);
         String actionName = action.getName();
 

@@ -54,7 +54,9 @@ public class Server implements Runnable {
             try {
                 t.close();
                 t.join();
-            } catch (InterruptedException | IOException e) {
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
