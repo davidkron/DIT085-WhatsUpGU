@@ -9,12 +9,12 @@ import org.jdom2.JDOMException;
 import java.io.IOException;
 import java.net.SocketException;
 
-public class ServerThread extends Thread// extends Thread
+public class ServerThread extends Thread
 {
     private ObjectStream stream;
-    IRequestHandler state;
-    String ID = null;
-    boolean running = true;
+    private IRequestHandler state;
+    private String ID = null;
+    private boolean running = true;
 
     public void start(ObjectStream stream, IRequestHandler state) {
         this.stream = stream;
@@ -32,10 +32,9 @@ public class ServerThread extends Thread// extends Thread
         try {
             while (running) {
                 String message = stream.readString();
-                RequestObject request = null;
-                String responseXML = "";
+                RequestObject request;
+                String responseXML;
                 try {
-                    System.out.println(message);
                     request = XMLDecoder.decode(message, ID);
                     RequestObject response = state.handlerequest(request);
 

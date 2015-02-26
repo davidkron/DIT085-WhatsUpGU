@@ -1,16 +1,14 @@
 package main.messagestore;
 
-import org.jdom2.Element;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Messages implements IMessageCollection {
-    private HashMap<Integer, Message> messages = new HashMap<Integer, Message>();
+    private HashMap<Integer, Message> messages = new HashMap<>();
     private Integer previousMessageId = 0;
-    private HashMap<String, ArrayList<Integer>> seenMesssages = new HashMap<String, ArrayList<Integer>>();
+    private HashMap<String, ArrayList<Integer>> seenMesssages = new HashMap<>();
 
     @Override
     public Message get(int index) {
@@ -33,8 +31,8 @@ public class Messages implements IMessageCollection {
     @Override
     public int add(String message, String senderId, String receiverId) {
         if (isEmpty(message)) return 0;
-        if (!isValidPhoneNumber(senderId)) return 0;
-        if (!isValidPhoneNumber(receiverId)) return 0;
+        if (invalidPhoneNumber(senderId)) return 0;
+        if (invalidPhoneNumber(receiverId)) return 0;
 
         int messageID = ++previousMessageId;
         messages.put(messageID, new Message(message, messageID, senderId, receiverId));
@@ -67,8 +65,7 @@ public class Messages implements IMessageCollection {
 
     @Override
     public List<Message> fetch(String recieverId) {
-        List<Message> userMessages = new ArrayList<Message>();
-        Element root = new Element("items");
+        List<Message> userMessages = new ArrayList<>();
         for (Message message : messages.values()) {
             if (message.receiverId.equals(recieverId) && !message.isfetching) {
                 message.isfetching = true;
@@ -90,7 +87,7 @@ public class Messages implements IMessageCollection {
                 messages.remove(key);
 
                 ArrayList<Integer> senderList = seenMesssages.get(message.senderId);
-                if (senderList == null) senderList = new ArrayList<Integer>();
+                if (senderList == null) senderList = new ArrayList<>();
                 senderList.add(key);
                 seenMesssages.put(message.senderId, senderList);
 
@@ -125,7 +122,7 @@ public class Messages implements IMessageCollection {
      * @param number string to be checked.
      * @return true if valid, otherwise false.
      */
-    private boolean isValidPhoneNumber(String number) {
-        return number.length() == 10 && number.matches("(\\d+)");
+    private boolean invalidPhoneNumber(String number) {
+        return number.length() != 10 || !number.matches("(\\d+)");
     }
 }

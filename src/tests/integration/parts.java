@@ -14,7 +14,7 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * Created by david on 2/25/15.
  */
-public class parts {
+class parts {
 
     public static void asserted_connect(ObjectInputStream in,ObjectOutputStream out,String id) throws IOException, ClassNotFoundException {
         out.writeObject(
@@ -79,7 +79,7 @@ public class parts {
         return ret;
     }
 
-    public static void asserted_fetch(ObjectInputStream in,ObjectOutputStream out,String receiver) throws IOException, ClassNotFoundException {
+    public static void asserted_fetch(ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException {
         out.writeObject("<messageAction>" +
                 "<fetch>" +
                 "true" +

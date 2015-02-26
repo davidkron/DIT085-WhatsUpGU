@@ -11,7 +11,7 @@ import static junit.framework.TestCase.*;
 @RunWith(org.junit.runners.JUnit4.class)
 public class ReplacingMessage {
 
-    IMessageCollection IMessageCollection;
+    private IMessageCollection IMessageCollection;
 
     @Before
     public void init() {

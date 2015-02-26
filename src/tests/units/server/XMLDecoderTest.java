@@ -9,7 +9,7 @@ import static junit.framework.Assert.assertEquals;
 
 public class XMLDecoderTest {
 
-    String ID = "5";
+    private final String ID = "5";
 
     @Test
     public void testDecodeReplace() throws Exception {

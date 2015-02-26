@@ -12,14 +12,14 @@ public class XMLDecoder {
 
 
 
-    public static int getMessageId(Element action){
+    private static int getMessageId(Element action){
         return Integer.parseInt(action.getChildren("messageID").get(0).getText());
     }
-    public static String getreceiverID(Element action){
+    private static String getreceiverID(Element action){
         return (action.getChildren("receiverID").get(0).getText());
     }
 
-    public static String getContent(Element action){
+    private static String getContent(Element action){
 
         return action.getChildren("content").get(0).getText();
     }

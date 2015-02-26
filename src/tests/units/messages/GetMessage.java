@@ -12,7 +12,7 @@ import static junit.framework.TestCase.*;
 
 @RunWith(org.junit.runners.JUnit4.class)
 public class GetMessage {
-    IMessageCollection messages;
+    private IMessageCollection messages;
 
     @Before
     public void setUp() throws Exception {

@@ -11,7 +11,7 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(org.junit.runners.JUnit4.class)
 public class FetchCompletion {
 
-    IMessageCollection IMessageCollection;
+    private IMessageCollection IMessageCollection;
 
     @Before
     public void setUp() {

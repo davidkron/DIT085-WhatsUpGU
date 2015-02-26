@@ -12,8 +12,7 @@ import java.net.Socket;
 
 public class other {
 
-    Server server;
-    Socket socket;
+    private Server server;
 
     @Before
     public void setUp() throws InterruptedException {
@@ -34,7 +33,7 @@ public class other {
 
     @Test
     public void testOneConnection() throws IOException, ClassNotFoundException {
-        socket = new Socket("127.0.0.1", server.getPort());
+        Socket socket = new Socket("127.0.0.1", server.getPort());
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
         parts.asserted_connect(in, out, "0767731856");

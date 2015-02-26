@@ -11,18 +11,18 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import static junit.framework.Assert.*;
+import static junit.framework.TestCase.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class RequestHandlerTest {
 
-    String senderID = "0767731855";
-    String receiverID = "0765861635";
-    RequestObject connectRequest = RequestCreator.ConnectRequest(senderID);
+    private String senderID = "0767731855";
+    private String receiverID = "0765861635";
+    private RequestObject connectRequest = RequestCreator.ConnectRequest(senderID);
 
-    IMessageCollection fakeMessages;
-    RequestHandler requestHandler;
+    private IMessageCollection fakeMessages;
+    private RequestHandler requestHandler;
 
     @Before
     public void setUp() throws Exception {
@@ -118,7 +118,7 @@ public class RequestHandlerTest {
     @Test
     public void testFetch() {
         Message msg = new Message("Content",4,"A","B");
-        ArrayList<Message> msges = new ArrayList<Message>();
+        ArrayList<Message> msges = new ArrayList<>();
         msges.add(msg);
         when(fakeMessages.fetch(receiverID)).thenReturn(msges);
         RequestObject rM = requestHandler.handlerequest(RequestCreator.FetchRequest(receiverID));

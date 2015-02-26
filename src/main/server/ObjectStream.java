@@ -8,9 +8,9 @@ import java.net.Socket;
  */
 public class ObjectStream {
 
-    Socket socket;
-    ObjectOutputStream out;
-    ObjectInputStream in;
+    private Socket socket;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
 
     public ObjectStream(Socket socket) throws IOException {
         in = new ObjectInputStream(socket.getInputStream());

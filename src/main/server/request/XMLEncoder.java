@@ -35,7 +35,7 @@ public class XMLEncoder {
         return new XMLOutputter().outputString(root);
     }
 
-    public static String AcceptedConnection(RequestObject retmsg) {
+    private static String AcceptedConnection(RequestObject retmsg) {
         Element root = new Element("connection");
         Element accepted = new Element("accepted");
         accepted.addContent(retmsg.ID);

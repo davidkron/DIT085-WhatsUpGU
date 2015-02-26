@@ -7,9 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RequestHandler implements IRequestHandler {
-    IMessageCollection messages;
-    List<String> connections = new LinkedList<String>();
-    int res;
+    private IMessageCollection messages;
+    private List<String> connections = new LinkedList<>();
 
     public RequestHandler(IMessageCollection messages){
         this.messages = messages;
@@ -55,7 +54,7 @@ public class RequestHandler implements IRequestHandler {
                 }
                 break;
             case FETCHCOMPLETE:
-                res  = messages.fetchComplete(request.receiverID);
+                int res = messages.fetchComplete(request.receiverID);
 
                 if (res <= 0){
                     request.Error = " Error Fetch Complete";

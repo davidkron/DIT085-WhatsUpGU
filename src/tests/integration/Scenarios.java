@@ -22,18 +22,17 @@ import java.net.Socket;
 
 public class Scenarios {
 
-    Server server;
-    Socket socket;
-    Thread serverThread;
+    private Server server;
+    private Thread serverThread;
 
-    String xId = "0767731855";
-    final String yId = "0767731856";
+    private String xId = "0767731855";
+    private final String yId = "0767731856";
 
-    ObjectOutputStream xOut;
-    ObjectInputStream xIn;
+    private ObjectOutputStream xOut;
+    private ObjectInputStream xIn;
 
-    ObjectOutputStream yOut;
-    ObjectInputStream yIn;
+    private ObjectOutputStream yOut;
+    private ObjectInputStream yIn;
 
 
     @Before
@@ -86,15 +85,14 @@ public class Scenarios {
         int msg2 = parts.asserted_add(xIn, xOut, xId);
         parts.asserted_delete(xIn, xOut, msg);
         parts.asserted_replace(xIn, xOut, msg2);
-        parts.asserted_fetch(xIn,xOut,xId);
-        //TODO: check content of fetched results, no messageID?
+        parts.asserted_fetch(xIn,xOut);
     }
 
     // 4: User X adds a message, user Y fetches it, user X tries to delete it
     @Test
     public void testScenario4() throws IOException, ClassNotFoundException, InterruptedException {
         int msg = parts.asserted_add(xIn, xOut, yId);
-        parts.asserted_fetch(yIn,yOut,yId);
+        parts.asserted_fetch(yIn,yOut);
         /*  TRY DELETING MESSAGE BEING FETCHED    */
         parts.asserted_delete_failed(xIn,xOut,msg);
     }
@@ -102,7 +100,6 @@ public class Scenarios {
     // 5: User X adds and deletes a message at the same time as user Y adds and replaces a message
     @Test
     public void testScenario5() throws IOException, ClassNotFoundException, InterruptedException {
-        int msg2 = 0;
         Thread yAdd = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -115,9 +112,7 @@ public class Scenarios {
                     int msg = parts.asserted_add(zIn, zOut, xId);
                     parts.asserted_replace(zIn,zOut,msg);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }

@@ -14,7 +14,7 @@ import static junit.framework.TestCase.*;
 @RunWith(org.junit.runners.JUnit4.class)
 public class DeletingMessage {
 
-    IMessageCollection messages;
+    private IMessageCollection messages;
 
     @Before
     public void init() {

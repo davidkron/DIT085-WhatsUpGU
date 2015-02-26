@@ -18,12 +18,6 @@ public class RequestCreator {
         return rM;
     }
 
-    public static RequestObject Added(String id) {
-       RequestObject rM = new RequestObject(ActionKind.CONNECT);
-        rM.ID = id;
-        return rM;
-    }
-
     public static RequestObject DeleteRequest(int messageID) {
         RequestObject rM = new RequestObject(ActionKind.REMOVE);
         rM.messageID = messageID;

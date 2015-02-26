@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server implements Runnable {
-    private int PORT;
-    RequestHandler state = new RequestHandler(new Messages());
-    ServerSocket socket;
-    List<ServerThread> threads = new ArrayList<>();
+    private final int PORT;
+    private RequestHandler state = new RequestHandler(new Messages());
+    private ServerSocket socket;
+    private List<ServerThread> threads = new ArrayList<>();
 
 
-    boolean running = true;
+    private boolean running = true;
 
     public int getPort() {
         return PORT;
@@ -26,12 +26,7 @@ public class Server implements Runnable {
         socket = new ServerSocket(PORT);
     }
 
-    public Server(int port) throws IOException {
-        this.PORT = port;
-        socket = new ServerSocket(PORT);
-    }
-
-    public void close() throws IOException, InterruptedException {
+    public void close() throws IOException {
         running = false;
         socket.close();
     }
@@ -54,9 +49,7 @@ public class Server implements Runnable {
             try {
                 t.close();
                 t.join();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         }

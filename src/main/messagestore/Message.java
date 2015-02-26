@@ -2,9 +2,9 @@ package main.messagestore;
 
 public class Message {
     public boolean isfetching = false;
-    public int id;
-    public String senderId;
-    public String receiverId;
+    public final int id;
+    public final String senderId;
+    public final String receiverId;
     public String text;
 
     public Message(String message, int messageId, String fromId, String toId) {

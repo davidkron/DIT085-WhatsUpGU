@@ -9,7 +9,7 @@ import static junit.framework.TestCase.*;
 
 @RunWith(org.junit.runners.JUnit4.class)
 public class AddingMessage {
-    main.messagestore.IMessageCollection IMessageCollection;
+    private main.messagestore.IMessageCollection IMessageCollection;
 
     @Before
     public void init() {
