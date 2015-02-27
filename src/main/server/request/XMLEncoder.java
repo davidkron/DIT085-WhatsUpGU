@@ -7,26 +7,24 @@ import org.jdom2.output.XMLOutputter;
 public class XMLEncoder {
 
     public static String encode(RequestObject message) {
+        boolean error = message.Error != null;
 
-        if(message.Error != null) {
-            return Error(message.Error);
-        }
         switch (message.kind) {
             case CONNECT:
-                return AcceptedConnection(message);
+                if (! error) return AcceptedConnection(message);
             case REPLACE:
-                return Replaced(message);
+                if (! error) return Replaced(message);
             case REMOVE:
-                return Deleted(message);
+                if (! error) return Deleted(message);
             case FETCH:
-                return Fetched(message);
+                if (! error) return Fetched(message);
             case ADD:
-                return Added(message);
+                if (! error) return Added(message);
             case FETCHCOMPLETE:
-                return FetchCompleted(message);
+                if (! error) return FetchCompleted(message);
+            default:
+                return Error(message.Error);
         }
-
-        return null;
     }
 
     public static String Error(String msg){
@@ -44,19 +42,20 @@ public class XMLEncoder {
         return new XMLOutputter().outputString(root);
     }
 
-
     private static String Added(RequestObject retmsg){
         Element root = new Element("added");
         root.addContent(String.valueOf(retmsg.messageID));
 
         return new XMLOutputter().outputString(root);
     }
+
     private static String Deleted(RequestObject retmsg){
 
         Element root = new Element("deleted");
         root.addContent(String.valueOf(retmsg.messageID));
         return new XMLOutputter().outputString(root);
     }
+
     private static String Replaced(RequestObject retmsg){
         Element root = new Element("replaced");
         root.addContent(String.valueOf(retmsg.messageID));

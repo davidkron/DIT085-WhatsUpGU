@@ -7,4 +7,5 @@ public enum ActionKind {
     REPLACE,
     FETCH,
     FETCHCOMPLETE,
+    INVALID
 }

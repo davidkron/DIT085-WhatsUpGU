@@ -1,10 +1,6 @@
 package main.server;
 
-import main.server.request.ActionKind;
-import main.server.request.RequestObject;
-import main.server.request.XMLDecoder;
-import main.server.request.XMLEncoder;
-import org.jdom2.JDOMException;
+import main.server.request.*;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -32,22 +28,21 @@ public class ServerThread extends IServerThread
         try {
             while (running) {
                 String responseXML;
+                RequestObject response;
                 try {
                     String message = stream.readString();
                     RequestObject request;
                     request = XMLDecoder.decode(message, ID);
-                    RequestObject response = state.handlerequest(request);
+                    response = state.handlerequest(request);
 
                     if (response.kind == ActionKind.CONNECT) {
                         ID = response.ID;
                     }
-
-                    responseXML = XMLEncoder.encode(response);
-
-                } catch (JDOMException | ClassCastException | ClassNotFoundException e) {
-                    responseXML = XMLEncoder.Error("Failed parsing request");
+                } catch (ClassCastException | ClassNotFoundException e) {
+                    response = RequestCreator.InvalidRequest();
                 }
 
+                responseXML = XMLEncoder.encode(response);
                 stream.writeString(responseXML);
             }
 

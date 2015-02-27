@@ -5,6 +5,7 @@ import main.server.request.ActionKind;
 import main.server.request.RequestCreator;
 import main.server.request.RequestObject;
 import main.server.request.XMLEncoder;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,6 +13,11 @@ import java.util.ArrayList;
 import static junit.framework.Assert.assertEquals;
 
 public class XMLEncoderTest {
+    @Before
+    public void setUp() throws Exception {
+        // SILENCE COVERAGE FOR STATIC OBJECTS
+        new XMLEncoder();
+    }
 
     @Test
     public void testError() throws Exception {
@@ -39,7 +45,6 @@ public class XMLEncoderTest {
         assertEquals(acceptString,xml);
     }
 
-
     @Test
     public void testReplaced() throws Exception {
         RequestObject requestObject = new RequestObject(ActionKind.REPLACE);
@@ -48,7 +53,6 @@ public class XMLEncoderTest {
         String acceptString = "<replaced>" + requestObject.messageID + "</replaced>";
         assertEquals(acceptString,xml);
     }
-
 
     @Test
     public void testDelete() throws Exception {
@@ -77,6 +81,7 @@ public class XMLEncoderTest {
 
         assertEquals(RequestObject, xml);
     }
+
     @Test
     public void testFetchComplete() throws Exception {
         String receiverID = "0722353472";
@@ -84,6 +89,16 @@ public class XMLEncoderTest {
         response.content = "true";
         String xml = XMLEncoder.encode(response);
         String RequestObject = "<fetchCompleted>true</fetchCompleted>";
+
+        assertEquals(RequestObject, xml);
+    }
+
+    @Test
+    public void testFailEncode() throws Exception {
+        RequestObject response = RequestCreator.InvalidRequest();
+
+        String xml = XMLEncoder.encode(response);
+        String RequestObject = "<error>Invalid request.</error>";
 
         assertEquals(RequestObject, xml);
     }

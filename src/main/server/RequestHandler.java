@@ -22,12 +22,12 @@ public class RequestHandler implements IRequestHandler {
             case ADD:
                 request.messageID = messages.add(request.content, request.senderID, request.receiverID);
                 if (request.messageID <= 0) {
-                    request.Error = "Errar";
+                    request.Error = "Error adding message.";
                 }
                 break;
             case CONNECT:
                 if(connections.contains(request.ID)) {
-                    request.Error = "Already connected";
+                    request.Error = "Already connected.";
                 }
                 else {
                     connections.add(request.ID);
@@ -37,27 +37,27 @@ public class RequestHandler implements IRequestHandler {
                 messId = messages.delete(request.messageID);
                 if(messId <= 0){
                     request.messageID = messId;
-                    request.Error = "Could not find message";
+                    request.Error = "Could not find message.";
                 }
                 break;
             case REPLACE:
                 messId = messages.replace(request.messageID, request.content);
                 if(messId <= 0){
-                    request.Error = "Message invalid";
+                    request.Error = "Message invalid.";
                 }
                 break;
             case FETCH:
                 request.fetchedMessages = messages.fetch(request.receiverID);
 
                 if( request.fetchedMessages.isEmpty() ){
-                    request.Error = " Error Fetch";
+                    request.Error = "Error fetch.";
                 }
                 break;
             case FETCHCOMPLETE:
                 int res = messages.fetchComplete(request.receiverID);
                 request.content ="Succeeded";
                 if (res <= 0){
-                    request.Error = " Error Fetch Complete";
+                    request.Error = "Error fetch complete.";
                 }
                 break;
         }

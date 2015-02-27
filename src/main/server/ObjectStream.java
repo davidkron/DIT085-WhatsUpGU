@@ -5,9 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-/**
- * Created by david on 2/24/15.
- */
 public class ObjectStream {
 
     private Socket socket;
@@ -22,7 +19,7 @@ public class ObjectStream {
     }
 
     public String readString() throws IOException, ClassNotFoundException {
-        return (String)in.readObject();
+        return (String) in.readObject();
     }
 
     public void writeString(String result) throws IOException {

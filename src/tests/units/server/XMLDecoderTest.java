@@ -3,7 +3,6 @@ package tests.units.server;
 import main.server.request.ActionKind;
 import main.server.request.RequestObject;
 import main.server.request.XMLDecoder;
-import org.jdom2.JDOMException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -91,8 +90,29 @@ public class XMLDecoderTest {
         assertEquals("5", msg.ID);
     }
 
-    @Test(expected = JDOMException.class)
+    @Test
+    public void testNonExistingDecode() throws Exception {
+        RequestObject msg = XMLDecoder.decode("<pikachu>pika</pikachu>", ID);
+
+        assertEquals(msg.kind, ActionKind.INVALID);
+        assertEquals(msg.ID, null);
+        assertEquals(msg.messageID, 0);
+        assertEquals(msg.receiverID, null);
+        assertEquals(msg.senderID, null);
+        assertEquals(msg.Error, "Invalid request.");
+        assertEquals(msg.fetchedMessages, null);
+    }
+
+    @Test
     public void testFailDecode() throws Exception {
-        RequestObject msg = XMLDecoder.decode("<bogusTag>fail</bogusTag>", ID);
+        RequestObject msg = XMLDecoder.decode(">invalidXML<", ID);
+
+        assertEquals(msg.kind, ActionKind.INVALID);
+        assertEquals(msg.ID, null);
+        assertEquals(msg.messageID, 0);
+        assertEquals(msg.receiverID, null);
+        assertEquals(msg.senderID, null);
+        assertEquals(msg.Error, "Invalid request.");
+        assertEquals(msg.fetchedMessages, null);
     }
 }

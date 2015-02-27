@@ -39,4 +39,10 @@ public class RequestCreator {
         rM.receiverID = receiverID;
         return rM;
     }
+
+    public static RequestObject InvalidRequest() {
+        RequestObject rM = new RequestObject(ActionKind.INVALID);
+        rM.Error = "Invalid request.";
+        return rM;
+    }
 }

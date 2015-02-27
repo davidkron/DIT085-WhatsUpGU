@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class RequestHandlerTest {
-
     private String senderID = "0767731855";
     private String receiverID = "0765861635";
     private RequestObject connectRequest = RequestCreator.ConnectRequest(senderID);
@@ -27,7 +26,6 @@ public class RequestHandlerTest {
 
     @Before
     public void setUp() throws Exception {
-
         fakeMessages = Mockito.mock(IMessageCollection.class);
         requestHandler = new RequestHandler(fakeMessages);
     }
@@ -44,7 +42,7 @@ public class RequestHandlerTest {
     @Test
     public void testConnectTwice() {
         requestHandler.handlerequest(connectRequest);
-        RequestObject returnmessage = requestHandler.handlerequest(connectRequest );
+        RequestObject returnmessage = requestHandler.handlerequest(connectRequest);
         assertTrue(returnmessage.Error != null);
     }
 
