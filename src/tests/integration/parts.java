@@ -47,9 +47,7 @@ class parts {
                         "<messageID>" + messageid + "</messageID>" +
                         "</delete>");
         out.flush();
-        Pattern pattern = Pattern.compile("<error>(.+)</error>");
-        Matcher m = pattern.matcher((String)in.readObject());
-        assertTrue(m.matches());
+        TestCase.assertTrue(((String) in.readObject()).matches("<error>.*</error>"));
     }
 
 
@@ -71,6 +69,19 @@ class parts {
         return ret;
     }
 
+    public static void asserted_add_fail(ObjectInputStream in,ObjectOutputStream out,String receiver,String content) throws IOException, ClassNotFoundException {
+        out.flush();
+        out.writeObject(
+                "<add>" +
+                        "<receiverID>" + receiver + "</receiverID>" +
+                        "<content>"+ content +"</content>" +
+                        "</add>"
+        );
+        out.flush();
+        String message = (String)in.readObject();
+        TestCase.assertTrue((message).matches("<error>.*</error>"));
+    }
+
     public static void asserted_fetch(ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException {
         out.writeObject("<fetch>" +
                 "true" +
@@ -88,5 +99,50 @@ class parts {
 
         out.flush();
         assertEquals((String) in.readObject(), "<replaced>" + messageID + "</replaced>");
+    }
+
+    public static void asserted_connect_fail(ObjectInputStream in, ObjectOutputStream out, String id) throws IOException, ClassNotFoundException {
+        out.writeObject(
+                "<connection>" +
+                        "<request>"+ id +"</request>" +
+                        "</connection>"
+        );
+        out.flush();
+        TestCase.assertTrue(((String)in.readObject()).matches("<error>.*</error>"));
+    }
+
+
+    public static void asserted_fetch_fail(ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException {
+        out.writeObject("<fetch>" +
+                "true" +
+                "</fetch>");
+        String message = (String)in.readObject();
+        TestCase.assertTrue(message.matches("<error>.*</error>"));
+    }
+
+    public static void asserted_replace_fail(ObjectInputStream in, ObjectOutputStream out, int msg, String content) throws IOException, ClassNotFoundException {
+        out.writeObject("<replace>" +
+                        "<content>" + content +"</content>" +
+                        "<messageID>" + msg + "</messageID>" +
+                        "</replace>"
+        );
+        String message = (String)in.readObject();
+        TestCase.assertTrue(message.matches("<error>.*</error>"));
+    }
+
+    public static void asserted_fetchcomplete(ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException {
+        out.writeObject("<fetchComplete>" +
+                "true" +
+                "</fetchComplete>");
+        String message = (String)in.readObject();
+        TestCase.assertTrue(message.matches("<fetchCompleted>.+</fetchCompleted>"));
+    }
+
+    public static void asserted_fetchcomplete_fail(ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException {
+        out.writeObject("<fetchComplete>" +
+                "true" +
+                "</fetchComplete>");
+        String message = (String)in.readObject();
+        TestCase.assertTrue(message.matches("<error>.*</error>"));
     }
 }

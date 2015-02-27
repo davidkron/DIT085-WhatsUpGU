@@ -128,6 +128,33 @@ public class Scenarios {
         yAdd.join();
     }
 
+    // 6: User X tries to connect twice(second connect fail), adds an empty message for user Y(fails), and user Y fetches (fails -  no messages).
+    @Test
+    public void testScenario6() throws IOException, ClassNotFoundException, InterruptedException {
+        parts.asserted_connect_fail(xIn, xOut, xId);
+        parts.asserted_add_fail(xIn, xOut, yId,"");
+        parts.asserted_fetch_fail(yIn, yOut);
+    }
+
+    // 7: User X adds a message and tries to replace it with an empty message(fails) then fetches (returns the first message).
+
+    @Test
+    public void testScenario7() throws IOException, ClassNotFoundException, InterruptedException {
+        int msg = parts.asserted_add(xIn,xOut,yId);
+        parts.asserted_replace_fail(xIn, xOut, msg, "");
+        parts.asserted_fetch(yIn,yOut);
+    }
+
+    // 8: User X adds a message for user Y. User Y fetches the message. Completes the fetch. Then fetches again (fail - no messages). Completes fetch again (fail - no fetch).
+
+    @Test
+    public void testScenario8() throws IOException, ClassNotFoundException, InterruptedException {
+        int msg = parts.asserted_add(xIn,xOut,yId);
+        parts.asserted_fetch(yIn,yOut);
+        parts.asserted_fetchcomplete(yIn, yOut);
+        parts.asserted_fetch_fail(yIn, yOut);
+        parts.asserted_fetchcomplete_fail(yIn,yOut);
+    }
 
     // 9: Sends garbage to the server
     @Test
@@ -136,7 +163,6 @@ public class Scenarios {
         xOut.flush();
         assertTrue(((String)xIn.readObject()).matches("<error>.+</error>"));
     }
-
 
     // 10: Sends something that is not a string to the server
     @Test

@@ -82,7 +82,6 @@ public class XMLEncoderTest {
         String receiverID = "0722353472";
         RequestObject response = RequestCreator.FetchComplete(receiverID);
         response.content = "true";
-
         String xml = XMLEncoder.encode(response);
         String RequestObject = "<fetchCompleted>true</fetchCompleted>";
 

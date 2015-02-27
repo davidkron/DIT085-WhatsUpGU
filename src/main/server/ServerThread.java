@@ -9,24 +9,19 @@ import org.jdom2.JDOMException;
 import java.io.IOException;
 import java.net.SocketException;
 
-public class ServerThread extends Thread
+public class ServerThread extends IServerThread
 {
     private ObjectStream stream;
     private IRequestHandler state;
     private String ID = null;
     private boolean running = true;
 
-//    public void start(ObjectStream stream, IRequestHandler state) {
-//        this.stream = stream;
-//        this.state = state;
-//        run();
-//    }
-
     public ServerThread(ObjectStream stream, IRequestHandler state) {
         this.stream = stream;
         this.state = state;
     }
 
+    @Override
     public void close() throws IOException {
         running = false;
         stream.close();

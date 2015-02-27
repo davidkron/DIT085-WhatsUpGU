@@ -8,11 +8,12 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Server implements Runnable {
     private final int PORT;
     private RequestHandler state = new RequestHandler(new Messages());
     private ServerSocket socket;
-    private List<ServerThread> threads = new ArrayList<>();
+    private List<IServerThread> threads = new ArrayList<>();
 
 
     private boolean running = true;
@@ -31,11 +32,15 @@ public class Server implements Runnable {
         socket.close();
     }
 
+    public IServerThread makeThread() throws IOException {
+        return new ServerThread(new ObjectStream(socket.accept()), state);
+    }
+
     @Override
     public void run() {
         while (running) {
             try {
-                ServerThread thread = new ServerThread(new ObjectStream(socket.accept()), state);
+                IServerThread thread = makeThread();
                 thread.start();
                 threads.add(thread);
             } catch (SocketException s) {
@@ -45,7 +50,7 @@ public class Server implements Runnable {
             }
         }
 
-        for (ServerThread t: threads){
+        for (IServerThread t: threads){
             try {
                 t.close();
                 t.join();

@@ -55,7 +55,7 @@ public class RequestHandler implements IRequestHandler {
                 break;
             case FETCHCOMPLETE:
                 int res = messages.fetchComplete(request.receiverID);
-
+                request.content ="Succeeded";
                 if (res <= 0){
                     request.Error = " Error Fetch Complete";
                 }
