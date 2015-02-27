@@ -27,12 +27,11 @@ public class RequestHandlerTest {
 
     @Before
     public void setUp() throws Exception {
-        // SILENCE COVERAGE FOR STATIC OBJECTS
-        new RequestCreator();
 
         fakeMessages = Mockito.mock(IMessageCollection.class);
         requestHandler = new RequestHandler(fakeMessages);
     }
+
     //
     @Test
     public void testHandleRequest() throws Exception {
