@@ -3,7 +3,6 @@ package main.server;
 import main.server.request.*;
 
 import java.io.IOException;
-import java.net.SocketException;
 
 public class ServerThread extends IServerThread
 {
@@ -46,10 +45,8 @@ public class ServerThread extends IServerThread
                 stream.writeString(responseXML);
             }
 
-        } catch (SocketException s) {
+        } catch (IOException s) {
             running = false;
-        } catch (IOException  e) {
-            e.printStackTrace();
         }
     }
 }

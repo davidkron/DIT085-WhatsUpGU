@@ -1,20 +1,17 @@
 package tests.units.server;
 
-import junit.framework.TestCase;
 import main.server.IServerThread;
 import main.server.Server;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 
 import java.io.IOException;
 import java.net.SocketException;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
-public class ServerTest extends TestCase {
-
+public class ServerTest {
     @Mock private IServerThread thread;
     private Server spiedServer;
     Thread serverThread;
@@ -39,6 +36,7 @@ public class ServerTest extends TestCase {
         });
     }
 
+    @Test
     public void testRunOneThread() throws Exception {
         doReturn(thread).doThrow(new SocketException()).when(spiedServer).makeThread();
 
@@ -51,8 +49,8 @@ public class ServerTest extends TestCase {
         verify(thread).run();
     }
 
+    @Test
     public void testRunTwoThreads() throws Exception {
-
         IServerThread thread2 = spy(new IServerThread() {
             @Override
             public void close() throws IOException {
@@ -64,6 +62,7 @@ public class ServerTest extends TestCase {
                 threadB=1;
             }
         });
+
         doReturn(thread).doReturn(thread2).doThrow(new SocketException()).when(spiedServer).makeThread();
 
         Thread t = new Thread(spiedServer);

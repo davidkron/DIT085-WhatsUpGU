@@ -4,7 +4,6 @@ import main.messagestore.Messages;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,15 +37,14 @@ public class Server implements Runnable {
 
     @Override
     public void run() {
+
         while (running) {
             try {
                 IServerThread thread = makeThread();
                 thread.start();
                 threads.add(thread);
-            } catch (SocketException s) {
+            } catch (IOException s) {
                 running = false;
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
 

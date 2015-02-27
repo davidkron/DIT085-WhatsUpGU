@@ -11,11 +11,7 @@ import java.util.regex.Pattern;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertEquals;
 
-/**
- * Created by david on 2/25/15.
- */
 class parts {
-
     public static void asserted_connect(ObjectInputStream in,ObjectOutputStream out,String id) throws IOException, ClassNotFoundException {
         out.writeObject(
                 "<connection>" +

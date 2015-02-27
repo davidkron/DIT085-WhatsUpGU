@@ -25,7 +25,6 @@ import static junit.framework.Assert.assertTrue;
     * */
 
 public class Scenarios {
-
     private Server server;
     private Thread serverThread;
 
@@ -38,9 +37,10 @@ public class Scenarios {
     private ObjectOutputStream yOut;
     private ObjectInputStream yIn;
 
-
     @Before
     public void setUp() throws InterruptedException, IOException, ClassNotFoundException {
+        new parts();
+
         try {
             server = new Server();
             serverThread = new Thread(server);
@@ -108,7 +108,6 @@ public class Scenarios {
             @Override
             public void run() {
                 try {
-
                     Socket socketZ = new Socket("127.0.0.1", server.getPort());
                     ObjectOutputStream zOut = new ObjectOutputStream(socketZ.getOutputStream());
                     ObjectInputStream zIn = new ObjectInputStream(socketZ.getInputStream());
