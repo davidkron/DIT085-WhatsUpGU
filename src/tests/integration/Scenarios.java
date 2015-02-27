@@ -10,6 +10,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import static junit.framework.Assert.assertTrue;
+
     /*
     *                      SCENARIOS
     *
@@ -18,6 +20,7 @@ import java.net.Socket;
     * 3: User adds two messages, deletes one of them, replaces the other and fetches
     * 4: User X adds a message, user Y fetches it, user X tries to delete it
     * 5: User X adds and deletes a message at the same time as user Y adds and replaces a message
+    * 9: User X sends invalid xml to the server
     * */
 
 public class Scenarios {
@@ -122,5 +125,23 @@ public class Scenarios {
         int msg = parts.asserted_add(xIn, xOut, xId);
         parts.asserted_delete(xIn, xOut, msg);
         yAdd.join();
+    }
+
+
+    // 9: Sends garbage to the server
+    @Test
+    public void testScenario9() throws IOException, ClassNotFoundException, InterruptedException {
+        xOut.writeObject("<><<>><<>!//");
+        xOut.flush();
+        assertTrue(((String)xIn.readObject()).matches("<error>.+</error>"));
+    }
+
+
+    // 10: Sends something that is not a string to the server
+    @Test
+    public void testScenario10() throws IOException, ClassNotFoundException, InterruptedException {
+        xOut.writeObject(1.00f);
+        xOut.flush();
+        assertTrue(((String)xIn.readObject()).matches("<error>.+</error>"));
     }
 }

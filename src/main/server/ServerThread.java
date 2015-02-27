@@ -31,10 +31,10 @@ public class ServerThread extends Thread
     public void run() {
         try {
             while (running) {
-                String message = stream.readString();
-                RequestObject request;
                 String responseXML;
                 try {
+                String message = stream.readString();
+                RequestObject request;
                     request = XMLDecoder.decode(message, ID);
                     RequestObject response = state.handlerequest(request);
 
@@ -44,7 +44,7 @@ public class ServerThread extends Thread
 
                     responseXML = XMLEncoder.encode(response);
 
-                } catch (JDOMException e) {
+                } catch (IOException | JDOMException | ClassCastException | ClassNotFoundException e) {
                     responseXML = XMLEncoder.Error("Failed parsing request");
                 }
 
@@ -53,7 +53,7 @@ public class ServerThread extends Thread
 
         } catch (SocketException s) {
             running = false;
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException  e) {
             e.printStackTrace();
         }
     }
