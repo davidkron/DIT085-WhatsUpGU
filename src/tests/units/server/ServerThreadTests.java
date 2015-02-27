@@ -9,6 +9,7 @@ import main.server.request.XMLEncoder;
 import org.junit.Test;
 import org.mockito.Matchers;
 
+import java.io.IOException;
 import java.net.SocketException;
 
 import static org.mockito.Mockito.*;
@@ -28,6 +29,17 @@ public class ServerThreadTests {
 
         ////////////////////////////////////////////////////////////////
         verify(stream).writeString(Matchers.matches("<error>.*</error>"));
+    }
+
+    @Test
+    public void testClose() throws IOException, InterruptedException {
+        ObjectStream stream = mock(ObjectStream.class);
+        IRequestHandler requestHandler = mock(IRequestHandler.class);
+        ServerThread serverThread = new ServerThread(stream,requestHandler);
+        serverThread.start();
+        serverThread.close();
+        serverThread.join();
+        verify(stream).close();
     }
 
 
