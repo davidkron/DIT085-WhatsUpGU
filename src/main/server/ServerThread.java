@@ -16,10 +16,15 @@ public class ServerThread extends Thread
     private String ID = null;
     private boolean running = true;
 
-    public void start(ObjectStream stream, IRequestHandler state) {
+//    public void start(ObjectStream stream, IRequestHandler state) {
+//        this.stream = stream;
+//        this.state = state;
+//        run();
+//    }
+
+    public ServerThread(ObjectStream stream, IRequestHandler state) {
         this.stream = stream;
         this.state = state;
-        start();
     }
 
     public void close() throws IOException {
@@ -33,8 +38,8 @@ public class ServerThread extends Thread
             while (running) {
                 String responseXML;
                 try {
-                String message = stream.readString();
-                RequestObject request;
+                    String message = stream.readString();
+                    RequestObject request;
                     request = XMLDecoder.decode(message, ID);
                     RequestObject response = state.handlerequest(request);
 
@@ -44,7 +49,7 @@ public class ServerThread extends Thread
 
                     responseXML = XMLEncoder.encode(response);
 
-                } catch (IOException | JDOMException | ClassCastException | ClassNotFoundException e) {
+                } catch (JDOMException | ClassCastException | ClassNotFoundException e) {
                     responseXML = XMLEncoder.Error("Failed parsing request");
                 }
 

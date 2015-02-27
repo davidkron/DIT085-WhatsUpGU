@@ -22,8 +22,8 @@ public class ServerThreadTests {
 
         when(stream.readString()).thenReturn(">invalidXML<").thenThrow(new SocketException("Connection Closed"));
 
-        ServerThread thread = new ServerThread();
-        thread.start(stream, requestHandler);
+        ServerThread thread = new ServerThread(stream, requestHandler);
+        thread.start();
         thread.join();
 
         ////////////////////////////////////////////////////////////////
@@ -47,8 +47,8 @@ public class ServerThreadTests {
 
         when(requestHandler.handlerequest(Matchers.<RequestObject>anyObject())).thenReturn(Connect);
 
-        ServerThread thread = new ServerThread();
-        thread.start(stream, requestHandler);
+        ServerThread thread = new ServerThread(stream, requestHandler);
+        thread.start();
         thread.join();
 
         //////////////////////////////////////////////////////////////////////////////////
