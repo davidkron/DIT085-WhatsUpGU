@@ -36,7 +36,7 @@ public class XMLDecoderTest {
     public void testDecodeDelete() throws Exception {
         RequestObject msg = XMLDecoder.decode(
             "<delete>" +
-            "<messageID>5</messageID>" +
+                "<messageID>5</messageID>" +
             "</delete>",
             ID
         );
@@ -47,22 +47,15 @@ public class XMLDecoderTest {
 
     @Test
     public void testDecodeFetch() throws Exception {
-        RequestObject msg = XMLDecoder.decode(
-            "<fetch>" +
-             "true" +
-            "</fetch>",
-            ID
-        );
+        RequestObject msg = XMLDecoder.decode("<fetch>true</fetch>", ID);
 
-        assertEquals(ActionKind.FETCH,msg.kind);
+        assertEquals(ActionKind.FETCH, msg.kind);
     }
 
     @Test
     public void testDecodeFetchComplete() throws Exception {
         RequestObject msg = XMLDecoder.decode(
-            "<fetchComplete>" +
-            "true" +
-            "</fetchComplete>",
+            "<fetchComplete>true</fetchComplete>",
             ID
         );
 
