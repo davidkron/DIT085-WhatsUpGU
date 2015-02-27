@@ -3,23 +3,29 @@ package tests.units.server;
 import main.server.request.ActionKind;
 import main.server.request.RequestObject;
 import main.server.request.XMLDecoder;
+import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 
 public class XMLDecoderTest {
-
     private final String ID = "5";
+
+    @Before
+    public void setUp() throws Exception {
+        // SILENCE COVERAGE FOR STATIC OBJECTS
+        new XMLDecoder();
+    }
 
     @Test
     public void testDecodeReplace() throws Exception {
         RequestObject msg = XMLDecoder.decode(
-                "<messageAction>" +
-                    "<replace>" +
-                        "<messageID>5</messageID>" +
-                        "<content>NEW HELLO</content>" +
-                    "</replace>" +
-                "</messageAction>", ID);
+            "<replace>" +
+                "<messageID>5</messageID>" +
+                "<content>NEW HELLO</content>" +
+            "</replace>",
+            ID
+        );
 
         assertEquals(msg.kind, ActionKind.REPLACE);
         assertEquals(msg.content, "NEW HELLO");
@@ -29,11 +35,11 @@ public class XMLDecoderTest {
     @Test
     public void testDecodeDelete() throws Exception {
         RequestObject msg = XMLDecoder.decode(
-                "<messageAction>" +
-                        "<delete>" +
-                        "<messageID>5</messageID>" +
-                        "</delete>" +
-                        "</messageAction>", ID);
+            "<delete>" +
+            "<messageID>5</messageID>" +
+            "</delete>",
+            ID
+        );
 
         assertEquals(msg.kind, ActionKind.REMOVE);
         assertEquals(msg.messageID, 5);
@@ -42,60 +48,59 @@ public class XMLDecoderTest {
     @Test
     public void testDecodeFetch() throws Exception {
         RequestObject msg = XMLDecoder.decode(
-                "<messageAction>" +
-                        "<fetch>" +
-                         "true" +
-                        "</fetch>" +
-                        "</messageAction>", ID);
+            "<fetch>" +
+             "true" +
+            "</fetch>",
+            ID
+        );
 
         assertEquals(ActionKind.FETCH,msg.kind);
     }
 
-
     @Test
     public void testDecodeFetchComplete() throws Exception {
         RequestObject msg = XMLDecoder.decode(
-                "<messageAction>" +
-                        "<fetchComplete>" +
-                        "true" +
-                        "</fetchComplete>" +
-                        "</messageAction>", ID);
+            "<fetchComplete>" +
+            "true" +
+            "</fetchComplete>",
+            ID
+        );
 
         assertEquals(ActionKind.FETCHCOMPLETE,msg.kind);
     }
 
-
     @Test
     public void testDecodeAdd() throws Exception {
         RequestObject msg = XMLDecoder.decode(
-                "<messageAction>" +
-                        "<add>" +
-                        "<receiverID>5</receiverID>" +
-                        "<content>HELLO</content>" +
-                        "</add>" +
-                        "</messageAction>", ID);
+            "<add>" +
+                "<receiverID>5</receiverID>" +
+                "<content>HELLO</content>" +
+            "</add>",
+            ID
+        );
 
         assertEquals(ActionKind.ADD, msg.kind);
         assertEquals("5", msg.receiverID);
-        assertEquals( "HELLO", msg.content);
+        assertEquals("HELLO", msg.content);
     }
-
 
     @Test
     public void testDecodeConnect() throws Exception {
         RequestObject msg = XMLDecoder.decode(
-                "<messageAction>" +
-                        "<connection>" +
-                        "<ID>5</ID>" +
-                        "</connection>" +
-                        "</messageAction>", ID);
+            "<connection>" +
+                "<ID>5</ID>" +
+            "</connection>",
+            ID
+        );
 
         assertEquals(ActionKind.CONNECT, msg.kind);
         assertEquals("5", msg.ID);
-
     }
 
+    @Test
+    public void testFailDecode() throws Exception {
+        RequestObject msg = XMLDecoder.decode("<bogusTag>fail</bogusTag>", ID);
 
-
-
+        assertEquals(msg, null);
+    }
 }

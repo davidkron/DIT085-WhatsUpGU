@@ -38,10 +38,10 @@ public class ServerThreadTests {
         String id = "0767731855";
 
         when(stream.readString()).thenReturn(
-                "<root><connection>" +
-                        "<request>"+ id +"</request>" +
-                        "</connection></root>"
-        ).thenReturn("<root><fetch>true</fetch></root>").thenThrow(new SocketException("Connection Closed"));
+                "<connection>" +
+                    "<request>" + id + "</request>" +
+                "</connection>"
+        ).thenReturn("<fetch>true</fetch>").thenThrow(new SocketException("Connection Closed"));
 
         RequestObject Connect = RequestCreator.ConnectRequest(id);
 

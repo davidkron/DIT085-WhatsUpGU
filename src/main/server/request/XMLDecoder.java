@@ -8,10 +8,8 @@ import org.jdom2.input.SAXBuilder;
 import java.io.IOException;
 import java.io.StringReader;
 
-public class XMLDecoder {
-
-
-
+public class XMLDecoder
+{
     private static int getMessageId(Element action){
         return Integer.parseInt(action.getChildren("messageID").get(0).getText());
     }
@@ -24,22 +22,17 @@ public class XMLDecoder {
         return action.getChildren("content").get(0).getText();
     }
 
-
     public static RequestObject decode(String xml, String ID) throws JDOMException, IOException {
         SAXBuilder sb = new SAXBuilder();
         Document doc = sb.build(new StringReader(xml));
-        Element action = doc.getRootElement().getChildren().get(0);
+        Element action = doc.getRootElement();
         String actionName = action.getName();
 
-       // String content, String senderID, String receiverID
         switch (actionName) {
-            case "request":
-                return RequestCreator.ConnectRequest(action.getText());
-
             case "replace":
                 return RequestCreator.ReplaceRequest(
-                        getMessageId(action),
-                        getContent(action)
+                    getMessageId(action),
+                    getContent(action)
                 );
             case "delete":
                 return RequestCreator.DeleteRequest(getMessageId(action));
@@ -49,20 +42,14 @@ public class XMLDecoder {
                 return RequestCreator.FetchComplete(ID);
             case "add":
                 return  RequestCreator.AddRequest(
-
-                        getContent(action),
-                        ID,
-                        getreceiverID(action));
+                    getContent(action),
+                    ID,
+                    getreceiverID(action)
+                );
             case "connection":
                 return RequestCreator.ConnectRequest(ID);
-
-
-
              default:
                 return null;
         }
-
-
-        //return new RequestObject(ActionKind.CONNECT);
     }
 }

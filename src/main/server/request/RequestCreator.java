@@ -1,8 +1,5 @@
 package main.server.request;
 
-/**
- * Created by David on 2015-02-25.
- */
 public class RequestCreator {
     public static RequestObject AddRequest(String content, String senderID, String receiverID){
         RequestObject rM = new RequestObject(ActionKind.ADD);
