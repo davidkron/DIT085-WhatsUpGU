@@ -21,6 +21,7 @@ import static junit.framework.Assert.assertTrue;
     * 4: User X adds a message, user Y fetches it, user X tries to delete it
     * 5: User X adds and deletes a message at the same time as user Y adds and replaces a message
     * 9: User X sends invalid xml to the server
+    * 10: User X sends something that is not a string to the server
     * */
 
 public class Scenarios {
