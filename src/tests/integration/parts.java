@@ -33,12 +33,9 @@ class parts {
 
     public static void asserted_delete(ObjectInputStream in,ObjectOutputStream out,int messageid) throws IOException, ClassNotFoundException {
         out.writeObject(
-                "<messageAction>" +
                         "<delete>" +
                         "<messageID>" + messageid + "</messageID>" +
-                        "</delete>" +
-                        "</messageAction>"
-        );
+                        "</delete>");
 
         out.flush();
         assertEquals((String) in.readObject(), "<deleted>" + messageid + "</deleted>");
@@ -46,12 +43,9 @@ class parts {
 
     public static void asserted_delete_failed(ObjectInputStream in,ObjectOutputStream out,int messageid) throws IOException, ClassNotFoundException {
         out.writeObject(
-                "<messageAction>" +
                         "<delete>" +
                         "<messageID>" + messageid + "</messageID>" +
-                        "</delete>" +
-                        "</messageAction>"
-        );
+                        "</delete>");
         out.flush();
         Pattern pattern = Pattern.compile("<error>(.+)</error>");
         Matcher m = pattern.matcher((String)in.readObject());
@@ -62,12 +56,10 @@ class parts {
     public static int asserted_add(ObjectInputStream in,ObjectOutputStream out,String receiver) throws IOException, ClassNotFoundException {
         out.flush();
         out.writeObject(
-                "<messageAction>" +
                         "<add>" +
                         "<receiverID>" + receiver + "</receiverID>" +
                         "<content>HELLO</content>" +
-                        "</add>" +
-                        "</messageAction>"
+                        "</add>"
         );
         out.flush();
         String message = (String)in.readObject();
@@ -80,24 +72,19 @@ class parts {
     }
 
     public static void asserted_fetch(ObjectInputStream in, ObjectOutputStream out) throws IOException, ClassNotFoundException {
-        out.writeObject("<messageAction>" +
-                "<fetch>" +
+        out.writeObject("<fetch>" +
                 "true" +
-                "</fetch>" +
-                "</messageAction>");
+                "</fetch>");
         String message = (String)in.readObject();
         TestCase.assertTrue(message.matches("<fetched>.+</fetched>"));
     }
 
     public static void asserted_replace(ObjectInputStream in, ObjectOutputStream out, int messageID) throws IOException, ClassNotFoundException {
-        out.writeObject(
-                "<messageAction>" +
-                        "<replace>" +
+        out.writeObject("<replace>" +
                         "<content>STUFF</content>" +
                         "<messageID>" + messageID + "</messageID>" +
-                        "</replace>" +
-                        "</messageAction>"
-        );
+                        "</replace>"
+                        );
 
         out.flush();
         assertEquals((String) in.readObject(), "<replaced>" + messageID + "</replaced>");

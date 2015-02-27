@@ -47,7 +47,7 @@ public class XMLDecoder
                     getreceiverID(action)
                 );
             case "connection":
-                return RequestCreator.ConnectRequest(ID);
+                return RequestCreator.ConnectRequest(action.getChildren("request").get(0).getText());
              default:
                 return null;
         }

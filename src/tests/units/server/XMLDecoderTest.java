@@ -81,7 +81,7 @@ public class XMLDecoderTest {
     public void testDecodeConnect() throws Exception {
         RequestObject msg = XMLDecoder.decode(
             "<connection>" +
-                "<ID>5</ID>" +
+                "<request>5</request>" +
             "</connection>",
             ID
         );
