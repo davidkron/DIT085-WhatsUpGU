@@ -3,6 +3,7 @@ package tests.units.server;
 import main.server.request.ActionKind;
 import main.server.request.RequestObject;
 import main.server.request.XMLDecoder;
+import org.jdom2.JDOMException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -90,10 +91,8 @@ public class XMLDecoderTest {
         assertEquals("5", msg.ID);
     }
 
-    @Test
+    @Test(expected = JDOMException.class)
     public void testFailDecode() throws Exception {
         RequestObject msg = XMLDecoder.decode("<bogusTag>fail</bogusTag>", ID);
-
-        assertEquals(msg, null);
     }
 }

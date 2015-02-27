@@ -49,7 +49,7 @@ public class XMLDecoder
             case "connection":
                 return RequestCreator.ConnectRequest(action.getChildren("request").get(0).getText());
              default:
-                return null;
+                throw new JDOMException();
         }
     }
 }
