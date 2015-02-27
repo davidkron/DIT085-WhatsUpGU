@@ -160,7 +160,8 @@ public class Scenarios {
     @Test
     public void testScenario9() throws IOException, ClassNotFoundException, InterruptedException {
         xOut.writeObject("<><<>><<>!//");
-        xOut.flush();
+        assertTrue(((String)xIn.readObject()).matches("<error>.+</error>"));
+        xOut.writeObject("<root>shutdown</root>");
         assertTrue(((String)xIn.readObject()).matches("<error>.+</error>"));
     }
 
